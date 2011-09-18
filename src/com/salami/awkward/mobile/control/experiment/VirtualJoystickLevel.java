@@ -9,7 +9,7 @@ public class VirtualJoystickLevel extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.vitualjoystick);
+		setContentView(R.layout.virtualjoystick);
 	}
 
 }
