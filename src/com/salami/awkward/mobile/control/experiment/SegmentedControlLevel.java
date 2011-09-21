@@ -32,8 +32,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -57,6 +60,10 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.segmentedcontrol);
 	}*/
+	
+	// ===========================================================
+	// Menu Stuff
+	// ===========================================================
 	
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
@@ -84,6 +91,10 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 				return super.onMenuItemSelected(pFeatureId, pItem);
 		}
 	}
+	
+	// ===========================================================
+	// Loading Callback
+	// ===========================================================
 	
 	public Scene onLoadScene() {
 		
@@ -116,40 +127,14 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 
 		this.mScene.setOnAreaTouchListener(this);
 
-		System.out.println("onLoadScene finished");
+
 		return this.mScene;
 	}
 	
-
-
-	@Override
-	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.isActionDown()) {
-				System.out.println("inner loop");
-				this.movePlayer(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-				return true;	
-			}
-		}
-		return false;
-	}
-
-	
-	private void movePlayer(float touchX, float touchY) {
-		// TODO Auto-generated method stub
-		Vector2 velocity = Vector2Pool.obtain(15,0);
-		if(touchX<CAMERA_WIDTH/2){
-			velocity.mul(-1);
-		}
-		
-		mHero.setLinearVelocity(velocity);
-		Vector2Pool.recycle(velocity);
-	}
-
 	@Override
 	public Engine onLoadEngine() {
 		//TODO copied from TiltLevel
-		Toast.makeText(this, "Touch left to go left. Touch right to go rightr", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Touch up to go up. Touch left to go left. Touch right to go right", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
@@ -186,7 +171,23 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 
 		mScene.attachChild(img);
 	}
+	
+	// ===========================================================
+	// Input Listeners
+	// ===========================================================
 
+	@Override
+	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
+		if(this.mPhysicsWorld != null) {
+			//if(pSceneTouchEvent.isActionDown()) {
+				System.out.println("inner loop");
+				this.movePlayer(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+				return true;	
+			//}
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
 			ITouchArea pTouchArea, float pTouchAreaLocalX,
@@ -194,5 +195,31 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 		// TODO Auto-generated method stub
 		System.out.println("When does onAreaTouched get called?");
 		return true;
+	}
+
+	// ===========================================================
+	// Movement Methods
+	// ===========================================================
+	
+	private void movePlayer(float touchX, float touchY) {
+		
+		//kludge for now
+		if(touchY<CAMERA_HEIGHT/2){
+			jump();
+			return;
+		}
+		
+		Vector2 velocity = Vector2Pool.obtain(15,0);
+		if(touchX<CAMERA_WIDTH/2){
+			velocity.mul(-1);
+		}
+		
+		mHero.applyForce(velocity, mHero.getPosition());
+		Vector2Pool.recycle(velocity);
+	}
+	
+	private void jump() {
+			mHero.applyForce(mPhysicsWorld.getGravity().mul(-3),mHero.getPosition());
+		
 	}
 }
