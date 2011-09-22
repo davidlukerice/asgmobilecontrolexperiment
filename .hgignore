@@ -615,3 +615,4 @@ bin/org/anddev/andengine/util/pool/PoolUpdateHandler$2.class
 bin/org/anddev/andengine/util/pool/PoolUpdateHandler$3.class
 bin/org/anddev/andengine/util/pool/PoolUpdateHandler.class
 bin/org/anddev/andengine/util/pool/RunnablePoolItem.class
+bin/com/salami/awkward/mobile/control/experiment/Hero.class
