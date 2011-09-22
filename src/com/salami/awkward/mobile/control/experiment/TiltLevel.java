@@ -173,10 +173,8 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-//			if(pSceneTouchEvent.isActionDown()) {
-//				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-//				return true;
-//			}
+			//TODO add jump stuff here
+			jumpFace((AnimatedSprite)mScene.getLastChild());
 		}
 		return false;
 	}
@@ -186,7 +184,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 		this.mGravityX = pAccelerometerData.getX();
 		this.mGravityY = pAccelerometerData.getY();
 
-		final Vector2 gravity = Vector2Pool.obtain(this.mGravityX, this.mGravityY);
+		final Vector2 gravity = Vector2Pool.obtain(this.mGravityX, SensorManager.GRAVITY_EARTH);
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
 	}
@@ -236,7 +234,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	private void jumpFace(final AnimatedSprite face) {
 		final Body faceBody = (Body)face.getUserData();
 
-		final Vector2 velocity = Vector2Pool.obtain(this.mGravityX * -50, this.mGravityY * -50);
+		final Vector2 velocity = Vector2Pool.obtain(0, -10);
 		faceBody.setLinearVelocity(velocity);
 		Vector2Pool.recycle(velocity);
 	}
