@@ -167,15 +167,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 
 	@Override
 	public void onLoadComplete() {
-		AnimatedSprite img = new AnimatedSprite(50,50,mBoxFaceTextureRegion);
-		
-		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		mHero = PhysicsFactory.createBoxBody(mPhysicsWorld, img, BodyType.DynamicBody, objectFixtureDef);
-		mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(img, mHero, true, true));
-		
-		img.animate(new long[]{200,200}, 0, 1, true);
-
-		mScene.attachChild(img);
+		this.addFace(0, 0);
 	}
 
 	@Override
