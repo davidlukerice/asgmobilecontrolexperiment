@@ -51,6 +51,8 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	// Fields
 	// ===========================================================
 	private BitmapTextureAtlas mBitmapTextureAtlas;
+	
+	private Body mHero;
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
@@ -165,16 +167,24 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 
 	@Override
 	public void onLoadComplete() {
+		AnimatedSprite img = new AnimatedSprite(50,50,mBoxFaceTextureRegion);
+		
+		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
+		mHero = PhysicsFactory.createBoxBody(mPhysicsWorld, img, BodyType.DynamicBody, objectFixtureDef);
+		mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(img, mHero, true, true));
+		
+		img.animate(new long[]{200,200}, 0, 1, true);
 
+		mScene.attachChild(img);
 	}
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.isActionDown()) {
-				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-				return true;
-			}
+//			if(pSceneTouchEvent.isActionDown()) {
+//				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+//				return true;
+//			}
 		}
 		return false;
 	}
