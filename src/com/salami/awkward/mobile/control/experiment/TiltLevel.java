@@ -52,7 +52,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	// ===========================================================
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	
-	private Body mHero;
+	private Hero mHero;
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
@@ -105,7 +105,6 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	}
 
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "Touch the screen to add objects. Touch an object to shoot it up into the air.", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
@@ -119,6 +118,9 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "circleface_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		
+		//TODO: Not crash
+		//Hero.onLoadResources(this);
 	}
 
 	@Override
@@ -167,7 +169,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 
 	@Override
 	public void onLoadComplete() {
-		this.addFace(0, 0);
+		add_hero(0.0f, 0.0f);
 	}
 
 	@Override
@@ -207,28 +209,11 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	// Methods
 	// ===========================================================
 
-	private void addFace(final float pX, final float pY) {
-		this.mFaceCount++;
-
-		final AnimatedSprite face;
-		final Body body;
-
-		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-
-		if(this.mFaceCount % 2 == 1){
-			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
-			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
-		} else {
-			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
-			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
-		}
-
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
-
-		face.animate(new long[]{200,200}, 0, 1, true);
-		face.setUserData(body);
-		this.mScene.registerTouchArea(face);
-		this.mScene.attachChild(face);
+	private void add_hero(final float pX, final float pY) {
+		mHero = Hero.create_hero(this, mPhysicsWorld);
+		
+		this.mScene.registerTouchArea(mHero);
+		this.mScene.attachChild(mHero);
 	}
 
 	private void jumpFace(final AnimatedSprite face) {
