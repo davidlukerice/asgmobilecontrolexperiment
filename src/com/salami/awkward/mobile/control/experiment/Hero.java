@@ -28,12 +28,12 @@ public class Hero extends AnimatedSprite {
 	//TODO: Check if TiledTexture region does this for us (it probably does)
 	static private TiledTextureRegion mHeroTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
-	private static final Vector2 JUMP_VECTOR = new Vector2(10,0);
+	private static final Vector2 JUMP_VECTOR = new Vector2(0,-10);
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
 	private Body mBody;
-	
+	private boolean isJumping;
 	/**
 	 * Creates a Hero 
 	 * @param activity
@@ -64,9 +64,13 @@ public class Hero extends AnimatedSprite {
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.DynamicBody, objectFixtureDef);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
+		//mBody.
+		
 		this.animate(new long[]{200,200}, 0, 1, true);
 		mBody.setUserData(this);
 		//TODO: Are we going to use user data fields in animated sprites /Box2D bodies?	
+		
+		isJumping = false;
 	}
 	
 	public static void onLoadResources(Context context){
@@ -79,12 +83,23 @@ public class Hero extends AnimatedSprite {
 	}
 	
 	public void jump() {
-		mBody.setLinearVelocity(JUMP_VECTOR);
+		if (mBody.linVelLoc.y == 0 && !isJumping) {
+			isJumping = true;
+			Vector2 new_vect = new Vector2(mBody.linVelLoc.x, JUMP_VECTOR.y);
+			mBody.setLinearVelocity(new_vect);
+		}
+			
 	}
 	
+	/**
+	 * Sets the bodies x and keeps the current y
+	 * @param direction
+	 */
 	public void move( Vector2 direction) {
 		//TODO: Unify the vector
 		//TODO: Move character with the x direction
-		mBody.setLinearVelocity(direction);
+		//TODO: Pull a vector from pool?
+		Vector2 new_vect = new Vector2(direction.x,mBody.linVelLoc.y);
+		mBody.setLinearVelocity(new_vect);
 	}
 }
