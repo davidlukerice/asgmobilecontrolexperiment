@@ -183,11 +183,12 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
 		this.mGravityX = pAccelerometerData.getX();
-		this.mGravityY = pAccelerometerData.getY();
-
-		final Vector2 gravity = Vector2Pool.obtain(this.mGravityX, SensorManager.GRAVITY_EARTH);
-		this.mPhysicsWorld.setGravity(gravity);
-		Vector2Pool.recycle(gravity);
+		
+		if(mGravityX < -5){
+			mHero.move(new Vector2(-5, 0));
+		}else if(mGravityX > 5){
+			mHero.move(new Vector2(5, 0));
+		}
 	}
 
 	@Override
