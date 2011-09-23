@@ -34,7 +34,7 @@ public class Hero extends AnimatedSprite {
 	//TODO: Check if TiledTexture region does this for us (it probably does)
 	static private TiledTextureRegion mHeroTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
-	private static final Vector2 JUMP_VECTOR = new Vector2(0,-10);
+	private static final Vector2 JUMP_VECTOR = new Vector2(0,-5);
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
