@@ -15,7 +15,13 @@ import android.content.Context;
 import android.hardware.SensorManager;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactFilter;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import com.badlogic.gdx.math.Vector2;
@@ -71,6 +77,21 @@ public class Hero extends AnimatedSprite {
 		//TODO: Are we going to use user data fields in animated sprites /Box2D bodies?	
 		
 		isJumping = false;
+		
+		ContactFilter filter = new ContactFilter() {
+		
+			@Override
+			public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+				//TODO: Add checking for only colliding with group elements
+				if (fixtureA == mBody.getFixtureList().get(0) ||
+					fixtureB == mBody.getFixtureList().get(0) ) {
+					isJumping = false;
+				}
+				return true;
+			}
+		};
+		
+		world.setContactFilter(filter);
 	}
 	
 	public static void onLoadResources(Context context){
@@ -83,9 +104,10 @@ public class Hero extends AnimatedSprite {
 	}
 	
 	public void jump() {
+		//TODO: Better method
 		if (mBody.linVelLoc.y == 0 && !isJumping) {
 			isJumping = true;
-			Vector2 new_vect = new Vector2(mBody.linVelLoc.x, JUMP_VECTOR.y);
+			Vector2 new_vect = new Vector2(mBody.getLinearVelocity().x, JUMP_VECTOR.y);
 			mBody.setLinearVelocity(new_vect);
 		}
 			
@@ -99,7 +121,7 @@ public class Hero extends AnimatedSprite {
 		//TODO: Unify the vector
 		//TODO: Move character with the x direction
 		//TODO: Pull a vector from pool?
-		Vector2 new_vect = new Vector2(direction.x,mBody.linVelLoc.y);
+		Vector2 new_vect = new Vector2(direction.x,mBody.getLinearVelocity().y);
 		mBody.setLinearVelocity(new_vect);
 	}
 }

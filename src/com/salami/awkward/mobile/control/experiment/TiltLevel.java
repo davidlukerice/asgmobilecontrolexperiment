@@ -175,8 +175,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			//TODO add jump stuff here
-			jumpFace((AnimatedSprite)mScene.getLastChild());
+			mHero.jump();
 		}
 		return false;
 	}
