@@ -11,8 +11,6 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
-import android.content.Context;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -91,8 +89,9 @@ public class Hero extends AnimatedSprite {
 		
 		if (mHeroTextureRegion == null) {
 			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
-			activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 		}
+		
+		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 	}
 	
 	public void jump() {
