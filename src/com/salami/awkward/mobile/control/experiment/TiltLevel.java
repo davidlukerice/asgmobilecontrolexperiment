@@ -54,10 +54,6 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	
 	private Hero mHero;
 
-	private TiledTextureRegion mBoxFaceTextureRegion;
-	private TiledTextureRegion mCircleFaceTextureRegion;
-
-	private int mFaceCount = 0;
 
 	private PhysicsWorld mPhysicsWorld;
 
@@ -113,14 +109,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "circleface_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
-		
-		//TODO: Not crash
-		//Hero.onLoadResources(this);
+		Hero.onLoadResources(this);
 	}
 
 	@Override
@@ -223,7 +212,11 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 		faceBody.setLinearVelocity(velocity);
 		Vector2Pool.recycle(velocity);
 	}
-
+	
+	public Engine getEngine() {
+		return this.mEngine;
+	}
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

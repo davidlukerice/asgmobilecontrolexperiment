@@ -12,16 +12,11 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.content.Context;
-import android.hardware.SensorManager;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import com.badlogic.gdx.math.Vector2;
@@ -47,14 +42,8 @@ public class Hero extends AnimatedSprite {
 	 * @return
 	 */
 	public static Hero create_hero(BaseGameActivity activity, PhysicsWorld world) {
-		if (mBitmapTextureAtlas == null) {
-			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		}
-		
-		if (mHeroTextureRegion == null) {
-			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
-		}
+		//Make sure everything is loaded
+		onLoadResources(activity);
 		
 		return new Hero(world);
 	}
@@ -94,12 +83,15 @@ public class Hero extends AnimatedSprite {
 		world.setContactFilter(filter);
 	}
 	
-	public static void onLoadResources(Context context){
-		if(mHeroTextureRegion==null){
-			new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+	public static void onLoadResources(BaseGameActivity activity){
+		if (mBitmapTextureAtlas == null) {
+			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
-					                null, context, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
+		}
+		
+		if (mHeroTextureRegion == null) {
+			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
+			activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 		}
 	}
 	
