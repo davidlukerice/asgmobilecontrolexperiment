@@ -12,17 +12,12 @@ import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -30,10 +25,8 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import android.hardware.SensorManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
@@ -50,8 +43,6 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	
 	private Hero mHero;
 
 
@@ -68,11 +59,23 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
+	
+	public Engine getEngine() {
+		return this.mEngine;
+	}
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
+			ITouchArea pTouchArea, float pTouchAreaLocalX,
+			float pTouchAreaLocalY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
 		pMenu.add(Menu.NONE, MENU_TRACE, Menu.NONE, "Start Method Tracing");
@@ -140,20 +143,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
-		this.mScene.setOnAreaTouchListener(this);
-
 		return this.mScene;
-	}
-
-	@Override
-	public boolean onAreaTouched( final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea,final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		if(pSceneTouchEvent.isActionDown()) {
-			final AnimatedSprite face = (AnimatedSprite) pTouchArea;
-			this.jumpFace(face);
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override
@@ -203,18 +193,6 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 		
 		this.mScene.registerTouchArea(mHero);
 		this.mScene.attachChild(mHero);
-	}
-
-	private void jumpFace(final AnimatedSprite face) {
-		final Body faceBody = (Body)face.getUserData();
-
-		final Vector2 velocity = Vector2Pool.obtain(0, -10);
-		faceBody.setLinearVelocity(velocity);
-		Vector2Pool.recycle(velocity);
-	}
-	
-	public Engine getEngine() {
-		return this.mEngine;
 	}
 	
 	// ===========================================================
