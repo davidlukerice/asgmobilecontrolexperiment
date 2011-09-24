@@ -46,7 +46,13 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 	private static final int MENU_TRACE = Menu.FIRST;
 	
 	private Scene mScene;
-	private Body mHero;
+	private Hero mHero;
+	
+	/*This should be the IControlScheme interface, but I need to set it as the onscene touch listener
+	 *TODO: Find a way to avoid this
+	 */
+	private SegmentedControlScheme mControls;
+	
 	private PhysicsWorld mPhysicsWorld;
 	private static final int CAMERA_WIDTH = 360;
 	private static final int CAMERA_HEIGHT = 240;
@@ -104,7 +110,7 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 
 		this.mScene = new Scene();
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
-		this.mScene.setOnSceneTouchListener(this);
+
 
 		//Create walls
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
@@ -117,16 +123,15 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
-
+		
 		this.mScene.attachChild(ground);
 		this.mScene.attachChild(roof);
 		this.mScene.attachChild(left);
 		this.mScene.attachChild(right);
 
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
-
+		
 		this.mScene.setOnAreaTouchListener(this);
-
 
 		return this.mScene;
 	}
@@ -144,33 +149,19 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 	@Override
 	public void onLoadResources() {
 		// TODO copied from TiltLevel
-
-		mBitmapTextureAtlas= new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
-				                mBitmapTextureAtlas, this, "boxface_tiled.png", 0, 0, 2, 1); // 64
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
-	
-		
+		Hero.onLoadResources(this);
 
 	}
 
 	@Override
-	public void onLoadComplete() {
-		// TODO Auto-generated method stub
-		//Add hero
+	public void onLoadComplete() {	
+		add_hero(15,15);
 		
-
-		AnimatedSprite img = new AnimatedSprite(50,50,mBoxFaceTextureRegion);
-		
-		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		mHero = PhysicsFactory.createBoxBody(mPhysicsWorld, img, BodyType.DynamicBody, objectFixtureDef);
-		mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(img, mHero, true, true));
-		
-		img.animate(new long[]{200,200}, 0, 1, true);
-
-		mScene.attachChild(img);
+		mControls = new SegmentedControlScheme(mHero, CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
+		mScene.setOnSceneTouchListener(mControls);
+		mEngine.registerUpdateHandler(mControls);
 	}
+	
 	
 	// ===========================================================
 	// Input Listeners
@@ -178,13 +169,14 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		if(this.mPhysicsWorld != null) {
-			//if(pSceneTouchEvent.isActionDown()) {
-				System.out.println("inner loop");
+		//TODO: remove if no longer needed
+		/*if(this.mPhysicsWorld != null) {
+			
+			if(pSceneTouchEvent.isActionDown()) {
 				this.movePlayer(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;	
-			//}
-		}
+			}
+		}*/
 		return false;
 	}
 	
@@ -192,16 +184,16 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
 			ITouchArea pTouchArea, float pTouchAreaLocalX,
 			float pTouchAreaLocalY) {
-		// TODO Auto-generated method stub
 		System.out.println("When does onAreaTouched get called?");
 		return true;
 	}
 
 	// ===========================================================
 	// Movement Methods
+	// TODO: remove if no longer needed
 	// ===========================================================
 	
-	private void movePlayer(float touchX, float touchY) {
+	/*private void movePlayer(float touchX, float touchY) {
 		
 		//kludge for now
 		if(touchY<CAMERA_HEIGHT/2){
@@ -214,12 +206,21 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 			velocity.mul(-1);
 		}
 		
-		mHero.applyForce(velocity, mHero.getPosition());
+		mHero.move(velocity);
 		Vector2Pool.recycle(velocity);
 	}
 	
 	private void jump() {
-			mHero.applyForce(mPhysicsWorld.getGravity().mul(-3),mHero.getPosition());
+			mHero.jump();
+	}*/
+	
+	private void add_hero(float xPos, float yPos){
+		mHero = Hero.create_hero(this, mPhysicsWorld,xPos,yPos);
 		
+		this.mScene.registerTouchArea(mHero);
+		this.mScene.attachChild(mHero);
+
 	}
+	
+
 }

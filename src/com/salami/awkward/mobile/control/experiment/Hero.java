@@ -28,30 +28,44 @@ public class Hero extends AnimatedSprite {
 	static private TiledTextureRegion mHeroTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
 	private static final Vector2 JUMP_VECTOR = new Vector2(0,-5);
+	
+	//Default starting positions
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
 	private Body mBody;
 	private boolean isJumping;
+	
+	
+	/**
+	 * create_hero using default x and y positions
+	 */
+	public static Hero create_hero(BaseGameActivity activity, PhysicsWorld world) {
+		return create_hero(activity,world,START_X_POSITION,START_Y_POSITION);
+	}
+	
+	
 	/**
 	 * Creates a Hero 
 	 * @param activity
 	 * @param world
+	 * @param xPosition
+	 * @param yPosition
 	 * @return
 	 */
-	public static Hero create_hero(BaseGameActivity activity, PhysicsWorld world) {
+	public static Hero create_hero(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition) {
 		//Make sure everything is loaded
 		onLoadResources(activity);
 		
-		return new Hero(world);
+		return new Hero(world,xPosition, yPosition);
 	}
 	
 	/**
 	 * Creates the hero. Called from create_hero.
 	 * @param world
 	 */
-	private Hero(PhysicsWorld world){
-		super(START_X_POSITION, START_Y_POSITION, mHeroTextureRegion);
+	private Hero(PhysicsWorld world,float xPosition, float yPosition){
+		super(xPosition, yPosition, mHeroTextureRegion);
 		
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.DynamicBody, objectFixtureDef);
@@ -115,4 +129,20 @@ public class Hero extends AnimatedSprite {
 		Vector2 new_vect = new Vector2(direction.x,mBody.getLinearVelocity().y);
 		mBody.setLinearVelocity(new_vect);
 	}
+	
+	@Override
+	public void onManagedUpdate(float pSecondsElapsed){
+		super.onManagedUpdate(pSecondsElapsed);
+		
+	}
+	
+	/*
+	 * Direct gets and sets to Body properties. I have a feeling we might accumulate a lot of these...
+	 * 
+	 */
+	public Vector2 getLinearVelocity(){
+		return mBody.getLinearVelocity();
+	}
+	
+	
 }
