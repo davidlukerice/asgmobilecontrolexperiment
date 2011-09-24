@@ -39,7 +39,7 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 		if(mDirection == Direction.NONE)
 			return;
 		
-		Vector2 velocity = new Vector2(15,mHero.getLinearVelocity().y);
+		Vector2 velocity = new Vector2(5,mHero.getLinearVelocity().y);
 		
 		if(mDirection == Direction.LEFT){
 			velocity.x *= -1;

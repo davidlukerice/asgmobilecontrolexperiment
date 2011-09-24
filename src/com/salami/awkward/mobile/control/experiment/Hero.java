@@ -68,10 +68,11 @@ public class Hero extends AnimatedSprite {
 		super(xPosition, yPosition, mHeroTextureRegion);
 		
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
+		objectFixtureDef.restitution=0;
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.DynamicBody, objectFixtureDef);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
-		//mBody.
+
 		
 		this.animate(new long[]{200,200}, 0, 1, true);
 		mBody.setUserData(this);
