@@ -174,9 +174,9 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 		this.mGravityX = pAccelerometerData.getX();
 		
 		if(mGravityX < -5){
-			mHero.move(new Vector2(-5, 0));
+			mHero.move(-1);
 		}else if(mGravityX > 5){
-			mHero.move(new Vector2(5, 0));
+			mHero.move(1);
 		}
 	}
 
