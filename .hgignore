@@ -617,3 +617,10 @@ bin/org/anddev/andengine/util/pool/PoolUpdateHandler.class
 bin/org/anddev/andengine/util/pool/RunnablePoolItem.class
 bin/com/salami/awkward/mobile/control/experiment/Hero.class
 bin/com/salami/awkward/mobile/control/experiment/Hero$1.class
+bin/com/salami/awkward/mobile/control/experiment/VirtualJoystickLevel$1.class
+bin/com/salami/awkward/mobile/control/experiment/Entity$EntityType.class
+bin/com/salami/awkward/mobile/control/experiment/Entity.class
+bin/com/salami/awkward/mobile/control/experiment/Ground.class
+bin/com/salami/awkward/mobile/control/experiment/IControlScheme.class
+bin/com/salami/awkward/mobile/control/experiment/SegmentedControlScheme$Direction.class
+bin/com/salami/awkward/mobile/control/experiment/SegmentedControlScheme.class
