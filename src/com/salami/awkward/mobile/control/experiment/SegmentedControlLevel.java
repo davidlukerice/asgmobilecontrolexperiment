@@ -110,7 +110,9 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 		//Initialize world
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
-
+		
+		mPhysicsWorld.setContactListener(new MCEContactListener());
+		
 		this.mScene = new Scene();
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
@@ -202,32 +204,6 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 		System.out.println("When does onAreaTouched get called?");
 		return true;
 	}
-
-	// ===========================================================
-	// Movement Methods
-	// TODO: remove if no longer needed
-	// ===========================================================
-	
-	/*private void movePlayer(float touchX, float touchY) {
-		
-		//kludge for now
-		if(touchY<CAMERA_HEIGHT/2){
-			jump();
-			return;
-		}
-		
-		Vector2 velocity = Vector2Pool.obtain(15,0);
-		if(touchX<CAMERA_WIDTH/2){
-			velocity.mul(-1);
-		}
-		
-		mHero.move(velocity);
-		Vector2Pool.recycle(velocity);
-	}
-	
-	private void jump() {
-			mHero.jump();
-	}*/
 	
 	private void add_hero(float xPos, float yPos){
 		mHero = Hero.create_hero(this, mPhysicsWorld,xPos,yPos);

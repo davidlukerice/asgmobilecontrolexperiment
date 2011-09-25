@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import com.badlogic.gdx.math.Vector2;
+import com.salami.awkward.mobile.control.experiment.Entity.EntityType;
 
 /*
  * Wrapper around body with a display image.
@@ -80,21 +81,6 @@ public class Hero extends AnimatedSprite implements Entity{
 		
 		isJumping = false;
 		
-		ContactFilter filter = new ContactFilter() {
-		
-			@Override
-			public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-				//TODO: Add checking for only colliding with group elements
-				if (fixtureA == mBody.getFixtureList().get(0) ||
-					fixtureB == mBody.getFixtureList().get(0) ) {
-					isJumping = false;
-				}
-				return true;
-				
-			}
-		};
-		
-		world.setContactFilter(filter);
 	}
 	
 	public static void onLoadResources(BaseGameActivity activity){
@@ -132,12 +118,6 @@ public class Hero extends AnimatedSprite implements Entity{
 		mBody.setLinearVelocity(new_vect);
 	}
 	
-	@Override
-	public void onManagedUpdate(float pSecondsElapsed){
-		super.onManagedUpdate(pSecondsElapsed);
-		
-	}
-	
 	/*
 	 * Direct gets and sets to Body properties. I have a feeling we might accumulate a lot of these...
 	 * 
@@ -145,10 +125,33 @@ public class Hero extends AnimatedSprite implements Entity{
 	public Vector2 getLinearVelocity(){
 		return mBody.getLinearVelocity();
 	}
-
+	
+	@Override
+	public void onManagedUpdate(float pSecondsElapsed){
+		super.onManagedUpdate(pSecondsElapsed);
+		
+	}
+	
 	@Override
 	public EntityType getEntityType() {
 		return EntityType.HERO_ENTITY;
+	}
+
+	@Override
+	public void onCollide(Fixture other)
+	{
+		System.out.println("onCollide Hero");
+		
+		float posDiff = other.getBody().getPosition().y-mBody.getPosition().y;
+		float combinedHeight = 2+this.mBaseHeight;  //dumb kludge
+		if(posDiff>=0 && posDiff<combinedHeight+0.1)
+			isJumping=false;
+	}
+
+	@Override
+	public void onSeparate(Fixture other) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
