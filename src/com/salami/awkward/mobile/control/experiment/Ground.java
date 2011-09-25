@@ -22,63 +22,58 @@ import com.badlogic.gdx.math.Vector2;
 /*
  * Wrapper around body with a display image.
  */
-public class Hero extends AnimatedSprite implements Entity{
+public class Ground extends AnimatedSprite implements Entity{
 	//static so we only have one of these if there are multiple heroes
 	//TODO: Check if TiledTexture region does this for us (it probably does)
-	static private TiledTextureRegion mHeroTextureRegion;
+	static private TiledTextureRegion mGroundTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
-	private static final Vector2 JUMP_VECTOR = new Vector2(0,-5);
 	
 	//Default starting positions
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
 	private Body mBody;
-	private boolean isJumping;
-	
 	
 	/**
 	 * create_hero using default x and y positions
 	 */
-	public static Hero create_hero(BaseGameActivity activity, PhysicsWorld world) {
-		return create_hero(activity,world,START_X_POSITION,START_Y_POSITION);
+	public static Ground create_hero(BaseGameActivity activity, PhysicsWorld world) {
+		return create_ground(activity,world,START_X_POSITION,START_Y_POSITION);
 	}
 	
 	
 	/**
-	 * Creates a Hero 
+	 * Creates a Ground 
 	 * @param activity
 	 * @param world
 	 * @param xPosition
 	 * @param yPosition
 	 * @return
 	 */
-	public static Hero create_hero(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition) {
+	public static Ground create_ground(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition) {
 		//Make sure everything is loaded
 		onLoadResources(activity);
 		
-		return new Hero(world,xPosition, yPosition);
+		return new Ground(world,xPosition, yPosition);
 	}
 	
 	/**
-	 * Creates the hero. Called from create_hero.
+	 * Creates the ground. Called from create_ground.
 	 * @param world
 	 */
-	private Hero(PhysicsWorld world,float xPosition, float yPosition){
-		super(xPosition, yPosition, mHeroTextureRegion);
+	private Ground(PhysicsWorld world,float xPosition, float yPosition){
+		super(xPosition, yPosition, mGroundTextureRegion);
 		
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.DynamicBody, objectFixtureDef);
+		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.StaticBody, objectFixtureDef);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
 		//mBody.
-		
 		this.animate(new long[]{200,200}, 0, 1, true);
 		mBody.setUserData(this);
 		//TODO: Are we going to use user data fields in animated sprites /Box2D bodies?	
 		
-		isJumping = false;
-		
+		/*
 		ContactFilter filter = new ContactFilter() {
 		
 			@Override
@@ -86,14 +81,12 @@ public class Hero extends AnimatedSprite implements Entity{
 				//TODO: Add checking for only colliding with group elements
 				if (fixtureA == mBody.getFixtureList().get(0) ||
 					fixtureB == mBody.getFixtureList().get(0) ) {
-					isJumping = false;
 				}
 				return true;
-				
 			}
 		};
 		
-		world.setContactFilter(filter);
+		world.setContactFilter(filter);*/
 	}
 	
 	public static void onLoadResources(BaseGameActivity activity){
@@ -102,39 +95,16 @@ public class Hero extends AnimatedSprite implements Entity{
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		}
 		
-		if (mHeroTextureRegion == null) {
-			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
+		if (mGroundTextureRegion == null) {
+			mGroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "ground_tiled.png", 0, 0, 2, 1); // 64x32
 		}
 		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 	}
 	
-	public void jump() {
-		//TODO: Better method
-		if (mBody.linVelLoc.y == 0 && !isJumping) {
-			isJumping = true;
-			Vector2 new_vect = new Vector2(mBody.getLinearVelocity().x, JUMP_VECTOR.y);
-			mBody.setLinearVelocity(new_vect);
-		}
-			
-	}
-	
-	/**
-	 * Sets the bodies x and keeps the current y
-	 * @param direction
-	 */
-	public void move( Vector2 direction) {
-		//TODO: Unify the vector
-		//TODO: Move character with the x direction
-		//TODO: Pull a vector from pool?
-		Vector2 new_vect = new Vector2(direction.x,mBody.getLinearVelocity().y);
-		mBody.setLinearVelocity(new_vect);
-	}
-	
 	@Override
 	public void onManagedUpdate(float pSecondsElapsed){
 		super.onManagedUpdate(pSecondsElapsed);
-		
 	}
 	
 	/*
@@ -147,7 +117,7 @@ public class Hero extends AnimatedSprite implements Entity{
 
 	@Override
 	public EntityType getEntityType() {
-		return EntityType.HERO_ENTITY;
+		return EntityType.GROUND_ENTITY;
 	}
 	
 }
