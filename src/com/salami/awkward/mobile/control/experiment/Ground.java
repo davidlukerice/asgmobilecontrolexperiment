@@ -119,5 +119,18 @@ public class Ground extends AnimatedSprite implements Entity{
 	public EntityType getEntityType() {
 		return EntityType.GROUND_ENTITY;
 	}
+
+	@Override
+	public void onCollide(Fixture other) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onSeparate(Fixture other) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

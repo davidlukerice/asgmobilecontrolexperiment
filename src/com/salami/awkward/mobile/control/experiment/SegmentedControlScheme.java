@@ -55,7 +55,7 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if(pSceneTouchEvent.isActionDown()){
+		if(pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()){
 			
 			//Actually jump if we should
 			if(pSceneTouchEvent.getY() < myBoundary) {
