@@ -110,11 +110,12 @@ public class Hero extends AnimatedSprite implements Entity{
 	 * Sets the bodies x and keeps the current y
 	 * @param direction
 	 */
-	public void move( Vector2 direction) {
+	public void move(float speed) {
 		//TODO: Unify the vector
 		//TODO: Move character with the x direction
 		//TODO: Pull a vector from pool?
-		Vector2 new_vect = new Vector2(direction.x,mBody.getLinearVelocity().y);
+		assert(Math.abs(speed)<=1);
+		Vector2 new_vect = new Vector2(5*speed,mBody.getLinearVelocity().y);
 		mBody.setLinearVelocity(new_vect);
 	}
 	

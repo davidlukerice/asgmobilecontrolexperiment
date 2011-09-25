@@ -198,9 +198,8 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				final Vector2 velocity = Vector2Pool.obtain(pValueX * 5, pValueY * 5);
-				mHero.move(velocity);
-				Vector2Pool.recycle(velocity);
+				mHero.move(pValueX);
+
 			}
 
 			@Override
