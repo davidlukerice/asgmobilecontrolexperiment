@@ -4,8 +4,6 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.input.touch.TouchEvent;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchListener {
 
 	enum Direction{

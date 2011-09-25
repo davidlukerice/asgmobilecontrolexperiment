@@ -4,7 +4,12 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-
+/**
+ * This maps Box2D collision callbacks to the entities involved and calls the appropriate
+ * callbacks in the entity. Only one of these needs to be around at a time.
+ * 
+ * @author Tim
+ */
 public class MCEContactListener implements ContactListener{
     /**
      * Called when two fixtures begin to touch.
