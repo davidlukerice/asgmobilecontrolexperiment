@@ -1,5 +1,8 @@
 package com.salami.awkward.mobile.control.experiment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -44,7 +47,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	// Fields
 	// ===========================================================
 	private Hero mHero;
-
+	private List<Ground> mGround;
 
 	private PhysicsWorld mPhysicsWorld;
 
@@ -113,6 +116,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	@Override
 	public void onLoadResources() {
 		Hero.onLoadResources(this);
+		Ground.onLoadResources(this);
 	}
 
 	@Override
@@ -148,7 +152,13 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 
 	@Override
 	public void onLoadComplete() {
+		//Add hero
 		add_hero(0.0f, 0.0f);
+		
+		//Add some ground pieces
+		//Bug: Doesn't load the texture correctly
+		mGround = new ArrayList<Ground>();
+		mGround.add(Ground.create_ground(this, mPhysicsWorld, 100.0f, 100.0f));
 	}
 
 	@Override
