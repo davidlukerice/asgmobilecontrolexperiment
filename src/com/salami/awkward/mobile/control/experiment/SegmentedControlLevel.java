@@ -33,10 +33,7 @@ public class SegmentedControlLevel extends BaseGameActivity{
 	private Scene mScene;
 	private Hero mHero;
 	
-	/*This should be the IControlScheme interface, but I need to set it as the onscene touch listener
-	 *TODO: Find a way to avoid this
-	 */
-	private SegmentedControlScheme mControls;
+	private IControlScheme mControls;
 	
 	private PhysicsWorld mPhysicsWorld;
 	private static final int CAMERA_WIDTH = 360;
@@ -152,7 +149,7 @@ public class SegmentedControlLevel extends BaseGameActivity{
 		add_hero(15,15);
 		
 		mControls = new SegmentedControlScheme(mHero, CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
-		mScene.setOnSceneTouchListener(mControls);
+		mControls.registerListeners(mScene);
 		mEngine.registerUpdateHandler(mControls);
 	}
 	

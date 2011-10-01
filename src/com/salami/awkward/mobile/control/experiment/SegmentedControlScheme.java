@@ -1,10 +1,11 @@
 package com.salami.awkward.mobile.control.experiment;
 
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.input.touch.TouchEvent;
 
-public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchListener {
+public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchListener{
 
 	enum Direction{
 		NONE,
@@ -89,5 +90,10 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 
 	private Direction getSide(float xPos){
 		return xPos>mxBoundary ? Direction.RIGHT : Direction.LEFT;
+	}
+
+	@Override
+	public void registerListeners(Scene scene) {
+		scene.setOnSceneTouchListener(this);
 	}
 }
