@@ -15,8 +15,9 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 	private Direction mDirection;
 	private Hero mHero;
 	private float mxBoundary;
-	private float myBoundary; //TODO: remove, use multitouch
-	
+
+	private boolean mLeftSideDown=false;
+	private boolean mRightSideDown=false;
 
 	/**
 	 * 
@@ -29,15 +30,13 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 		mDirection = Direction.NONE;
 		mHero =hero;
 		mxBoundary=xBoundary;
-		myBoundary=yBoundary;
 	}
 	
 	@Override
 	public void onUpdate(float secondsElapsed) {
 		if(mDirection == Direction.NONE)
 			return;
-		
-		
+	
 		if(mDirection == Direction.LEFT)
 			mHero.move(-1);
 		else
@@ -52,24 +51,43 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if(pSceneTouchEvent.isActionDown() || pSceneTouchEvent.isActionMove()){
-			
-			//Actually jump if we should
-			if(pSceneTouchEvent.getY() < myBoundary) {
-				mHero.jump();
-				return true;
-			}
-			
-			//otherwise update direction status for onUpdate
-			if(pSceneTouchEvent.getX() < mxBoundary) 
-				mDirection=Direction.LEFT;
-			else
-				mDirection=Direction.RIGHT;
-		}
-		else if(pSceneTouchEvent.isActionUp())
-			mDirection=Direction.NONE;
+		boolean isPressed=false; 
 		
+		switch(pSceneTouchEvent.getAction()) {
+		
+			case TouchEvent.ACTION_DOWN:
+				isPressed=true;
+				break;
+			case TouchEvent.ACTION_UP:
+				isPressed=false;
+				break;
+			case TouchEvent.ACTION_MOVE:
+				//TODO: I'll handle this later.
+				/*FALL THROUGH FOR NOW*/
+			default:
+				return false;
+		}
+		
+		if(getSide(pSceneTouchEvent.getX()) == Direction.LEFT)
+			mLeftSideDown = isPressed;
+		else
+			mRightSideDown = isPressed;
+		
+		//Determine movement status from actions
+		//TODO move this somewhere else/simplify?
+		if(mLeftSideDown&&mRightSideDown)
+			mHero.jump();
+		else if(mLeftSideDown)
+			mDirection = Direction.LEFT;
+		else if(mRightSideDown)
+			mDirection = Direction.RIGHT;
+		else
+			mDirection = Direction.NONE;
+				
 		return true;
 	}
 
+	private Direction getSide(float xPos){
+		return xPos>mxBoundary ? Direction.RIGHT : Direction.LEFT;
+	}
 }
