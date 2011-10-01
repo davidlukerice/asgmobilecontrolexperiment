@@ -136,9 +136,7 @@ public class Hero extends AnimatedSprite implements Entity{
 
 	@Override
 	public void onCollide(Fixture other)
-	{
-		System.out.println("onCollide Hero");
-		
+	{	
 		//dumb kludge to detect whether Hero is on top of other
 		float posDiff = other.getBody().getPosition().y-mBody.getPosition().y;
 		float combinedHeight = 2+this.mBaseHeight;  
