@@ -4,6 +4,11 @@ import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.entity.scene.Scene;
 
 public interface IControlScheme extends IUpdateHandler{
+	enum ControlType{
+		TILT, 
+		SEGMENTED,
+		VIRTUAL
+	}
 	
 	/** Register listeners for control events such as tilt, touch, etc.
 	 * This needs to be in the subclass since each one will listen for

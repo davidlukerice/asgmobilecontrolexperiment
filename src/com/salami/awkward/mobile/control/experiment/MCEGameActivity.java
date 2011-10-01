@@ -25,8 +25,9 @@ import android.widget.Toast;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
 
-public class SegmentedControlLevel extends BaseGameActivity{
+public class MCEGameActivity extends BaseGameActivity{
 
 	private static final int MENU_TRACE = Menu.FIRST;
 	
@@ -92,7 +93,6 @@ public class SegmentedControlLevel extends BaseGameActivity{
 		this.mScene = new Scene();
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
-
 		//Create walls
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
@@ -100,13 +100,12 @@ public class SegmentedControlLevel extends BaseGameActivity{
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
-		wallFixtureDef.restitution=0;
+		wallFixtureDef.restitution=0.1f;
 		
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
-		
 		
 		this.mScene.attachChild(ground);
 		this.mScene.attachChild(roof);
@@ -139,26 +138,30 @@ public class SegmentedControlLevel extends BaseGameActivity{
 
 	@Override
 	public void onLoadResources() {
-		// TODO copied from TiltLevel
 		Hero.onLoadResources(this);
-
 	}
 
 	@Override
 	public void onLoadComplete() {	
 		add_hero(15,15);
 		
-		mControls = new SegmentedControlScheme(mHero, CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
+		//Create control scheme
+		ControlType type = (ControlType) this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme");
+		switch(type){
+			case SEGMENTED:
+				mControls= new SegmentedControlScheme(mHero, CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
+				break;
+			case VIRTUAL: //TODO
+			case TILT:   //TODO
+			default:
+				throw new RuntimeException("Control Scheme not implemented");
+		}
+		
+		//Register control scheme handlers
 		mControls.registerListeners(mScene);
 		mEngine.registerUpdateHandler(mControls);
 	}
 	
-	
-	// ===========================================================
-	// Input Listeners
-	// ===========================================================
-
-
 	private void add_hero(float xPos, float yPos){
 		mHero = Hero.create_hero(this, mPhysicsWorld,xPos,yPos);
 		

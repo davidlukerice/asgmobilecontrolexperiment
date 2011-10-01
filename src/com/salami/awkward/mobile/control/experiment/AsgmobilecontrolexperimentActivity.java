@@ -1,5 +1,7 @@
 package com.salami.awkward.mobile.control.experiment;
 
+import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +46,8 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 			
 			break;
 		case R.id.bSegment:
-			intent = new Intent(this, SegmentedControlLevel.class);
+			intent = new Intent(this, MCEGameActivity.class);
+			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.SEGMENTED);
 			startActivity(intent);
 			
 			break;
