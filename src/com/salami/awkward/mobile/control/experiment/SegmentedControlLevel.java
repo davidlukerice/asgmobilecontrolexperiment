@@ -7,9 +7,6 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
-import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -18,9 +15,6 @@ import org.anddev.andengine.extension.input.touch.controller.MultiTouchControlle
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
-import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.hardware.SensorManager;
@@ -32,7 +26,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
-public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneTouchListener, IOnAreaTouchListener{
+public class SegmentedControlLevel extends BaseGameActivity{
 
 	private static final int MENU_TRACE = Menu.FIRST;
 	
@@ -124,8 +118,6 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
-		this.mScene.setOnAreaTouchListener(this);
-
 		return this.mScene;
 	}
 	
@@ -169,27 +161,7 @@ public class SegmentedControlLevel extends BaseGameActivity implements IOnSceneT
 	// Input Listeners
 	// ===========================================================
 
-	@Override
-	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		//TODO: remove if no longer needed
-		/*if(this.mPhysicsWorld != null) {
-			
-			if(pSceneTouchEvent.isActionDown()) {
-				this.movePlayer(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-				return true;	
-			}
-		}*/
-		return false;
-	}
-	
-	@Override
-	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
-			ITouchArea pTouchArea, float pTouchAreaLocalX,
-			float pTouchAreaLocalY) {
-		System.out.println("When does onAreaTouched get called?");
-		return true;
-	}
-	
+
 	private void add_hero(float xPos, float yPos){
 		mHero = Hero.create_hero(this, mPhysicsWorld,xPos,yPos);
 		
