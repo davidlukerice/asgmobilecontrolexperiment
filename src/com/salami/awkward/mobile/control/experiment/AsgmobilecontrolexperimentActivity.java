@@ -34,23 +34,19 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 
 	@Override
 	public void onClick(View v) {
+		intent = new Intent(this, MCEGameActivity.class);
 		switch(v.getId()){
 		case R.id.bTilt:
-			intent = new Intent(this, TiltLevel.class);
-			startActivity(intent);
-			
+			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.TILT);
 			break;
 		case R.id.bVirtual:
-			intent = new Intent(this, VirtualJoystickLevel.class);
-			startActivity(intent);
-			
+			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.VIRTUAL);
 			break;
 		case R.id.bSegment:
-			intent = new Intent(this, MCEGameActivity.class);
 			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.SEGMENTED);
-			startActivity(intent);
-			
 			break;
 		}
+		
+		startActivity(intent);
 	}
 }
