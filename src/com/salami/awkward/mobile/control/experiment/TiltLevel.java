@@ -181,7 +181,6 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 	@Override
 	public void onResumeGame() {
 		super.onResumeGame();
-
 		this.enableAccelerometerSensor(this);
 	}
 
