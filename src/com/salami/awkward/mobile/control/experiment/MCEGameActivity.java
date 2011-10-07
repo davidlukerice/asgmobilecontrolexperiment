@@ -4,6 +4,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -53,6 +54,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private static final int CAMERA_WIDTH = 360;
 	private static final int CAMERA_HEIGHT = 240;
+		
+	private static final int WORLD_WIDTH = CAMERA_WIDTH*2;
+	private static final int WORLD_HEIGHT = CAMERA_HEIGHT*2;
+	
 	
 	/*@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +113,10 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
 		//Create walls
-		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
-		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
-		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
-		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
+		final Shape ground = new Rectangle(0, WORLD_HEIGHT - 2, WORLD_WIDTH, 2);
+		final Shape roof = new Rectangle(0, 0, WORLD_WIDTH, 2);
+		final Shape left = new Rectangle(0, 0, 2, WORLD_HEIGHT);
+		final Shape right = new Rectangle(WORLD_WIDTH - 2, 0, 2, WORLD_HEIGHT);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		wallFixtureDef.restitution=0.1f;
@@ -136,7 +141,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	@Override
 	public Engine onLoadEngine() {
-		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		final SmoothCamera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 500,500,1);
+		camera.setBounds(0, WORLD_WIDTH, 0, WORLD_HEIGHT);
+		camera.setBoundsEnabled(true);
+		
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		final Engine engine = new Engine(engineOptions);
 
