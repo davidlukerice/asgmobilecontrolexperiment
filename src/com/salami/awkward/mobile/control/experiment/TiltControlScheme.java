@@ -39,8 +39,13 @@ public class TiltControlScheme implements IControlScheme, IAccelerometerListener
 
 	@Override
 	public void onAccelerometerChanged(AccelerometerData pAccelerometerData) {
-		// TODO Auto-generated method stub
+		float tilt = pAccelerometerData.getX();
 		
+		if(tilt < -5){
+			mHero.move(-1);
+		}else if(tilt > 5){
+			mHero.move(1);
+		}
 	}
-
+		
 }
