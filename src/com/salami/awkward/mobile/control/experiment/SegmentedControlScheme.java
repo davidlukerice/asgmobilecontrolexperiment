@@ -1,11 +1,14 @@
 package com.salami.awkward.mobile.control.experiment;
 
+import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+import org.anddev.andengine.engine.camera.Camera;
 
 import android.content.Context;
+
 
 public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchListener{
 
@@ -21,6 +24,8 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 
 	private boolean mLeftSideDown=false;
 	private boolean mRightSideDown=false;
+	
+	private Camera mCamera;
 
 	/**
 	 * 
@@ -29,10 +34,11 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 	 * 					moves you left/right 
 	 * @param yBoundary pushing above yBoundary pixels makes you jump
 	 */
-	public SegmentedControlScheme(Hero hero, int xBoundary, int yBoundary){
+	public SegmentedControlScheme(Hero hero, Camera camera, int xBoundary, int yBoundary){
 		mDirection = Direction.NONE;
 		mHero =hero;
 		mxBoundary=xBoundary;
+		mCamera=camera;
 	}
 	
 	@Override
@@ -91,7 +97,8 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 	}
 
 	private Direction getSide(float xPos){
-		return xPos>mxBoundary ? Direction.RIGHT : Direction.LEFT;
+		
+		return (xPos-mCamera.getMinX())>mxBoundary ? Direction.RIGHT : Direction.LEFT;
 	}
 
 	@Override

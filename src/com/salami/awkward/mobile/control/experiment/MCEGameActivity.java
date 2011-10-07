@@ -139,6 +139,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		final Engine engine = new Engine(engineOptions);
+
 		
 		try {
 			if(MultiTouch.isSupported(this)) {
@@ -169,12 +170,13 @@ public class MCEGameActivity extends BaseGameActivity{
 	@Override
 	public void onLoadComplete() {	
 		add_hero(15,15);
-		
+		mEngine.getCamera().setChaseEntity(mHero);
+
 		//Create control scheme
 		ControlType type = (ControlType) this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme");
 		switch(type){
 			case SEGMENTED:
-				mControls= new SegmentedControlScheme(mHero, CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
+				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
 				break;
 			case VIRTUAL: //TODO
 				mControls= new VirtualControlScheme();
