@@ -624,3 +624,9 @@ bin/com/salami/awkward/mobile/control/experiment/Ground.class
 bin/com/salami/awkward/mobile/control/experiment/IControlScheme.class
 bin/com/salami/awkward/mobile/control/experiment/SegmentedControlScheme$Direction.class
 bin/com/salami/awkward/mobile/control/experiment/SegmentedControlScheme.class
+bin/com/salami/awkward/mobile/control/experiment/IControlScheme$ControlType.class
+bin/com/salami/awkward/mobile/control/experiment/MCEContactListener.class
+bin/com/salami/awkward/mobile/control/experiment/MCEGameActivity$1.class
+bin/com/salami/awkward/mobile/control/experiment/MCEGameActivity.class
+bin/com/salami/awkward/mobile/control/experiment/TiltControlScheme.class
+bin/com/salami/awkward/mobile/control/experiment/VirtualControlScheme.class

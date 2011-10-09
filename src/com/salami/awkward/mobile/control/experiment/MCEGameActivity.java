@@ -200,6 +200,21 @@ public class MCEGameActivity extends BaseGameActivity{
 		//Register control scheme handlers
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
+		
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 5, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 37, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 69, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 101, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 133, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 165, 300) );
+		
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 105, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 137, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 169, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 201, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 233, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 265, 400) );
+		
 	}
 	
 	private void add_hero(float xPos, float yPos){
@@ -207,7 +222,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		this.mScene.registerTouchArea(mHero);
 		this.mScene.attachChild(mHero);
-
 	}
 	
 	private void initOnScreenControls() {
