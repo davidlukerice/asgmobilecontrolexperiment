@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
@@ -51,7 +52,8 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 	
 	private BitmapTextureAtlas mOnScreenButtonTexture;
-	private TextureRegion mOnScreenButtonBaseTextureRegion;
+	private TextureRegion mOnScreenButtonBaseTextureRegion;	
+	private TextureRegion mOnScreenButton;
 
 	private Scene mScene;
 
@@ -132,6 +134,7 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 		
 		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mOnScreenButtonBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_button_base.png", 0, 0);
+		this.mOnScreenButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_control_knob.png", 0, 0);
 		
 		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture);
 	}
@@ -206,20 +209,22 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 			}
 		});
 		
-		final AnalogOnScreenControl OnScreenButton = new AnalogOnScreenControl(320, CAMERA_HEIGHT - this.mOnScreenButtonBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenButtonBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
-			@Override
-			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				/*Nothing*/
+		final AnalogOnScreenControl button = new AnalogOnScreenControl(300, CAMERA_HEIGHT - this.mOnScreenButtonBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenButtonBaseTextureRegion, this.mOnScreenButton, .1f, new IAnalogOnScreenControlListener(){
 
+			@Override
+			public void onControlChange(BaseOnScreenControl pBaseOnScreenControl, float pValueX, float pValueY) {
+
+				/*Do nothing*/
 			}
 
 			@Override
-			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
+			public void onControlClick(AnalogOnScreenControl pAnalogOnScreenControl) {
 				
-				mHero.jump();
 				
 			}
+			
 		});
+		
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
@@ -227,15 +232,15 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 		analogOnScreenControl.getControlKnob().setScale(0.75f);
 		analogOnScreenControl.refreshControlKnobPosition();
 		
-		OnScreenButton.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		OnScreenButton.getControlBase().setAlpha(0.5f);
-		OnScreenButton.getControlBase().setScaleCenter(0, 128);
-		OnScreenButton.getControlBase().setScale(0.75f);
-		OnScreenButton.getControlKnob().setScale(0.75f);
-		OnScreenButton.refreshControlKnobPosition();
+		button.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		button.getControlBase().setAlpha(0.5f);
+		button.getControlBase().setScaleCenter(0, 128);
+		button.getControlBase().setScale(0.75f);
+		button.getControlKnob().setScale(0.75f);
+		
 
 		this.mScene.setChildScene(analogOnScreenControl);
-		this.mScene.setChildScene(OnScreenButton);
+		this.mScene.setChildScene(button);
 	}
 
 }
