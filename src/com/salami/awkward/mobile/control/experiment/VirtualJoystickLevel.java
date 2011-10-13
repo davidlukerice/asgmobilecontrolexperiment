@@ -49,6 +49,9 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
+	
+	private BitmapTextureAtlas mOnScreenButtonTexture;
+	private TextureRegion mOnScreenButtonBaseTextureRegion;
 
 	private Scene mScene;
 
@@ -127,7 +130,10 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 		
-		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture);
+		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mOnScreenButtonBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_button_base.png", 0, 0);
+		
+		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture);
 	}
 
 	@Override
@@ -199,14 +205,37 @@ public class VirtualJoystickLevel extends BaseGameActivity implements IOnSceneTo
 				/* Nothing. */
 			}
 		});
+		
+		final AnalogOnScreenControl OnScreenButton = new AnalogOnScreenControl(320, CAMERA_HEIGHT - this.mOnScreenButtonBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenButtonBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
+			@Override
+			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
+				/*Nothing*/
+
+			}
+
+			@Override
+			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
+				
+				mHero.jump();
+				
+			}
+		});
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		analogOnScreenControl.getControlBase().setScale(0.75f);
 		analogOnScreenControl.getControlKnob().setScale(0.75f);
 		analogOnScreenControl.refreshControlKnobPosition();
+		
+		OnScreenButton.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		OnScreenButton.getControlBase().setAlpha(0.5f);
+		OnScreenButton.getControlBase().setScaleCenter(0, 128);
+		OnScreenButton.getControlBase().setScale(0.75f);
+		OnScreenButton.getControlKnob().setScale(0.75f);
+		OnScreenButton.refreshControlKnobPosition();
 
 		this.mScene.setChildScene(analogOnScreenControl);
+		this.mScene.setChildScene(OnScreenButton);
 	}
 
 }
