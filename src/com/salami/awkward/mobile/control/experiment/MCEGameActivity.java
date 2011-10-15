@@ -3,6 +3,7 @@ package com.salami.awkward.mobile.control.experiment;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.Engine;
+import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
@@ -36,6 +37,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+import com.salami.awkward.mobile.control.experiment.parse.EntityData;
+import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
+import com.salami.awkward.mobile.control.experiment.parse.WorldData;
 
 public class MCEGameActivity extends BaseGameActivity{
 
@@ -47,17 +51,18 @@ public class MCEGameActivity extends BaseGameActivity{
 	private IControlScheme mControls;
 	
 	private PhysicsWorld mPhysicsWorld;
-
+	private WorldData mWorldData;
+	
+	private float mHeroInitPosX;
+	private float mHeroInitPosY;
+	
 	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 	
 	private static final int CAMERA_WIDTH = 360;
 	private static final int CAMERA_HEIGHT = 240;
-		
-	private static final int WORLD_WIDTH = CAMERA_WIDTH*2;
-	private static final int WORLD_HEIGHT = CAMERA_HEIGHT*2;
-	
+
 	
 	/*@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +107,9 @@ public class MCEGameActivity extends BaseGameActivity{
 	// ===========================================================
 	
 	public Scene onLoadScene() {
+		//parse world data
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("");
+		mWorldData =  new LevelParser("sample.xml",this).parse();
 		
 		//Initialize world
 		this.mEngine.registerUpdateHandler(new FPSLogger());
@@ -112,11 +120,30 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene = new Scene();
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
-		//Create walls
-		final Shape ground = new Rectangle(0, WORLD_HEIGHT - 2, WORLD_WIDTH, 2);
-		final Shape roof = new Rectangle(0, 0, WORLD_WIDTH, 2);
-		final Shape left = new Rectangle(0, 0, 2, WORLD_HEIGHT);
-		final Shape right = new Rectangle(WORLD_WIDTH - 2, 0, 2, WORLD_HEIGHT);
+		createWorldBoundaries();
+		createWorldObjects();
+
+		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldData.getWidth(), 0, mWorldData.getHeight());
+		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
+
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
+		
+		if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
+			initOnScreenControls();
+		
+		return this.mScene;
+	}
+	
+	private void createWorldBoundaries() {
+		//hard-coded walls
+		// TODO TODO TODO TODO TODO TODO
+		// remove when xml levels are ready?
+		float width = mWorldData.getWidth();
+		float height = mWorldData.getHeight();
+		final Shape ground = new Rectangle(0, height - 2, width, 2);
+		final Shape roof = new Rectangle(0, 0, width, 2);
+		final Shape left = new Rectangle(0, 0, 2, height);
+		final Shape right = new Rectangle(width - 2, 0, 2, height);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		wallFixtureDef.restitution=0.1f;
@@ -130,20 +157,25 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene.attachChild(roof);
 		this.mScene.attachChild(left);
 		this.mScene.attachChild(right);
-
-		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
-		if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
-			initOnScreenControls();
-		
-		return this.mScene;
 	}
 	
+	private void createWorldObjects() {
+		for(EntityData entity : mWorldData.getEntities()){
+			switch(entity.getType()){
+			case HERO_ENTITY:
+				mHeroInitPosX=entity.getPosX();
+				mHeroInitPosY=entity.getPosY();
+				break;
+			case GROUND_ENTITY:
+		}
+	}
+
+
+
 	@Override
 	public Engine onLoadEngine() {
 		final SmoothCamera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 500,500,1);
-		camera.setBounds(0, WORLD_WIDTH, 0, WORLD_HEIGHT);
-		camera.setBoundsEnabled(true);
 		
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		final Engine engine = new Engine(engineOptions);
@@ -177,7 +209,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 	@Override
 	public void onLoadComplete() {	
-		add_hero(15,15);
+		add_hero(mHeroInitPosX,mHeroInitPosY);
 		mEngine.getCamera().setChaseEntity(mHero);
 
 		//Create control scheme
