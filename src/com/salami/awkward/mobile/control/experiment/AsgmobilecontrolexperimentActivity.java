@@ -49,4 +49,4 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 		
 		startActivity(intent);
 	}
-}
+}	
