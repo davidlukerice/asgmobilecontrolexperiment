@@ -34,13 +34,17 @@ TODO: 	type should probably be an attribute
 	<entity>
 		<type>ground</type>
 		<pos_x>3</pos_x>
-		<pos_y>3</pos_y>
+		<pos_y>2</pos_y>
 		<width>3</width>
-		<height>3</height>
+		<height>4</height>
 	</entity>
-	<entity>
+	<!--width and height default to 1 if not provided--><entity>
 		<type>ground</type>
 		<pos_x>10</pos_x>
-		<pos_y>6</pos_y>  <!--width and height default to 1 if not provided-->
-	</entity>
+		<pos_y>6</pos_y>  
+	</entity><entity>
+		<type>coin</type>
+		<pos_x>9</pos_x>
+		<pos_y>2</pos_y></entity>
+	
 </world>

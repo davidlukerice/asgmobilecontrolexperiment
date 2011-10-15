@@ -181,6 +181,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				=entity.getPosY();
 				entity.isGood();
 				*/
+				add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight());
 				break;
 			}
 			
@@ -246,6 +247,9 @@ public class MCEGameActivity extends BaseGameActivity{
 			case TILT:   
 				mControls= new TiltControlScheme(mHero);
 				break;
+			case SERVER:
+				mControls= new ServerControlsTest();
+				break;
 			default:
 				throw new RuntimeException("Control Scheme not implemented");
 		}
@@ -273,4 +277,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		}
 		
 	}
+	
+	private void add_coin(float posX, float posY, int width, int height){
+		this.mScene.attachChild(Coin.create_coin(this, mPhysicsWorld, posX, posY));
 	}
+}
