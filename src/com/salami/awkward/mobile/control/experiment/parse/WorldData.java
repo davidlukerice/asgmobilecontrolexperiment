@@ -17,6 +17,10 @@ public class WorldData {
 		this.setWidth(width);
 		this.setHeight(height);
 		this.setEntities(entities);
+		
+		for(int index = 0; index < entities.size(); ++index){
+			System.out.println(entities.get(index).getType());
+		}
 	}
 
 	public float getWidth() {

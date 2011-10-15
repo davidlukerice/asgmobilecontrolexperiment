@@ -181,6 +181,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				=entity.getPosY();
 				entity.isGood();
 				*/
+				add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight());
 				break;
 			}
 			
@@ -276,4 +277,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		}
 		
 	}
+	
+	private void add_coin(float posX, float posY, int width, int height){
+		this.mScene.attachChild(Coin.create_coin(this, mPhysicsWorld, posX, posY));
 	}
+}
