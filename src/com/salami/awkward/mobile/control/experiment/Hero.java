@@ -67,6 +67,7 @@ public class Hero extends AnimatedSprite implements Entity{
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		objectFixtureDef.restitution=0;
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.DynamicBody, objectFixtureDef);
+		mBody.setFixedRotation(true);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
 
