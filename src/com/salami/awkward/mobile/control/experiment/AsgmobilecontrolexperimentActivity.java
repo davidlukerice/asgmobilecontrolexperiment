@@ -32,7 +32,7 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
         tilt.setOnClickListener(this);
         virtual.setOnClickListener(this);
         segmented.setOnClickListener(this);
-        server.setOnClickListener(this);
+       // server.setOnClickListener(this);
     }
 
 	@Override
