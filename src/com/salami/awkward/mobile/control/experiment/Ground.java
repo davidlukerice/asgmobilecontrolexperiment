@@ -25,8 +25,8 @@ public class Ground extends AnimatedSprite implements Entity{
 	static private TiledTextureRegion mGroundTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
 	
-	static public int GROUND_WIDTH=32;
-	static public int GROUND_HEIGHT=32;
+	static public int TILE_WIDTH=32;
+	static public int TILE_HEIGHT=32;
 	//Default starting positions
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;

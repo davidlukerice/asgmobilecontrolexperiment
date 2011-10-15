@@ -102,6 +102,7 @@ public class LevelParser {
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setWidth(Integer.parseInt(body));
+				mCurrentEntity.setWidthDefined(true);
 			}
     	});
     	
@@ -109,6 +110,7 @@ public class LevelParser {
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setHeight(Integer.parseInt(body));
+				mCurrentEntity.setHeightDefined(true);
 			}
     	});
     	
@@ -159,3 +161,6 @@ public class LevelParser {
 		throw new RuntimeException("Pausing failure: type must be hero, ground, or coin");
 	}
 }
+
+
+
