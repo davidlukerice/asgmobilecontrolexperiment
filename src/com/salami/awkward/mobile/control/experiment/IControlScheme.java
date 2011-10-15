@@ -10,7 +10,8 @@ public interface IControlScheme extends IUpdateHandler{
 	enum ControlType{
 		TILT, 
 		SEGMENTED,
-		VIRTUAL
+		VIRTUAL,
+		SERVER
 	}
 	
 	/** Register listeners for control events such as tilt, touch, etc.

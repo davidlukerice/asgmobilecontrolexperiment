@@ -246,6 +246,9 @@ public class MCEGameActivity extends BaseGameActivity{
 			case TILT:   
 				mControls= new TiltControlScheme(mHero);
 				break;
+			case SERVER:
+				mControls= new ServerControlsTest();
+				break;
 			default:
 				throw new RuntimeException("Control Scheme not implemented");
 		}
