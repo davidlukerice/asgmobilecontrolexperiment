@@ -25,6 +25,8 @@ public class Ground extends AnimatedSprite implements Entity{
 	static private TiledTextureRegion mGroundTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
 	
+	static public int GROUND_WIDTH=32;
+	static public int GROUND_HEIGHT=32;
 	//Default starting positions
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
@@ -53,7 +55,7 @@ public class Ground extends AnimatedSprite implements Entity{
 		
 		return new Ground(world,xPosition, yPosition);
 	}
-	
+		
 	/**
 	 * Creates the ground. Called from create_ground.
 	 * @param world
@@ -97,6 +99,14 @@ public class Ground extends AnimatedSprite implements Entity{
 		}
 		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
+	}
+	
+	public static int getTileWidth(){
+		return mGroundTextureRegion.getWidth();
+	}
+	
+	public static int getTileHeight(){
+		return mGroundTextureRegion.getHeight();
 	}
 	
 	@Override

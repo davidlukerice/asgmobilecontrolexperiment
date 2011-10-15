@@ -172,8 +172,18 @@ public class MCEGameActivity extends BaseGameActivity{
 				mHeroInitPosY=entity.getPosY();
 				break;
 			case GROUND_ENTITY:
+				add_ground(entity.getPosX(),entity.getPosY(),entity.getWidth(),entity.getHeight());
+				break;
+			case COIN_ENTITY:
+				/*TODO implement
+				relevant entity data:
+				entity.getPosX();
+				=entity.getPosY();
+				entity.isGood();
+				*/
 				break;
 			}
+			
 		}
 	}
 
@@ -220,6 +230,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 	@Override
 	public void onLoadComplete() {	
+
 		add_hero(mHeroInitPosX,mHeroInitPosY);
 		mEngine.getCamera().setChaseEntity(mHero);
 
@@ -243,21 +254,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
 		
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 5, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 37, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 69, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 101, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 133, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 165, 300) );
-		
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 105, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 137, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 169, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 201, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 233, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 265, 400) );
-		
-
 	}
 	
 	private void add_hero(float xPos, float yPos){
@@ -267,4 +263,15 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene.attachChild(mHero);
 
 	}
-}
+	
+	private void add_ground(float posX, float posY, int width, int height)
+	{
+		for(int i =0; i<width;i++){
+			for(int j=0; j<height;j++){
+				this.mScene.attachChild( Ground.create_ground(
+						this, mPhysicsWorld, posX+i*Ground.GROUND_WIDTH, posY+j*Ground.GROUND_HEIGHT) );
+			}
+		}
+		
+	}
+	}
