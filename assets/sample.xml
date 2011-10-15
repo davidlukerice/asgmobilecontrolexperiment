@@ -1,4 +1,16 @@
 <world>
 	<width>400</width>
 	<height>400</height>
+	<entity>
+		<type>hero</type>
+		<pos_x>300</pos_x>
+		<pos_y>50</pos_y>
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>0</pos_x>
+		<pos_y>200</pos_y>
+		<width>10</width>
+		<height>3</height>
+	</entity>
 </world>

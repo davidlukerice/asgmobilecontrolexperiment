@@ -108,7 +108,7 @@ public class LevelParser {
     	entity.getChild(HEIGHT).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
-				mCurrentEntity.setWidth(Integer.parseInt(body));
+				mCurrentEntity.setHeight(Integer.parseInt(body));
 			}
     	});
     	
