@@ -99,7 +99,6 @@ public class Coin extends AnimatedSprite implements Entity{
 
 	@Override
 	public void onCollide(Fixture other, Contact contact) {
-		// TODO Auto-generated method stub
 		//TODO collides with hero
 		System.out.println("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
 	}	
