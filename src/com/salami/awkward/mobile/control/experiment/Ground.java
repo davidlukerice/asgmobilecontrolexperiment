@@ -13,6 +13,7 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
@@ -64,6 +65,8 @@ public class Ground extends AnimatedSprite implements Entity{
 		super(xPosition, yPosition, mGroundTextureRegion);
 		
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
+		objectFixtureDef.restitution=0.1f;
+		
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.StaticBody, objectFixtureDef);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
@@ -128,14 +131,14 @@ public class Ground extends AnimatedSprite implements Entity{
 	}
 
 	@Override
-	public void onCollide(Fixture other) {
+	public void onCollide(Fixture other, Contact contact) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void onSeparate(Fixture other) {
+	public void onSeparate(Fixture other, Contact contact) {
 		// TODO Auto-generated method stub
 		
 	}

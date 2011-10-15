@@ -22,10 +22,10 @@ public class MCEContactListener implements ContactListener{
     	Object objB=contact.getFixtureB().getBody().getUserData();
     	
     	if(objA != null)
-    		((Entity) objA).onCollide(contact.getFixtureB());
+    		((Entity) objA).onCollide(contact.getFixtureB(),contact);
     	
     	if(objB != null)
-    		((Entity) objB).onCollide(contact.getFixtureA());
+    		((Entity) objB).onCollide(contact.getFixtureA(),contact);
     }
 
     /**
@@ -39,10 +39,10 @@ public class MCEContactListener implements ContactListener{
     	Object objB=contact.getFixtureB().getBody().getUserData();
     	
     	if(objA != null)
-    		((Entity) objA).onSeparate(contact.getFixtureB());
+    		((Entity) objA).onSeparate(contact.getFixtureB(),contact);
     	
     	if(objB != null)
-    		((Entity) objB).onSeparate(contact.getFixtureA());
+    		((Entity) objB).onSeparate(contact.getFixtureA(),contact);
     }
     
 

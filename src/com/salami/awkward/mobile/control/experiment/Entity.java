@@ -1,5 +1,6 @@
 package com.salami.awkward.mobile.control.experiment;
 
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 /**
@@ -27,7 +28,7 @@ public interface Entity {
      * floors,etc. are all entities. You can already access the entity if it's 
      * non-null through other.getBody().getUserData(), but it's a little gross.
      */
-    public void onCollide(Fixture other);
+    public void onCollide(Fixture other, Contact contact);
     
     /*
      * Method overridden in child classes if they have custom logic for separating
@@ -37,5 +38,5 @@ public interface Entity {
      * floors,etc. are all entities. You can already access the entity if it's 
      * non-null through other.getBody().getUserData(), but it's a little gross.
      */
-    public void onSeparate(Fixture other);
+    public void onSeparate(Fixture other, Contact contact);
 }

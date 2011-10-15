@@ -1,5 +1,8 @@
 package com.salami.awkward.mobile.control.experiment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -13,8 +16,10 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Shape;
 
 /*
  * Wrapper around body with a display image.
@@ -32,7 +37,6 @@ public class Hero extends AnimatedSprite implements Entity{
 	
 	private Body mBody;
 	private boolean isJumping;
-	
 	
 	/**
 	 * create_hero using default x and y positions
@@ -70,8 +74,6 @@ public class Hero extends AnimatedSprite implements Entity{
 		mBody.setFixedRotation(true);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
-
-		
 		this.animate(new long[]{200,200}, 0, 1, true);
 		mBody.setUserData(this);
 		//TODO: Are we going to use user data fields in animated sprites /Box2D bodies?	
@@ -94,13 +96,11 @@ public class Hero extends AnimatedSprite implements Entity{
 	}
 	
 	public void jump() {
-		//TODO: Better method
-		if (mBody.linVelLoc.y == 0 && !isJumping) {
+		if (mBody.getLinearVelocity().y<0.01 && !isJumping) {
 			isJumping = true;
 			Vector2 new_vect = new Vector2(mBody.getLinearVelocity().x, JUMP_VECTOR.y);
 			mBody.setLinearVelocity(new_vect);
-		}
-			
+		}	
 	}
 	
 	/**
@@ -136,19 +136,20 @@ public class Hero extends AnimatedSprite implements Entity{
 	}
 
 	@Override
-	public void onCollide(Fixture other)
+	public void onCollide(Fixture other, Contact contact)
 	{	
-		//dumb kludge to detect whether Hero is on top of other
-		float posDiff = other.getBody().getPosition().y-mBody.getPosition().y;
-		float combinedHeight = 2+this.mBaseHeight;  
-		if(posDiff>=0 && posDiff<combinedHeight+0.1)
-			isJumping=false;
+		if(other.getUserData() == null || other.getUserData() instanceof Ground)
+		{			
+			Vector2 normal=contact.getWorldManifold().getNormal();
+			if(normal.y != 0 ){
+				isJumping=false;
+			}
+		}
 	}
 
 	@Override
-	public void onSeparate(Fixture other) {
-		// TODO Auto-generated method stub
-		
+	public void onSeparate(Fixture other, Contact contact) {
+
 	}
 	
 }
