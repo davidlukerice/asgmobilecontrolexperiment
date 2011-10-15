@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+    
     <Button 
     	android:text="Launch Tilt Control" 
     	android:id="@+id/bTilt" 
@@ -26,6 +27,14 @@
     	android:layout_width="fill_parent" 
     	android:layout_height="wrap_content"
     	android:layout_marginTop="20dp"
+    ></Button>
+    
+    <Button 
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/bServer" 
+    	android:text="Launch Server Test" 
+    	android:layout_marginTop="20dp" 
+    	android:layout_width="fill_parent"
     ></Button>
     
 </LinearLayout>
