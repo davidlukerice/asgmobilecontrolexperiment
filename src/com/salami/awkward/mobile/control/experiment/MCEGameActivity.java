@@ -3,6 +3,7 @@ package com.salami.awkward.mobile.control.experiment;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.Engine;
+import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
@@ -36,6 +37,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+import com.salami.awkward.mobile.control.experiment.parse.EntityData;
+import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
+import com.salami.awkward.mobile.control.experiment.parse.WorldData;
 
 public class MCEGameActivity extends BaseGameActivity{
 
@@ -47,21 +51,18 @@ public class MCEGameActivity extends BaseGameActivity{
 	private IControlScheme mControls;
 	
 	private PhysicsWorld mPhysicsWorld;
-
+	private WorldData mWorldData;
+	
+	private float mHeroInitPosX;
+	private float mHeroInitPosY;
+	
 	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 	
-	private BitmapTextureAtlas mOnScreenButtonTexture;
-	private TextureRegion mOnScreenButtonBaseTextureRegion;	
-	private TextureRegion mOnScreenButton;
-	
 	private static final int CAMERA_WIDTH = 360;
 	private static final int CAMERA_HEIGHT = 240;
-		
-	private static final int WORLD_WIDTH = CAMERA_WIDTH*2;
-	private static final int WORLD_HEIGHT = CAMERA_HEIGHT*2;
-	
+
 	
 	/*@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,9 @@ public class MCEGameActivity extends BaseGameActivity{
 	// ===========================================================
 	
 	public Scene onLoadScene() {
+		//parse world data
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("");
+		mWorldData =  new LevelParser("sample.xml",this).parse();
 		
 		//Initialize world
 		this.mEngine.registerUpdateHandler(new FPSLogger());
@@ -116,11 +120,30 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene = new Scene();
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
-		//Create walls
-		final Shape ground = new Rectangle(0, WORLD_HEIGHT - 2, WORLD_WIDTH, 2);
-		final Shape roof = new Rectangle(0, 0, WORLD_WIDTH, 2);
-		final Shape left = new Rectangle(0, 0, 2, WORLD_HEIGHT);
-		final Shape right = new Rectangle(WORLD_WIDTH - 2, 0, 2, WORLD_HEIGHT);
+		createWorldBoundaries();
+		createWorldObjects();
+
+		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldData.getWidth(), 0, mWorldData.getHeight());
+		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
+
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
+		
+		if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
+			initOnScreenControls();
+		
+		return this.mScene;
+	}
+	
+	private void createWorldBoundaries() {
+		//hard-coded walls
+		// TODO TODO TODO TODO TODO TODO
+		// remove when xml levels are ready?
+		float width = mWorldData.getWidth();
+		float height = mWorldData.getHeight();
+		final Shape ground = new Rectangle(0, height - 2, width, 2);
+		final Shape roof = new Rectangle(0, 0, width, 2);
+		final Shape left = new Rectangle(0, 0, 2, height);
+		final Shape right = new Rectangle(width - 2, 0, 2, height);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		wallFixtureDef.restitution=0.1f;
@@ -134,20 +157,25 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene.attachChild(roof);
 		this.mScene.attachChild(left);
 		this.mScene.attachChild(right);
-
-		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
-		//if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
-			//initOnScreenControls();
-		
-		return this.mScene;
 	}
 	
+	private void createWorldObjects() {
+		for(EntityData entity : mWorldData.getEntities()){
+			switch(entity.getType()){
+			case HERO_ENTITY:
+				mHeroInitPosX=entity.getPosX();
+				mHeroInitPosY=entity.getPosY();
+				break;
+			case GROUND_ENTITY:
+		}
+	}
+
+
+
 	@Override
 	public Engine onLoadEngine() {
 		final SmoothCamera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 500,500,1);
-		camera.setBounds(0, WORLD_WIDTH, 0, WORLD_HEIGHT);
-		camera.setBoundsEnabled(true);
 		
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		final Engine engine = new Engine(engineOptions);
@@ -176,16 +204,12 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 		
-		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mOnScreenButtonBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_button_base.png", 0, 0);
-		this.mOnScreenButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_control_knob.png", 0, 0);
-		
-		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture);
+		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture);
 	}
 
 	@Override
 	public void onLoadComplete() {	
-		add_hero(15,15);
+		add_hero(mHeroInitPosX,mHeroInitPosY);
 		mEngine.getCamera().setChaseEntity(mHero);
 
 		//Create control scheme
@@ -195,7 +219,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
 				break;
 			case VIRTUAL: //TODO
-				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine, mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion);
+				mControls= new VirtualControlScheme();
 
 				break;
 			case TILT:   
@@ -208,21 +232,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		//Register control scheme handlers
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
-		
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 5, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 37, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 69, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 101, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 133, 300) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 165, 300) );
-		
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 105, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 137, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 169, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 201, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 233, 400) );
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 265, 400) );
-		
 	}
 	
 	private void add_hero(float xPos, float yPos){
@@ -230,6 +239,30 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		this.mScene.registerTouchArea(mHero);
 		this.mScene.attachChild(mHero);
+
+	}
+	
+	private void initOnScreenControls() {
+		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mEngine.getCamera(), this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
+			@Override
+			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
+				mHero.move(pValueX);
+
+			}
+
+			@Override
+			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
+				/* Nothing. */
+			}
+		});
+		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		analogOnScreenControl.getControlBase().setAlpha(0.5f);
+		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
+		analogOnScreenControl.getControlBase().setScale(0.75f);
+		analogOnScreenControl.getControlKnob().setScale(0.75f);
+		analogOnScreenControl.refreshControlKnobPosition();
+
+		this.mScene.setChildScene(analogOnScreenControl);
 	}
 	
 
