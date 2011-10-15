@@ -1,6 +1,7 @@
 package com.salami.awkward.mobile.control.experiment.parse;
 
 import com.salami.awkward.mobile.control.experiment.Entity.EntityType;
+import com.salami.awkward.mobile.control.experiment.Ground;
 
 public class EntityData {
 	private float posX;
@@ -8,23 +9,22 @@ public class EntityData {
 	private int width;
 	private int height;
 	private boolean isGood;
+	private boolean widthDefined;
+	private boolean heightDefined;
 	private EntityType type;
 	
 	public EntityData(){
-		this.posX=0;
-		this.posY=0;
+		this(0,0);
 	}
 	public EntityData(float posX, float posY){
-		this.posX=posX;
-		this.posY=posY;
-	}
-	
-	public void create(){
-		//not sure if ill use this
+		setPosX(posX);
+		setPosY(posY);
+		setWidthDefined(false);
+		setHeightDefined(false);
 	}
 	
 	public float getPosX() {
-		return posX;
+		return posX*Ground.TILE_WIDTH;
 	}
 
 	public void setPosX(float posX) {
@@ -32,20 +32,26 @@ public class EntityData {
 	}
 
 	public float getPosY() {
-		return posY;
+		return posY*Ground.TILE_HEIGHT;
 	}
 
 	public void setPosY(float posY) {
 		this.posY = posY;
 	}
 	public int getWidth() {
-		return width;
+		if(isWidthDefined())
+			return width*Ground.TILE_WIDTH;
+		else
+			return Ground.TILE_WIDTH;
 	}
 	public void setWidth(int width) {
 		this.width = width;
 	}
 	public int getHeight() {
-		return height;
+		if(isHeightDefined())
+			return height*Ground.TILE_HEIGHT;
+		else
+			return Ground.TILE_HEIGHT;
 	}
 	public void setHeight(int height) {
 		this.height = height;
@@ -61,6 +67,18 @@ public class EntityData {
 	}
 	public void setType(EntityType type) {
 		this.type = type;
+	}
+	public boolean isWidthDefined() {
+		return widthDefined;
+	}
+	public void setWidthDefined(boolean widthDefined) {
+		this.widthDefined = widthDefined;
+	}
+	public boolean isHeightDefined() {
+		return heightDefined;
+	}
+	public void setHeightDefined(boolean heightDefined) {
+		this.heightDefined = heightDefined;
 	}
 
 

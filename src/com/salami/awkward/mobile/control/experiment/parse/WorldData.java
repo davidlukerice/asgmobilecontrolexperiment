@@ -2,6 +2,8 @@ package com.salami.awkward.mobile.control.experiment.parse;
 
 import java.util.List;
 
+import com.salami.awkward.mobile.control.experiment.Ground;
+
 
 
 public class WorldData {
@@ -18,7 +20,7 @@ public class WorldData {
 	}
 
 	public float getWidth() {
-		return width;
+		return width*Ground.TILE_WIDTH;
 	}
 
 	public void setWidth(float width) {
@@ -26,7 +28,7 @@ public class WorldData {
 	}
 
 	public float getHeight() {
-		return height;
+		return height*Ground.TILE_HEIGHT;
 	}
 
 	public void setHeight(float height) {
