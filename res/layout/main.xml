@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <Button 
+    	android:text="Launch Tilt Control" 
+    	android:id="@+id/bTilt" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="20dp"
+    ></Button>
+    
+    <Button 
+    	android:text="Launch Virtual Control" 
+    	android:id="@+id/bVirtual" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="20dp"
+    ></Button>
+    
+    <Button 
+    	android:text="Launch Segmented Control" 
+    	android:id="@+id/bSegment" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="20dp"
+    ></Button>
+    
+</LinearLayout>
