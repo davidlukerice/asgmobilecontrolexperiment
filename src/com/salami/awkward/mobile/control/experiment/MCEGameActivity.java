@@ -53,6 +53,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	private PhysicsWorld mPhysicsWorld;
 	private WorldData mWorldData;
 	
+	private BitmapTextureAtlas mOnScreenButtonTexture;
+	private TextureRegion mOnScreenButtonBaseTextureRegion;	
+	private TextureRegion mOnScreenButton;
+
 	private float mHeroInitPosX;
 	private float mHeroInitPosY;
 	
@@ -128,8 +132,8 @@ public class MCEGameActivity extends BaseGameActivity{
 
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
-		if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
-			initOnScreenControls();
+		//if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
+			//initOnScreenControls();
 		
 		return this.mScene;
 	}
@@ -168,6 +172,8 @@ public class MCEGameActivity extends BaseGameActivity{
 				mHeroInitPosY=entity.getPosY();
 				break;
 			case GROUND_ENTITY:
+				break;
+			}
 		}
 	}
 
@@ -204,7 +210,12 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 		
-		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture);
+		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mOnScreenButtonBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_button_base.png", 0, 0);
+		this.mOnScreenButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_control_knob.png", 0, 0);
+		
+		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture);
+
 	}
 
 	@Override
@@ -218,9 +229,8 @@ public class MCEGameActivity extends BaseGameActivity{
 			case SEGMENTED:
 				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
 				break;
-			case VIRTUAL: //TODO
-				mControls= new VirtualControlScheme();
-
+			case VIRTUAL: 
+				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine, mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion);
 				break;
 			case TILT:   
 				mControls= new TiltControlScheme(mHero);
@@ -232,6 +242,22 @@ public class MCEGameActivity extends BaseGameActivity{
 		//Register control scheme handlers
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
+		
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 5, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 37, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 69, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 101, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 133, 300) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 165, 300) );
+		
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 105, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 137, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 169, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 201, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 233, 400) );
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, 265, 400) );
+		
+
 	}
 	
 	private void add_hero(float xPos, float yPos){
@@ -241,29 +267,4 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene.attachChild(mHero);
 
 	}
-	
-	private void initOnScreenControls() {
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mEngine.getCamera(), this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
-			@Override
-			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				mHero.move(pValueX);
-
-			}
-
-			@Override
-			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
-				/* Nothing. */
-			}
-		});
-		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		analogOnScreenControl.getControlBase().setAlpha(0.5f);
-		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
-		analogOnScreenControl.getControlBase().setScale(0.75f);
-		analogOnScreenControl.getControlKnob().setScale(0.75f);
-		analogOnScreenControl.refreshControlKnobPosition();
-
-		this.mScene.setChildScene(analogOnScreenControl);
-	}
-	
-
 }
