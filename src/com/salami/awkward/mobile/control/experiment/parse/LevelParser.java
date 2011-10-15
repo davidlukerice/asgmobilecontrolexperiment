@@ -158,7 +158,7 @@ public class LevelParser {
 			return EntityType.COIN_ENTITY;
 		else if(body.equals(HERO))
 			return EntityType.HERO_ENTITY;
-		throw new RuntimeException("Pausing failure: type must be hero, ground, or coin");
+		throw new RuntimeException("Parsing failure: type must be hero, ground, or coin");
 	}
 }
 
