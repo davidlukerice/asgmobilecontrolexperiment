@@ -4,6 +4,8 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
+import org.anddev.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -12,10 +14,12 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 /*
  * Wrapper around body with a display image.
@@ -64,33 +68,31 @@ public class Ground extends AnimatedSprite implements Entity{
 	private Ground(PhysicsWorld world,float xPosition, float yPosition){
 		super(xPosition, yPosition, mGroundTextureRegion);
 		
-		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		objectFixtureDef.restitution=0.1f;
-		
-		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.StaticBody, objectFixtureDef);
-		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
-		
-		//mBody.
-		this.animate(new long[]{200,200}, 0, 1, true);
-		mBody.setUserData(this);
-		//TODO: Are we going to use user data fields in animated sprites /Box2D bodies?	
+		//build the body and the primary fixture
+		FixtureDef topFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.8f);
+		topFixtureDef.restitution=0.1f;
+		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.StaticBody, topFixtureDef);
 		
 		/*
-		ContactFilter filter = new ContactFilter() {
+		 * Build another fixture for the sides, since they have different physics constants
+		 */
+		float pxToM=PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
+		PolygonShape ps = new PolygonShape();
+		FixtureDef sideFixtureDef = PhysicsFactory.createFixtureDef(1,0.5f, 0f);
+		sideFixtureDef.restitution=0.01f;
 		
-			@Override
-			public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-				//TODO: Add checking for only colliding with group elements
-				if (fixtureA == mBody.getFixtureList().get(0) ||
-					fixtureB == mBody.getFixtureList().get(0) ) {
-				}
-				return true;
-			}
-		};
+		//the 0.01 offsets are a gross kludge so these trigger for the sides
+		//but not the top -- works better than single fixture for each edge.
+		ps.setAsBox(TILE_WIDTH / pxToM / 2 + 0.01f,TILE_HEIGHT / pxToM / 2 - 0.01f);
+		sideFixtureDef.shape=ps;
+		mBody.createFixture(sideFixtureDef);
+				
+		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
-		world.setContactFilter(filter);*/
+		this.animate(new long[]{200,200}, 0, 1, true);
+		mBody.setUserData(this);
 	}
-	
+		
 	public static void onLoadResources(BaseGameActivity activity){
 		if (mBitmapTextureAtlas == null) {
 			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -103,15 +105,7 @@ public class Ground extends AnimatedSprite implements Entity{
 		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 	}
-	
-	public static int getTileWidth(){
-		return mGroundTextureRegion.getWidth();
-	}
-	
-	public static int getTileHeight(){
-		return mGroundTextureRegion.getHeight();
-	}
-	
+		
 	@Override
 	public void onManagedUpdate(float pSecondsElapsed){
 		super.onManagedUpdate(pSecondsElapsed);
