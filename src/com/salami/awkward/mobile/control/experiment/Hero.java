@@ -89,7 +89,7 @@ public class Hero extends AnimatedSprite implements Entity{
 		}
 		
 		if (mHeroTextureRegion == null) {
-			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
+			mHeroTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "hero_tiled.png", 0, 0, 2, 1); // 64x32
 		}
 		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);

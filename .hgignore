@@ -649,3 +649,9 @@ bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser.class
 bin/com/salami/awkward/mobile/control/experiment/parse/WorldData.class
 src/com/salami/awkward/mobile/control/experiment/AsgmobilecontrolexperimentActivity.java.orig
 src/com/salami/awkward/mobile/control/experiment/MCEGameActivity.java.orig
+bin/com/salami/awkward/mobile/control/experiment/Coin.class
+bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$10.class
+bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$11.class
+bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$12.class
+bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$13.class
+bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$14.class
