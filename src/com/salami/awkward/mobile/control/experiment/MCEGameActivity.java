@@ -125,7 +125,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
 		createWorldBoundaries();
-		createWorldObjects();
+
 
 		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldData.getWidth(), 0, mWorldData.getHeight());
 		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
@@ -168,6 +168,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		for(EntityData entity : mWorldData.getEntities()){
 			switch(entity.getType()){
 			case HERO_ENTITY:
+				add_hero(entity.getPosX(),entity.getPosY());
 				mHeroInitPosX=entity.getPosX();
 				mHeroInitPosY=entity.getPosY();
 				break;
@@ -232,8 +233,11 @@ public class MCEGameActivity extends BaseGameActivity{
 	@Override
 	public void onLoadComplete() {	
 
-		add_hero(mHeroInitPosX,mHeroInitPosY);
+		createWorldObjects();
+		
 		mEngine.getCamera().setChaseEntity(mHero);
+		System.out.println("SET CENTER");
+		((SmoothCamera)mEngine.getCamera()).setCenterDirect(mHero.getX(), mHero.getY());
 
 		//Create control scheme
 		ControlType type = (ControlType) this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme");
