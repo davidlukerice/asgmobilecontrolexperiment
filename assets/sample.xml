@@ -17,34 +17,71 @@ TODO: 	type should probably be an attribute
 		if there's not a consensus behind specifying things in terms of tiles, switch to px.
 -->
 <world>
-	<width>12</width>
-	<height>10</height>
+	<width>14</width>
+	<height>30</height>
 	<entity>
 		<type>hero</type>
-		<pos_x>8</pos_x>
-		<pos_y>2</pos_y>
+		<pos_x>11</pos_x>
+		<pos_y>28</pos_y>
 	</entity>
 	<entity>
 		<type>ground</type>
 		<pos_x>0</pos_x>
-		<pos_y>8</pos_y>
+		<pos_y>28</pos_y>
 		<width>6</width>
 		<height>2</height>
-	</entity>
-	<entity>
-		<type>ground</type>
-		<pos_x>3</pos_x>
-		<pos_y>3</pos_y>
-		<width>3</width>
-		<height>3</height>
 	</entity>
 	<!--width and height default to 1 if not provided--><entity>
 		<type>ground</type>
 		<pos_x>10</pos_x>
-		<pos_y>6</pos_y>  
-	</entity><entity>
+		<pos_y>26</pos_y>  
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>3</pos_x>
+		<pos_y>23</pos_y>
+		<width>3</width>
+		<height>3</height>
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>7</pos_x>
+		<pos_y>20</pos_y>
+		<width>1</width>
+		<height>1</height>
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>11</pos_x>
+		<pos_y>20</pos_y>
+		<width>1</width>
+		<height>1</height>
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>13</pos_x>
+		<pos_y>17</pos_y>
+		<width>1</width>
+		<height>1</height>
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>4</pos_x>
+		<pos_y>14</pos_y>
+		<width>7</width>
+		<height>1</height>
+	</entity>
+	<entity>
+		<type>ground</type>
+		<pos_x>1</pos_x>
+		<pos_y>10</pos_y>
+		<width>1</width>
+		<height>3</height>
+	</entity>
+	<entity>
 		<type>coin</type>
 		<pos_x>9</pos_x>
-		<pos_y>2</pos_y></entity>
+		<pos_y>22</pos_y>
+	</entity>
 	
 </world>
