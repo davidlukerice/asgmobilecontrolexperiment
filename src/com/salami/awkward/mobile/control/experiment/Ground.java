@@ -30,13 +30,26 @@ public class Ground extends AnimatedSprite implements Entity{
 	static private TiledTextureRegion mGroundTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
 	
+	//tile sizes
 	static public int TILE_WIDTH=32;
 	static public int TILE_HEIGHT=32;
+	
 	//Default starting positions
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
 	private Body mBody;
+	 
+	//Friction and restitution constants. Feel free to play around with these.
+	//Increasing friction makes things less slidy
+	//Increasing restitution makes things more bouncy, but really low 
+	//restitutions can make the player get stuck
+	private static final float TOP_FRICTION = 3f;
+	private static final float TOP_RESTITUTION = 0.1f;
+	
+	private static final float SIDE_FRICTION = 0f;
+	private static final float SIDE_RESTITUTION = 0.01f;
+	
 	
 	/**
 	 * create_hero using default x and y positions
@@ -69,8 +82,8 @@ public class Ground extends AnimatedSprite implements Entity{
 		super(xPosition, yPosition, mGroundTextureRegion);
 		
 		//build the body and the primary fixture
-		FixtureDef topFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.8f);
-		topFixtureDef.restitution=0.1f;
+		FixtureDef topFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, TOP_FRICTION);
+		topFixtureDef.restitution=TOP_RESTITUTION;
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.StaticBody, topFixtureDef);
 		
 		/*
@@ -78,8 +91,8 @@ public class Ground extends AnimatedSprite implements Entity{
 		 */
 		float pxToM=PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
 		PolygonShape ps = new PolygonShape();
-		FixtureDef sideFixtureDef = PhysicsFactory.createFixtureDef(1,0.5f, 0f);
-		sideFixtureDef.restitution=0.01f;
+		FixtureDef sideFixtureDef = PhysicsFactory.createFixtureDef(1,0.5f, SIDE_FRICTION);
+		sideFixtureDef.restitution=SIDE_RESTITUTION;
 		
 		//the 0.01 offsets are a gross kludge so these trigger for the sides
 		//but not the top -- works better than single fixture for each edge.
