@@ -80,7 +80,7 @@ public class Coin extends AnimatedSprite implements Entity{
 		}
 		
 		if (mCoinTextureRegion == null) {
-			mCoinTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
+			mCoinTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "collectible_good_tiled.png", 0, 0, 2, 1); // 64x32
 		}
 		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);

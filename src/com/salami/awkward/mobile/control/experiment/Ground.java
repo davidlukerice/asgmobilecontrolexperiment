@@ -113,7 +113,7 @@ public class Ground extends AnimatedSprite implements Entity{
 		}
 		
 		if (mGroundTextureRegion == null) {
-			mGroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "ground_tiled.png", 0, 0, 2, 1); // 64x32
+			mGroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "ground_top_tiled.png", 0, 0, 2, 1); // 64x32
 		}
 		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
