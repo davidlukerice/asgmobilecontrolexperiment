@@ -20,7 +20,7 @@ TODO:
 	<width>14</width>
 	<height>30</height>
 	<hero>
-		<pos_x>11</pos_x>
+		<pos_x>9</pos_x>
 		<pos_y>28</pos_y>
 	</hero>
 	<ground>
@@ -28,6 +28,16 @@ TODO:
 		<pos_y>28</pos_y>
 		<width>6</width>
 		<height>2</height>
+	</ground>
+	<ground>
+		<pos_x>6</pos_x>
+		<pos_y>29</pos_y>
+		<width>4</width>
+	</ground>
+	<ground>
+		<pos_x>12</pos_x>
+		<pos_y>29</pos_y>
+		<width>2</width>
 	</ground>
 	<!--width and height default to 1 if not provided--><ground>
 		<pos_x>10</pos_x>
