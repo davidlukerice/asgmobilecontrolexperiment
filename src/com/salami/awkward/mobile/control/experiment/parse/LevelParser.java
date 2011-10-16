@@ -71,17 +71,18 @@ public class LevelParser {
 				mParsedWorldHeight =Float.parseFloat(body);
 			}
     	});
-    	    	
+    	
     	/*
-    	 * entity parsing
+    	 * Hero Parsing
     	 */
-    	Element entity = root.getChild(ENTITY);
-    	entity.setElementListener(new ElementListener(){
+    	Element hero = root.getChild(HERO);
+    	hero.setElementListener(new ElementListener(){
     		
 			@Override
 			public void start(Attributes arg0) {
 				// TODO Auto-generated method stub
 				mCurrentEntity = new EntityData();
+				mCurrentEntity.setType(EntityType.HERO_ENTITY);
 			}
 			
 			@Override
@@ -90,15 +91,55 @@ public class LevelParser {
             }
         });
     	
-    	entity.getChild(TYPE).setEndTextElementListener(new EndTextElementListener(){
+    	hero.getChild(POS_X).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
-				mCurrentEntity.setType(resolveType(body));
+				mCurrentEntity.setPosX(Float.parseFloat(body));
 			}
     	});
     	
+    	hero.getChild(POS_Y).setEndTextElementListener(new EndTextElementListener(){
+			@Override
+			public void end(String body) {
+				mCurrentEntity.setPosY(Float.parseFloat(body));
+			}
+    	});
+    	    	
+    	/*
+    	 * ground parsing
+    	 */
+    	Element ground = root.getChild(GROUND);
+    	ground.setElementListener(new ElementListener(){
+    		
+			@Override
+			public void start(Attributes arg0) {
+				// TODO Auto-generated method stub
+				mCurrentEntity = new EntityData();
+				mCurrentEntity.setType(EntityType.GROUND_ENTITY);
+			}
+			
+			@Override
+            public void end() {
+                mEntities.add(mCurrentEntity);
+            }
+        });
     	
-    	entity.getChild(WIDTH).setEndTextElementListener(new EndTextElementListener(){
+    	ground.getChild(POS_X).setEndTextElementListener(new EndTextElementListener(){
+			@Override
+			public void end(String body) {
+				mCurrentEntity.setPosX(Float.parseFloat(body));
+			}
+    	});
+    	
+    	ground.getChild(POS_Y).setEndTextElementListener(new EndTextElementListener(){
+			@Override
+			public void end(String body) {
+				mCurrentEntity.setPosY(Float.parseFloat(body));
+			}
+    	});
+
+    	    	
+    	ground.getChild(WIDTH).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setWidth(Integer.parseInt(body));
@@ -106,7 +147,7 @@ public class LevelParser {
 			}
     	});
     	
-    	entity.getChild(HEIGHT).setEndTextElementListener(new EndTextElementListener(){
+    	ground.getChild(HEIGHT).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setHeight(Integer.parseInt(body));
@@ -114,21 +155,40 @@ public class LevelParser {
 			}
     	});
     	
-    	entity.getChild(POS_X).setEndTextElementListener(new EndTextElementListener(){
+    	/*
+    	 * Coin Parsing
+    	 */
+    	Element coin = root.getChild(COIN);
+    	coin.setElementListener(new ElementListener(){
+    		
+			@Override
+			public void start(Attributes arg0) {
+				// TODO Auto-generated method stub
+				mCurrentEntity = new EntityData();
+				mCurrentEntity.setType(EntityType.COIN_ENTITY);
+			}
+			
+			@Override
+            public void end() {
+                mEntities.add(mCurrentEntity);
+            }
+        });
+    	
+    	coin.getChild(POS_X).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setPosX(Float.parseFloat(body));
 			}
     	});
     	
-    	entity.getChild(POS_Y).setEndTextElementListener(new EndTextElementListener(){
+    	coin.getChild(POS_Y).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setPosY(Float.parseFloat(body));
 			}
     	});
     	
-    	entity.getChild(IS_GOOD).setEndTextElementListener(new EndTextElementListener(){
+    	coin.getChild(IS_GOOD).setEndTextElementListener(new EndTextElementListener(){
 			@Override
 			public void end(String body) {
 				mCurrentEntity.setGood(Boolean.parseBoolean(body));
