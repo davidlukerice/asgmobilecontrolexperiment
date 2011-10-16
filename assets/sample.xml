@@ -13,75 +13,96 @@ and height probably shouldn't, unless you want fractions of a tile at the end of
 
 x and y positions specify the location of the top-left corner of the object.
 
-TODO: 	type should probably be an attribute
+TODO: 	
 		if there's not a consensus behind specifying things in terms of tiles, switch to px.
 -->
 <world>
 	<width>14</width>
 	<height>30</height>
-	<entity>
-		<type>hero</type>
+	<hero>
 		<pos_x>11</pos_x>
 		<pos_y>28</pos_y>
-	</entity>
-	<entity>
-		<type>ground</type>
+	</hero>
+	<ground>
 		<pos_x>0</pos_x>
 		<pos_y>28</pos_y>
 		<width>6</width>
 		<height>2</height>
-	</entity>
-	<!--width and height default to 1 if not provided--><entity>
-		<type>ground</type>
+	</ground>
+	<!--width and height default to 1 if not provided--><ground>
 		<pos_x>10</pos_x>
 		<pos_y>26</pos_y>  
-	</entity>
-	<entity>
-		<type>ground</type>
+	</ground>
+	<ground>
 		<pos_x>3</pos_x>
 		<pos_y>23</pos_y>
 		<width>3</width>
 		<height>3</height>
-	</entity>
-	<entity>
-		<type>ground</type>
+	</ground>
+	<ground>
 		<pos_x>7</pos_x>
 		<pos_y>20</pos_y>
 		<width>1</width>
 		<height>1</height>
-	</entity>
-	<entity>
-		<type>ground</type>
+	</ground>
+	<ground>
 		<pos_x>11</pos_x>
 		<pos_y>20</pos_y>
 		<width>1</width>
 		<height>1</height>
-	</entity>
-	<entity>
-		<type>ground</type>
+	</ground>
+	<ground>
 		<pos_x>13</pos_x>
 		<pos_y>17</pos_y>
 		<width>1</width>
 		<height>1</height>
-	</entity>
-	<entity>
-		<type>ground</type>
+	</ground>
+	<ground>
 		<pos_x>4</pos_x>
 		<pos_y>14</pos_y>
 		<width>7</width>
 		<height>1</height>
-	</entity>
-	<entity>
-		<type>ground</type>
-		<pos_x>1</pos_x>
-		<pos_y>10</pos_y>
+	</ground>
+	<ground>
+		<pos_x>0</pos_x>
+		<pos_y>11</pos_y>
 		<width>1</width>
 		<height>3</height>
-	</entity>
-	<entity>
-		<type>coin</type>
+	</ground>
+	<ground>
+		<pos_x>4</pos_x>
+		<pos_y>9</pos_y>
+		<width>6</width>
+		<height>1</height>
+	</ground>
+	<ground>
+		<pos_x>4</pos_x>
+		<pos_y>6</pos_y>
+		<width>6</width>
+		<height>1</height>
+	</ground>
+	<ground>
+		<pos_x>2</pos_x>
+		<pos_y>5</pos_y>
+	</ground>
+	<ground>
+		<pos_x>1</pos_x>
+		<pos_y>4</pos_y>
+	</ground>
+	<ground>
+		<pos_x>0</pos_x>
+		<pos_y>3</pos_y>
+	</ground>
+	<ground>
+		<pos_x>1</pos_x>
+		<pos_y>0</pos_y>
+	</ground>
+	<ground>
+		<pos_x>2</pos_x>
+		<pos_y>1</pos_y>
+	</ground>
+	<coin>
 		<pos_x>9</pos_x>
 		<pos_y>22</pos_y>
-	</entity>
-	
+	</coin>
 </world>
