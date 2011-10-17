@@ -40,6 +40,8 @@ import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
 import com.salami.awkward.mobile.control.experiment.parse.EntityData;
 import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
 import com.salami.awkward.mobile.control.experiment.parse.WorldData;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.Level;
 
 public class MCEGameActivity extends BaseGameActivity{
 
@@ -261,6 +263,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		//Register control scheme handlers
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
+		
+		StatisticsTracker.getTracker().transitionToLevel(Level.COLLECTION);
 		
 	}
 	
