@@ -30,11 +30,13 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.hardware.SensorManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
@@ -48,7 +50,10 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	private Engine mEngine;
 	
 	private TextureRegion mBase;
-	private TextureRegion mKnob;
+	private TextureRegion mKnob;	
+	private TiledTextureRegion mButton;
+	
+	private TiledSprite buttonTile;
 	
 	private static final int CAMERA_WIDTH = 360;
 	private static final int CAMERA_HEIGHT = 240;
@@ -56,12 +61,13 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	private static final int WORLD_WIDTH = CAMERA_WIDTH*2;
 	private static final int WORLD_HEIGHT = CAMERA_HEIGHT*2;
 	
-	public VirtualControlScheme(Hero hero, Scene scene, Engine engine, TextureRegion base, TextureRegion knob) {
+	public VirtualControlScheme(Hero hero, Scene scene, Engine engine, TextureRegion base, TextureRegion knob, TiledTextureRegion button) {
 		mHero = hero;
 		mScene = scene;
 		mEngine = engine;
 		mBase = base;
 		mKnob = knob;
+		mButton = button;
 		initOnScreenControls();
 	}
 
@@ -91,6 +97,22 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	
 	void initOnScreenControls() {
+			
+		buttonTile = new TiledSprite(CAMERA_WIDTH - 75, CAMERA_HEIGHT - 75, mButton){
+		       
+            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+                   
+                    if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            this.setCurrentTileIndex(1);                                   
+                    }
+                    else if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP) {
+                            this.setCurrentTileIndex(0);
+
+                    }
+                return true;
+            }
+		};
+		
 		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
@@ -103,14 +125,24 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 				/* Nothing. */
 			}
 		});
+		
+		
+		
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		analogOnScreenControl.getControlBase().setScale(0.75f);
 		analogOnScreenControl.getControlKnob().setScale(0.75f);
 		analogOnScreenControl.refreshControlKnobPosition();
+		
+		buttonTile.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		buttonTile.setAlpha(.5f);
+		
 
 		this.mScene.setChildScene(analogOnScreenControl);
+		analogOnScreenControl.attachChild(buttonTile);
+		
+		
 	}
 
 }
