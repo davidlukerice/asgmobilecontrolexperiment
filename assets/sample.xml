@@ -35,9 +35,9 @@ TODO:
 		<width>4</width>
 	</ground>
 	<ground>
-		<pos_x>12</pos_x>
+		<pos_x>11</pos_x>
 		<pos_y>29</pos_y>
-		<width>2</width>
+		<width>1</width>
 	</ground>
 	<!--width and height default to 1 if not provided--><ground>
 		<pos_x>10</pos_x>
@@ -104,13 +104,14 @@ TODO:
 		<pos_y>3</pos_y>
 	</ground>
 	<ground>
-		<pos_x>1</pos_x>
-		<pos_y>0</pos_y>
+		<pos_x>2</pos_x>
+		<pos_y>2</pos_y>
 	</ground>
 	<ground>
-		<pos_x>2</pos_x>
-		<pos_y>1</pos_y>
+		<pos_x>5</pos_x>
+		<pos_y>3</pos_y>
 	</ground>
+	
 	<coin>
 		<pos_x>9</pos_x>
 		<pos_y>22</pos_y>
