@@ -26,6 +26,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.hardware.SensorManager;
@@ -58,6 +60,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	private BitmapTextureAtlas mOnScreenButtonTexture;
 	private TextureRegion mOnScreenButtonBaseTextureRegion;	
 	private TextureRegion mOnScreenButton;
+	private TiledTextureRegion mButton;
 
 	private float mHeroInitPosX;
 	private float mHeroInitPosY;
@@ -227,6 +230,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mOnScreenButtonBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_button_base.png", 0, 0);
 		this.mOnScreenButton = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenButtonTexture, this, "onscreen_control_knob.png", 0, 0);
+		this.mButton = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mOnScreenButtonTexture, this, "button_tile.png", 0, 0, 2, 1);
 		
 		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture);
 
@@ -248,7 +252,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
 				break;
 			case VIRTUAL: 
-				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine, mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion);
+				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine, mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion, mButton);
 				break;
 			case TILT:   
 				mControls= new TiltControlScheme(mHero);
