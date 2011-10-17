@@ -124,10 +124,9 @@ public class MCEGameActivity extends BaseGameActivity{
 		mPhysicsWorld.setContactListener(new MCEContactListener());
 		
 		this.mScene = new Scene();
-		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setBackground(new ColorBackground(0.43137f, 0.67843f, 1.000f));
 
 		createWorldBoundaries();
-
 
 		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldData.getWidth(), 0, mWorldData.getHeight());
 		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
@@ -175,6 +174,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				mHeroInitPosY=entity.getPosY();
 				break;
 			case GROUND_ENTITY:
+				//TODO: Load specific type of ground (normal, left, right, top)
 				add_ground(entity.getPosX(),entity.getPosY(),entity.getWidth(),entity.getHeight());
 				break;
 			case COIN_ENTITY:
