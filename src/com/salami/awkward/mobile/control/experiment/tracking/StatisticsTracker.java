@@ -20,15 +20,7 @@ public class StatisticsTracker {
 			stats = new StatisticsTracker();
 		return stats;
 	}
-	
-	private StatisticsTracker(){
-		currentLevel=Level.NONE;
-		coinsGathered = new ArrayList<Integer>();
-		numDeaths=0;
-		numGoodCoins=0;
-		numBadCoins=0;
-	}
-	
+		
 	public enum Level{
 		NONE,		//useful at start and finish of game
 		COLLECTION,
@@ -43,6 +35,14 @@ public class StatisticsTracker {
 	private int numGoodCoins;
 	private int numBadCoins;
 	private int numDeaths;
+	
+	private StatisticsTracker(){
+		currentLevel=Level.NONE;
+		coinsGathered = new ArrayList<Integer>();
+		numDeaths=0;
+		numGoodCoins=0;
+		numBadCoins=0;
+	}
 	
 	public void addCoin(int GUID, boolean isGood) {
 		coinsGathered.add(GUID);

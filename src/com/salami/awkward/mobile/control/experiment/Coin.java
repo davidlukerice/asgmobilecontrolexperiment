@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 
 /*
  * Wrapper around body with a display image.
@@ -29,14 +30,16 @@ public class Coin extends AnimatedSprite implements Entity{
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
-	private Body mBody;
 	
+	private Body mBody;
+	private int guid;
+	private boolean isGood;
 	
 	/**
 	 * create_Coin using default x and y positions
 	 */
-	public static Coin create_coin(BaseGameActivity activity, PhysicsWorld world) {
-		return create_coin(activity,world,START_X_POSITION,START_Y_POSITION);
+	public static Coin create_coin(BaseGameActivity activity, PhysicsWorld world, int guid) {
+		return create_coin(activity,world,START_X_POSITION,START_Y_POSITION, guid);
 	}
 	
 	
@@ -48,18 +51,23 @@ public class Coin extends AnimatedSprite implements Entity{
 	 * @param yPosition
 	 * @return
 	 */
-	public static Coin create_coin(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition) {
+	public static Coin create_coin(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int guid) {
 		//Make sure everything is loaded
 		onLoadResources(activity);
-		return new Coin(world,xPosition, yPosition);
+		return new Coin(world,xPosition, yPosition, guid);
 	}
 	
 	/**
 	 * Creates the Coin. Called from create_coin.
 	 * @param world
 	 */
-	private Coin(PhysicsWorld world,float xPosition, float yPosition){
+	private Coin(PhysicsWorld world,float xPosition, float yPosition, int guid){
 		super(xPosition, yPosition, mCoinTextureRegion);
+		this.guid=guid;
+		
+		//initializing this to true until someone passes it in so onCollide
+		//won't crash the stats tracker when physics gets set up.
+		this.isGood=true;  
 		
 //		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 //		objectFixtureDef.restitution=0;
@@ -101,6 +109,7 @@ public class Coin extends AnimatedSprite implements Entity{
 	public void onCollide(Fixture other, Contact contact) {
 		//TODO collides with hero
 		System.out.println("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
+		StatisticsTracker.getTracker().addCoin(guid, isGood);
 	}	
 
 	@Override
