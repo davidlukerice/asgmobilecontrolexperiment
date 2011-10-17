@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 
 /*
  * Wrapper around body with a display image.
@@ -101,6 +102,13 @@ public class Hero extends AnimatedSprite implements Entity{
 			Vector2 new_vect = new Vector2(mBody.getLinearVelocity().x, JUMP_VECTOR.y);
 			mBody.setLinearVelocity(new_vect);
 		}	
+	}
+	
+	/**
+	 * This should be called when the hero dies
+	 */
+	public void onDeath() {
+		StatisticsTracker.getTracker().incrementDeathCount();
 	}
 	
 	/**

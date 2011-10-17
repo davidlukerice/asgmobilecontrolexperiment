@@ -35,6 +35,7 @@ public class LevelParser {
     
     private String mPath;
     private Context mContext;
+    private int nextGUID=0;
     
     //These are class variables so i can access them in callbacks
     private float mParsedWorldWidth; 
@@ -170,6 +171,8 @@ public class LevelParser {
 			
 			@Override
             public void end() {
+				mCurrentEntity.setGUID(nextGUID);
+				nextGUID++;
                 mEntities.add(mCurrentEntity);
             }
         });
@@ -194,7 +197,7 @@ public class LevelParser {
 				mCurrentEntity.setGood(Boolean.parseBoolean(body));
 			}
     	});
-    	
+    	    	
     	try {
             Xml.parse(this.loadFile(), Xml.Encoding.UTF_8, 
             root.getContentHandler());

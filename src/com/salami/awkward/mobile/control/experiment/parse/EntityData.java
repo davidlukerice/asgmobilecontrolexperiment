@@ -8,6 +8,7 @@ public class EntityData {
 	private float posY;
 	private int width;
 	private int height;
+	private int guid;
 	private boolean isGood;
 	private boolean widthDefined;
 	private boolean heightDefined;
@@ -79,6 +80,12 @@ public class EntityData {
 	}
 	public void setHeightDefined(boolean heightDefined) {
 		this.heightDefined = heightDefined;
+	}
+	public int getGUID() {
+		return guid;
+	}
+	public void setGUID(int guid) {
+		this.guid = guid;
 	}
 
 
