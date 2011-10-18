@@ -91,27 +91,24 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		// TODO Auto-generated method stub
+		
+			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				buttonTile.setCurrentTileIndex(1);
+				mHero.jump();
+				return true;
+        	}
+			else if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP) {
+				buttonTile.setCurrentTileIndex(0);
+				return false;
+        	}
+		
 		return false;
 	}
 	
 	
 	void initOnScreenControls() {
 			
-		buttonTile = new TiledSprite(CAMERA_WIDTH - 75, CAMERA_HEIGHT - 75, mButton){
-		       
-            public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-                   
-                    if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                            this.setCurrentTileIndex(1);                                   
-                    }
-                    else if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP) {
-                            this.setCurrentTileIndex(0);
-
-                    }
-                return true;
-            }
-		};
+		buttonTile = new TiledSprite(CAMERA_WIDTH - 75, CAMERA_HEIGHT - 75, mButton);
 		
 		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
