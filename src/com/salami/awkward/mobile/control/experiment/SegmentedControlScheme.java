@@ -1,13 +1,10 @@
 package com.salami.awkward.mobile.control.experiment;
 
-import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.engine.camera.Camera;
-
-import android.content.Context;
 
 
 public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchListener{

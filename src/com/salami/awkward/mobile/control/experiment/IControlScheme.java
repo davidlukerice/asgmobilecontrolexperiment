@@ -4,8 +4,6 @@ import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
-import android.content.Context;
-
 public interface IControlScheme extends IUpdateHandler{
 	enum ControlType{
 		TILT, 
