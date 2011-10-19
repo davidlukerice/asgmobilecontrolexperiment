@@ -27,9 +27,10 @@ public class StatisticsTracker {
 		ACCURACY,
 		DEXTERITY
 	}
+
 	
 	private Level currentLevel;
-	
+
 	private long levelStartTime;
 	private List<Integer> coinsGathered;//List of GUIDs for coins acquired
 	private int numGoodCoins;
@@ -69,15 +70,16 @@ public class StatisticsTracker {
 	}
 	
 
-	public void transitionToLevel(Level level){
-		if(currentLevel != Level.NONE) {
-			sendData();
-		}
-		
+	public void beginTracking(Level level){
 		currentLevel=level;
 		resetData();
 	}
 	
+	public void finishTracking(){
+		displayData();
+		sendData();
+	}
+
 	private void resetData(){
 		levelStartTime= System.currentTimeMillis();
 		coinsGathered.clear();
@@ -86,11 +88,19 @@ public class StatisticsTracker {
 		numBadCoins=0;
 	}
 		
+	
+	
 	//TODO
 	//Display data or send it to the server or something.
-	public void sendData(){
+	private void displayData(){
+		
+		
+	}
+	
+	private void sendData(){
 		long duration = System.currentTimeMillis()-levelStartTime;
 	}
+
 	
 	
 }

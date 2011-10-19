@@ -1,8 +1,5 @@
 package com.salami.awkward.mobile.control.experiment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -19,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 
 /*
