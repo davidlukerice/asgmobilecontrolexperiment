@@ -21,6 +21,7 @@ import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -51,7 +52,9 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	private TextureRegion mBase;
 	private TextureRegion mKnob;	
+	private TextureRegion mButtonBase;
 	private TiledTextureRegion mButton;
+	private ITouchArea mTouch;
 	
 	private TiledSprite buttonTile;
 	
@@ -91,24 +94,30 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		if (pSceneTouchEvent.getX() >= 285 + mEngine.getCamera().getMinX() && pSceneTouchEvent.getY() >= 165 + mEngine.getCamera().getMinY()){
 		
 			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 				buttonTile.setCurrentTileIndex(1);
 				mHero.jump();
 				return true;
-        	}
+			}
+		
 			else if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP) {
 				buttonTile.setCurrentTileIndex(0);
 				return false;
-        	}
+			}
 		
-		return false;
+		}
+
+	return false;
+	
 	}
 	
 	
 	void initOnScreenControls() {
 			
-		buttonTile = new TiledSprite(CAMERA_WIDTH - 75, CAMERA_HEIGHT - 75, mButton);
+		buttonTile = new TiledSprite(285, 165, mButton);
+		mTouch = buttonTile;
 		
 		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
@@ -121,9 +130,7 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
 				/* Nothing. */
 			}
-		});
-		
-		
+		});	
 		
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
@@ -133,12 +140,11 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 		analogOnScreenControl.refreshControlKnobPosition();
 		
 		buttonTile.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		buttonTile.setAlpha(.5f);
+		//buttonTile.setAlpha(.5f);
 		
 
 		this.mScene.setChildScene(analogOnScreenControl);
 		analogOnScreenControl.attachChild(buttonTile);
-		
 		
 	}
 
