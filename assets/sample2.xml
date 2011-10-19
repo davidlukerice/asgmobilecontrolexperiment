@@ -1,0 +1,26 @@
+<world>
+	<width>87</width>
+	<height>43</height>
+	<hero>
+		<pos_x>9</pos_x>
+		<pos_y>28</pos_y>
+	</hero>
+	<ground>
+		<pos_x>0</pos_x>
+		<pos_y>42</pos_y>
+		<width>143</width>
+	</ground>
+	<ground>
+		<pos_x>0</pos_x>
+		<pos_y>42</pos_y>
+
+	</ground>
+	<ground>
+		<pos_x>11</pos_x>
+		<pos_y>41</pos_y>
+	</ground>
+	<ground>
+		<pos_x>3</pos_x>
+		<pos_y>41</pos_y>
+	</ground>
+</world>

@@ -93,11 +93,15 @@ public class Hero extends AnimatedSprite implements Entity{
 	}
 	
 	public void jump() {
-		if (mBody.getLinearVelocity().y<0.01 && !isJumping) {
+		if (isOnGround()) {
 			isJumping = true;
 			Vector2 new_vect = new Vector2(mBody.getLinearVelocity().x, JUMP_VECTOR.y);
 			mBody.setLinearVelocity(new_vect);
 		}	
+	}
+	
+	public boolean isOnGround(){
+		return mBody.getLinearVelocity().y<0.01 && !isJumping;
 	}
 	
 	/**
