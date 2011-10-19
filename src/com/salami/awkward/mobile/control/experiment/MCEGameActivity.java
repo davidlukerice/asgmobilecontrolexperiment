@@ -1,14 +1,8 @@
 package com.salami.awkward.mobile.control.experiment;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.BoundCamera;
-import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.SmoothCamera;
-import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -26,7 +20,6 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
@@ -61,9 +54,6 @@ public class MCEGameActivity extends BaseGameActivity{
 	private TextureRegion mOnScreenButtonBaseTextureRegion;	
 	private TextureRegion mOnScreenButton;
 	private TiledTextureRegion mButton;
-
-	private float mHeroInitPosX;
-	private float mHeroInitPosY;
 	
 	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
@@ -148,7 +138,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		// remove when xml levels are ready?
 		float width = mWorldData.getWidth();
 		float height = mWorldData.getHeight();
-		final Shape ground = new Rectangle(0, height - 2, width, 2);
+		//final Shape ground = new Rectangle(0, height - 2, width, 2);
 		final Shape roof = new Rectangle(0, 0, width, 2);
 		final Shape left = new Rectangle(0, 0, 2, height);
 		final Shape right = new Rectangle(width - 2, 0, 2, height);
@@ -173,8 +163,6 @@ public class MCEGameActivity extends BaseGameActivity{
 			switch(entity.getType()){
 			case HERO_ENTITY:
 				add_hero(entity.getPosX(),entity.getPosY());
-				mHeroInitPosX=entity.getPosX();
-				mHeroInitPosY=entity.getPosY();
 				break;
 			case GROUND_ENTITY:
 				//TODO: Load specific type of ground (normal, left, right, top)
@@ -268,7 +256,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
 		
-		StatisticsTracker.getTracker().transitionToLevel(Level.COLLECTION);
+		StatisticsTracker.getTracker().beginTracking(Level.COLLECTION);
 		
 	}
 	
