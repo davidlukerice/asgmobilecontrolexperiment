@@ -112,7 +112,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	public Scene onLoadScene() {
 		//parse world data
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("");
-		mWorldData =  new LevelParser("sample2.xml",this).parse();
+		mWorldData =  new LevelParser("sample.xml",this).parse();
 		
 		//Initialize world
 		this.mEngine.registerUpdateHandler(new FPSLogger());
@@ -194,7 +194,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 	@Override
 	public Engine onLoadEngine() {
-		final SmoothCamera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 200,200,1);
+		final SmoothCamera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 500,500,1);
 		
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		final Engine engine = new Engine(engineOptions);

@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
@@ -70,7 +71,7 @@ public class Hero extends AnimatedSprite implements Entity{
 		mBody = PhysicsFactory.createBoxBody(world, this, BodyType.DynamicBody, objectFixtureDef);
 		mBody.setFixedRotation(true);
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
-		
+
 		this.animate(new long[]{200,200}, 0, 1, true);
 		mBody.setUserData(this);
 		//TODO: Are we going to use user data fields in animated sprites /Box2D bodies?	
@@ -146,8 +147,8 @@ public class Hero extends AnimatedSprite implements Entity{
 	@Override
 	public void onCollide(Fixture other, Contact contact)
 	{	
-		if(other.getUserData() == null || other.getUserData() instanceof Ground)
-		{			
+		if(other.getBody().getUserData() == null || other.getBody().getUserData() instanceof Ground)
+		{	
 			Vector2 normal=contact.getWorldManifold().getNormal();
 			if(normal.y != 0 ){
 				isJumping=false;
