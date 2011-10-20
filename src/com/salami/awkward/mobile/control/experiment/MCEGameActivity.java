@@ -59,6 +59,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 	
+	private float mWorldWidth;
+	private float mWorldHeight;
+
+	
 	private static final int CAMERA_WIDTH = 360;
 	private static final int CAMERA_HEIGHT = 240;
 
@@ -119,10 +123,9 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mScene = new Scene();
 		this.mScene.setBackground(new ColorBackground(0.43137f, 0.67843f, 1.000f));
 
-		createWorldBoundaries();
+		createWorldBoundaries(mWorldData.getWidth(), mWorldData.getHeight());
 
-		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldData.getWidth(), 0, mWorldData.getHeight());
-		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
+
 
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
@@ -132,13 +135,18 @@ public class MCEGameActivity extends BaseGameActivity{
 		return this.mScene;
 	}
 	
-	private void createWorldBoundaries() {
+	private void createWorldBoundaries(float width, float height) {
+		mWorldWidth = width;
+		mWorldHeight = height;
+		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldWidth, 0, mWorldHeight);
+		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
 		//hard-coded walls
 		// TODO TODO TODO TODO TODO TODO
 		// remove when xml levels are ready?
+		/*
 		float width = mWorldData.getWidth();
 		float height = mWorldData.getHeight();
-		//final Shape ground = new Rectangle(0, height - 2, width, 2);
+		final Shape ground = new Rectangle(0, height - 2, width, 2);
 		final Shape roof = new Rectangle(0, 0, width, 2);
 		final Shape left = new Rectangle(0, 0, 2, height);
 		final Shape right = new Rectangle(width - 2, 0, 2, height);
@@ -154,7 +162,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		//this.mScene.attachChild(ground);
 		this.mScene.attachChild(roof);
 		this.mScene.attachChild(left);
-		this.mScene.attachChild(right);
+		this.mScene.attachChild(right);*/
 		
 	}
 	
@@ -230,7 +238,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		createWorldObjects();
 		
 		mEngine.getCamera().setChaseEntity(mHero);
-		System.out.println("SET CENTER");
 		((SmoothCamera)mEngine.getCamera()).setCenterDirect(mHero.getX(), mHero.getY());
 
 		//Create control scheme
