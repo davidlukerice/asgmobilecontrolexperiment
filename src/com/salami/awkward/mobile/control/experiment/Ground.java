@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -97,6 +98,8 @@ public class Ground extends AnimatedSprite implements Entity{
 		ps.setAsBox(TILE_WIDTH / pxToM / 2 + 0.01f,TILE_HEIGHT / pxToM / 2 - 0.01f);
 		sideFixtureDef.shape=ps;
 		mBody.createFixture(sideFixtureDef);
+		Filter coinFilter;
+		mBody.getFixtureList().get(0).setFilterData(new Filter());
 				
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
