@@ -1,7 +1,8 @@
-<!--This implements (the first half of) LevelDesign_r1.png. It's the same as the level design
-we made in the meeting, except I offscreened the level boundaries and cropped
-whitespace at the top and bottom.  There are some playability/difficulty issues
-that'll require tweaking jump speed, run speed, and/or the level.
+<!--This implements (the platforms for) LevelDesign_r2.png. It's similar to the 
+level design  we made in the meeting. I offscreened the level boundaries and cropped
+whitespace at the top and bottom.  I also moved some platforms around for playability.
+There are some playability/difficulty issues that'll require tweaking jump speed, run 
+speed, and/or the level.
 -->
 <world>
 	<width>85</width>
@@ -90,15 +91,24 @@ that'll require tweaking jump speed, run speed, and/or the level.
 	
 	<!--Floors after gap-->
 	<ground>
-		<pos_x>46</pos_x>
-		<pos_y>14</pos_y>
+		<pos_x>48</pos_x>
+		<pos_y>12</pos_y>
 		<width>2</width>
+		<height>4</height>
+	</ground>
+	<ground>
+		<pos_x>48</pos_x>
+		<pos_y>16</pos_y>
+		<width>39</width>
+	</ground>
+	<ground>
+		<pos_x>50</pos_x>
+		<pos_y>14</pos_y>
 		<height>2</height>
 	</ground>
 	<ground>
-		<pos_x>46</pos_x>
-		<pos_y>16</pos_y>
-		<width>39</width>
+		<pos_x>54</pos_x>
+		<pos_y>8</pos_y>
 	</ground>
 	<ground>
 		<pos_x>77</pos_x>
@@ -106,13 +116,65 @@ that'll require tweaking jump speed, run speed, and/or the level.
 		<width>8</width>
 	</ground>
 	<ground>
-		<pos_x>83</pos_x>
+		<pos_x>81</pos_x>
 		<pos_y>13</pos_y>
-		<width>2</width>
+		<width>4</width>
 		<height>2</height>
-	</ground>
+	</ground>	
 	
 	<!--Platforms after gap-->
+	<ground>
+		<pos_x>45</pos_x>
+		<pos_y>8</pos_y>
+		<width>4</width>
+	</ground>
+	<ground>
+		<pos_x>53</pos_x>
+		<pos_y>13</pos_y>
+		<width>5</width>
+	</ground>
+	<ground>
+		<pos_x>59</pos_x>
+		<pos_y>9</pos_y>
+		<width>2</width>
+	</ground>
+	<ground>
+		<pos_x>60</pos_x>
+		<pos_y>10</pos_y>
+		<width>5</width>
+		<height>3</height>
+	</ground>
+	<ground>
+		<pos_x>62</pos_x>
+		<pos_y>6</pos_y>
+		<width>4</width>
+	</ground>
+	<ground>
+		<pos_x>65</pos_x>
+		<pos_y>5</pos_y>
+		<width>1</width>
+	</ground>
+	<ground>
+		<pos_x>70</pos_x>
+		<pos_y>11</pos_y>
+		<width>6</width>
+	</ground>
+	<ground>
+		<pos_x>76</pos_x>
+		<pos_y>5</pos_y>
+		<width>1</width>
+	</ground>
+	<ground>
+		<pos_x>70</pos_x>
+		<pos_y>9</pos_y>
+		<width>3</width>
+	</ground>
+	<ground>
+		<pos_x>71</pos_x>
+		<pos_y>6</pos_y>
+		<width>1</width>
+	</ground>
+	
 	
 	<!--Coins-->
 </world>

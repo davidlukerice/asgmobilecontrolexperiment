@@ -28,6 +28,7 @@ public class Hero extends AnimatedSprite implements Entity{
 	static private TiledTextureRegion mHeroTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
 	private static final Vector2 JUMP_VECTOR = new Vector2(0,-8f);
+	private static float MAX_SPEED = 5f;
 	
 	//Default starting positions
 	private static final float START_X_POSITION = 1;
@@ -116,12 +117,12 @@ public class Hero extends AnimatedSprite implements Entity{
 	 * Sets the bodies x and keeps the current y
 	 * @param direction
 	 */
-	public void move(float speed) {
+	public void move(float scale) {
 		//TODO: Unify the vector
 		//TODO: Move character with the x direction
 		//TODO: Pull a vector from pool?
-		assert(Math.abs(speed)<=1);
-		Vector2 new_vect = new Vector2(5*speed,mBody.getLinearVelocity().y);
+		assert(Math.abs(scale)<=1);
+		Vector2 new_vect = new Vector2(MAX_SPEED*scale,mBody.getLinearVelocity().y);
 		mBody.setLinearVelocity(new_vect);
 	}
 	
