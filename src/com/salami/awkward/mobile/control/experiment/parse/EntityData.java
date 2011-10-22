@@ -62,6 +62,7 @@ public class EntityData {
 	}
 	public void setGood(boolean isGood) {
 		this.isGood = isGood;
+		System.out.println(this.isGood);
 	}
 	public EntityType getType() {
 		return type;
