@@ -246,10 +246,13 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		switch(type){
 			case SEGMENTED:
-				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), getCameraWidth()/2, getCameraHeight()/2);
+				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), getCameraWidth()/2,
+						getCameraHeight()/2);
 				break;
 			case VIRTUAL: 
-				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine, mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion, mButton);
+				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine,
+						mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion,
+						mButton, getCameraWidth(), getCameraHeight());
 				break;
 			case TILT:   
 				mControls= new TiltControlScheme(mHero);
