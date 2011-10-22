@@ -24,6 +24,7 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.hardware.SensorManager;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -63,9 +64,9 @@ public class MCEGameActivity extends BaseGameActivity{
 	private float mWorldHeight;
 
 	
-	private static final int CAMERA_WIDTH = 360;
-	private static final int CAMERA_HEIGHT = 240;
-
+	
+	private static final int CAMERA_HEIGHT = 320;
+	//private int mCameraWidth; //calc'd from display metrics
 	
 	/*@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	// Loading Callback
 	// ===========================================================
 	
-	public Scene onLoadScene() {
+	public Scene onLoadScene() {		
 		//parse world data
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("");
 		mWorldData =  new LevelParser("level.xml",this).parse();
@@ -194,9 +195,9 @@ public class MCEGameActivity extends BaseGameActivity{
 
 	@Override
 	public Engine onLoadEngine() {
-		final SmoothCamera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 500,500,1);
+		final SmoothCamera camera = new SmoothCamera(0, 0, getCameraWidth(), getCameraHeight(), 500,500,1);
 		
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(getCameraWidth(),getCameraHeight()), camera);
 		final Engine engine = new Engine(engineOptions);
 
 		
@@ -244,7 +245,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		ControlType type = (ControlType) this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme");
 		switch(type){
 			case SEGMENTED:
-				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), CAMERA_WIDTH/2, CAMERA_HEIGHT/2);
+				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), getCameraWidth()/2, getCameraHeight()/2);
 				break;
 			case VIRTUAL: 
 				mControls= new VirtualControlScheme(mHero, mScene, this.mEngine, mOnScreenControlBaseTextureRegion, mOnScreenControlKnobTextureRegion, mButton);
@@ -287,5 +288,17 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private void add_coin(float posX, float posY, int width, int height, int guid){
 		this.mScene.attachChild(Coin.create_coin(this, mPhysicsWorld, posX, posY,guid));
+	}
+	
+	//wrappers around width/height because I want to be able to change which 
+	//one is a constant without breaking naming conventions
+	private int getCameraWidth(){
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		float res = ( (float) metrics.widthPixels/ metrics.heightPixels)*getCameraHeight();
+		return (int) res;
+	}
+	private int getCameraHeight(){
+		return CAMERA_HEIGHT;
 	}
 }
