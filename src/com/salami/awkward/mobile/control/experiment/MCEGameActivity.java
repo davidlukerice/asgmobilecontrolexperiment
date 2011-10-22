@@ -112,7 +112,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	public Scene onLoadScene() {
 		//parse world data
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("");
-		mWorldData =  new LevelParser("sample.xml",this).parse();
+		mWorldData =  new LevelParser("level.xml",this).parse();
 		
 		//Initialize world
 		this.mEngine.registerUpdateHandler(new FPSLogger());
