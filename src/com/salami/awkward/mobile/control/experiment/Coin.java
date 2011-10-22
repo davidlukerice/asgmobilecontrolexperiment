@@ -111,7 +111,7 @@ public class Coin extends AnimatedSprite implements Entity{
 	public void onCollide(Fixture other, Contact contact) {
 		//TODO collides with hero
 		System.out.println("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
-		StatisticsTracker.getTracker().addCoin(guid, isGood);
+		StatisticsTracker.getTracker().addCoin(mBody.getPosition(), isGood);
 	}	
 
 	@Override
