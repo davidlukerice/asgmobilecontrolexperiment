@@ -657,3 +657,5 @@ bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$13.class
 bin/com/salami/awkward/mobile/control/experiment/parse/LevelParser$14.class
 bin/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker.class
 bin/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker$Level.class
+bin/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker$Goal.class
+bin/com/salami/awkward/mobile/control/experiment/tracking/CoinData.class
