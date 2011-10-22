@@ -4,6 +4,9 @@ package com.salami.awkward.mobile.control.experiment.tracking;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Vector2;
+import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+
 /**
  * Statistics tracker that gathers data from goals that will be communicated back to the server
  * somehow. This class is a singleton (subject to change).  The idea is that it's reused for
@@ -21,32 +24,32 @@ public class StatisticsTracker {
 		return stats;
 	}
 		
-	public enum Level{
-		NONE,		//useful at start and finish of game
+	public enum Goal{
 		COLLECTION,
 		ACCURACY,
 		DEXTERITY
 	}
-
 	
-	private Level currentLevel;
+	private static final boolean INTERVIEW_MODE = false;
+	
+	private Goal currentGoal;
 
-	private long levelStartTime;
-	private List<Integer> coinsGathered;//List of GUIDs for coins acquired
+	private long goalStartTime;
+	private List<CoinData> coinsGathered;//List of stats for coins acquired
 	private int numGoodCoins;
 	private int numBadCoins;
 	private int numDeaths;
+	private ControlType mControlType;
 	
 	private StatisticsTracker(){
-		currentLevel=Level.NONE;
-		coinsGathered = new ArrayList<Integer>();
+		coinsGathered = new ArrayList<CoinData>();
 		numDeaths=0;
 		numGoodCoins=0;
 		numBadCoins=0;
 	}
 	
-	public void addCoin(int GUID, boolean isGood) {
-		coinsGathered.add(GUID);
+	public void addCoin(Vector2 position, boolean isGood) {
+		coinsGathered.add(new CoinData(position,isGood, System.currentTimeMillis()-goalStartTime));
 		if(isGood)
 			numGoodCoins++;
 		else
@@ -69,27 +72,24 @@ public class StatisticsTracker {
 		return numBadCoins;
 	}
 	
-
-	public void beginTracking(Level level){
-		currentLevel=level;
+	public void beginTracking(Goal goal){
+		currentGoal=goal;
 		resetData();
+	}
+	
+	private void resetData(){
+		goalStartTime= System.currentTimeMillis();
+		coinsGathered.clear();
+		numDeaths=0;
+		numGoodCoins=0;
+		numBadCoins=0;
 	}
 	
 	public void finishTracking(){
 		displayData();
 		sendData();
 	}
-
-	private void resetData(){
-		levelStartTime= System.currentTimeMillis();
-		coinsGathered.clear();
-		numDeaths=0;
-		numGoodCoins=0;
-		numBadCoins=0;
-	}
 		
-	
-	
 	//TODO
 	//Display data or send it to the server or something.
 	private void displayData(){
@@ -98,7 +98,11 @@ public class StatisticsTracker {
 	}
 	
 	private void sendData(){
-		long duration = System.currentTimeMillis()-levelStartTime;
+		long duration = System.currentTimeMillis()-goalStartTime;
+	}
+
+	public void setControlMode(ControlType type) {
+		mControlType = type;
 	}
 
 	

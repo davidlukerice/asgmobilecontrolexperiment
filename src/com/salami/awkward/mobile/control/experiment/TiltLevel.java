@@ -153,10 +153,7 @@ public class TiltLevel extends BaseGameActivity implements IAccelerometerListene
 		//Add hero
 		add_hero(0.0f, 0.0f);
 		
-		//Add some ground pieces
-		//Bug: Doesn't load the texture correctly
-		mGround = new ArrayList<Ground>();
-		mGround.add(Ground.create_ground(this, mPhysicsWorld, 100.0f, 100.0f));
+
 	}
 
 	@Override

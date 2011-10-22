@@ -37,7 +37,7 @@ import com.salami.awkward.mobile.control.experiment.parse.EntityData;
 import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
 import com.salami.awkward.mobile.control.experiment.parse.WorldData;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
-import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.Level;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.Goal;
 
 public class MCEGameActivity extends BaseGameActivity{
 
@@ -243,6 +243,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 		//Create control scheme
 		ControlType type = (ControlType) this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme");
+		
 		switch(type){
 			case SEGMENTED:
 				mControls= new SegmentedControlScheme(mHero, mEngine.getCamera(), getCameraWidth()/2, getCameraHeight()/2);
@@ -264,7 +265,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
 		
-		StatisticsTracker.getTracker().beginTracking(Level.COLLECTION);
+		StatisticsTracker.getTracker().setControlMode(type);
+		StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
 		
 	}
 	
