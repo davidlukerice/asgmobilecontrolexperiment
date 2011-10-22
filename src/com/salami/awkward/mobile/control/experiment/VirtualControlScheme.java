@@ -30,19 +30,19 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	private TiledSprite buttonTile;
 	
-	private static final int CAMERA_WIDTH = 360;
-	private static final int CAMERA_HEIGHT = 240;
-		
-	private static final int WORLD_WIDTH = CAMERA_WIDTH*2;
-	private static final int WORLD_HEIGHT = CAMERA_HEIGHT*2;
+	private int mCameraWidth;
+	private int mCameraHeight;
 	
-	public VirtualControlScheme(Hero hero, Scene scene, Engine engine, TextureRegion base, TextureRegion knob, TiledTextureRegion button) {
+
+	public VirtualControlScheme(Hero hero, Scene scene, Engine engine, TextureRegion base, TextureRegion knob, TiledTextureRegion button, int cameraWidth, int cameraHeight) {
 		mHero = hero;
 		mScene = scene;
 		mEngine = engine;
 		mBase = base;
 		mKnob = knob;
 		mButton = button;
+		mCameraWidth=cameraWidth;
+		mCameraHeight=cameraHeight;
 		initOnScreenControls();
 	}
 
@@ -88,10 +88,10 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	void initOnScreenControls() {
 			
-		buttonTile = new TiledSprite(285, 165, mButton);
+		buttonTile = new TiledSprite(mCameraWidth-75, mCameraHeight-75, mButton);
 		mTouch = buttonTile;
 		
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
+		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				mHero.move(pValueX);
