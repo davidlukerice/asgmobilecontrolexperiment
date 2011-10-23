@@ -283,11 +283,12 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private void add_ground(float posX, float posY, int width, int height)
 	{
-		for(int i =0; i<width;i +=Ground.TILE_WIDTH){
-			for(int j=0; j<height;j += Ground.TILE_HEIGHT){
-				this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, posX+i, posY+j) );
-			}
-		}
+//		for(int i =0; i<width;i +=Ground.TILE_WIDTH){
+//			for(int j=0; j<height;j += Ground.TILE_HEIGHT){
+//				this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, posX+i, posY+j) );
+//			}
+//		}
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, posX,posY,width,height) );
 		
 	}
 	
