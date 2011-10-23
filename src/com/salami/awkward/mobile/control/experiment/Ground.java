@@ -24,9 +24,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
  * Wrapper around body with a display image.
  */
 public class Ground extends AnimatedSprite implements Entity{
-	//static so we only have one of these if there are multiple heroes
-	//TODO: Check if TiledTexture region does this for us (it probably does)
-	static private TiledTextureRegion mGroundTextureRegion;
+
+	
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
 	
 	//tile sizes
@@ -36,6 +35,7 @@ public class Ground extends AnimatedSprite implements Entity{
 	//Default starting positions
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
+	private static final float PX_TO_M =PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
 	
 	private Body mBody;
 	 
@@ -49,15 +49,7 @@ public class Ground extends AnimatedSprite implements Entity{
 	private static final float SIDE_FRICTION = 0f;
 	private static final float SIDE_RESTITUTION = 0.01f;
 	
-	
-	/**
-	 * create_hero using default x and y positions
-	 */
-	public static Ground create_hero(BaseGameActivity activity, PhysicsWorld world) {
-		return create_ground(activity,world,START_X_POSITION,START_Y_POSITION);
-	}
-	
-	
+		
 	/**
 	 * Creates a Ground 
 	 * @param activity
@@ -66,20 +58,23 @@ public class Ground extends AnimatedSprite implements Entity{
 	 * @param yPosition
 	 * @return
 	 */
-	public static Ground create_ground(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition) {
+	public static Ground create_ground(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int width, int height) {
 		//Make sure everything is loaded
 		onLoadResources(activity);
 		
-		return new Ground(world,xPosition, yPosition);
+		TiledTextureRegion displayTexture = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "ground_top_tiled.png", 0, 0,2,1);
+		displayTexture.setWidth(width/TILE_WIDTH*displayTexture.getWidth());
+		displayTexture.setHeight(height/TILE_HEIGHT*displayTexture.getHeight());
+		return new Ground(world,xPosition, yPosition,width,height,displayTexture);
 	}
 		
 	/**
 	 * Creates the ground. Called from create_ground.
 	 * @param world
 	 */
-	private Ground(PhysicsWorld world,float xPosition, float yPosition){
-		super(xPosition, yPosition, mGroundTextureRegion);
-		
+	private Ground(PhysicsWorld world,float xPosition, float yPosition, int width, int height, TiledTextureRegion displayTexture){
+		super(xPosition, yPosition, width, height, displayTexture);
+
 		//build the body and the primary fixture
 		FixtureDef topFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, TOP_FRICTION);
 		topFixtureDef.restitution=TOP_RESTITUTION;
@@ -88,35 +83,28 @@ public class Ground extends AnimatedSprite implements Entity{
 		/*
 		 * Build another fixture for the sides, since they have different physics constants
 		 */
-		float pxToM=PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
 		PolygonShape ps = new PolygonShape();
 		FixtureDef sideFixtureDef = PhysicsFactory.createFixtureDef(1,0.5f, SIDE_FRICTION);
 		sideFixtureDef.restitution=SIDE_RESTITUTION;
 		
+		
 		//the 0.01 offsets are a gross kludge so these trigger for the sides
 		//but not the top -- works better than single fixture for each edge.
-		ps.setAsBox(TILE_WIDTH / pxToM / 2 + 0.01f,TILE_HEIGHT / pxToM / 2 - 0.01f);
+		ps.setAsBox((width/PX_TO_M)*(TILE_WIDTH/PX_TO_M)/2 + 0.01f,(height/PX_TO_M)*(TILE_HEIGHT/PX_TO_M)/2 - 0.01f);
 		sideFixtureDef.shape=ps;
 		mBody.createFixture(sideFixtureDef);
-		Filter coinFilter;
-		mBody.getFixtureList().get(0).setFilterData(new Filter());
-				
+
 		world.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
 		
 		this.animate(new long[]{200,200}, 0, 1, true);
-		mBody.setUserData(this);
+		mBody.setUserData(this);		
 	}
 		
 	public static void onLoadResources(BaseGameActivity activity){
-		if (mBitmapTextureAtlas == null) {
-			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		if (mBitmapTextureAtlas == null) {			
+			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.REPEATING_BILINEAR_PREMULTIPLYALPHA);
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		}
-		
-		if (mGroundTextureRegion == null) {
-			mGroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "ground_top_tiled.png", 0, 0, 2, 1); // 64x32
-		}
-		
+		}		
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 	}
 		
