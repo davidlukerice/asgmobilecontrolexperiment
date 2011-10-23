@@ -65,6 +65,7 @@ public class Ground extends AnimatedSprite implements Entity{
 		TiledTextureRegion displayTexture = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, activity, "ground_top_tiled.png", 0, 0,2,1);
 		displayTexture.setWidth(width/TILE_WIDTH*displayTexture.getWidth());
 		displayTexture.setHeight(height/TILE_HEIGHT*displayTexture.getHeight());
+		
 		return new Ground(world,xPosition, yPosition,width,height,displayTexture);
 	}
 		
@@ -101,10 +102,9 @@ public class Ground extends AnimatedSprite implements Entity{
 	}
 		
 	public static void onLoadResources(BaseGameActivity activity){
-		if (mBitmapTextureAtlas == null) {			
-			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.REPEATING_BILINEAR_PREMULTIPLYALPHA);
-			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		}		
+		mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.REPEATING_BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+
 		activity.getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);
 	}
 		
