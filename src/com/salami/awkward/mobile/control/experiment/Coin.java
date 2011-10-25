@@ -55,8 +55,8 @@ public class Coin extends AnimatedSprite implements Entity {
 	 * @param yPosition
 	 * @return
 	 */
-	public static Coin create_coin(MCEGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int guid, boolean isGood) {
-			PhysicsWorld world, float xPosition, float yPosition, int guid) {
+	public static Coin create_coin(MCEGameActivity activity, PhysicsWorld world,float xPosition, 
+			float yPosition,int guid, boolean isGood) {
 		// Make sure everything is loaded
 		onLoadResources(activity);
 		return new Coin(activity, world,xPosition, yPosition, guid,isGood);
@@ -121,9 +121,12 @@ public class Coin extends AnimatedSprite implements Entity {
 	@Override
 	public void onCollide(Fixture other, Contact contact) {
 		// TODO collides with hero
+		System.out.println(isCollected);
 		if(!isCollected){
+
 			StatisticsTracker.getTracker().addCoin(mBody.getPosition(), isGood);
-		activity.checkFinishConditions();
+			activity.checkFinishConditions();
+			setCollected(true);
 		}
 	}
 
