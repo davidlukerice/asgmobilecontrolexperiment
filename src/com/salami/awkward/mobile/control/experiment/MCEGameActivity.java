@@ -7,18 +7,17 @@ import java.util.TimerTask;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.camera.SmoothCamera;
+import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
-import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
+import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -35,8 +34,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
 import com.salami.awkward.mobile.control.experiment.parse.EntityData;
 import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
@@ -71,6 +68,12 @@ public class MCEGameActivity extends BaseGameActivity{
 	private List<Goal> goals;
 	private int currentGoalIndex;
 	private Handler handler;
+	
+	private float mHeroX;
+	private float mHeroY;
+	
+	private ArrayList<Coin> coins;
+
 	
 	private static final int CAMERA_HEIGHT = 320;
 	//private int mCameraWidth; //calc'd from display metrics
@@ -179,6 +182,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		for(EntityData entity : mWorldData.getEntities()){
 			switch(entity.getType()){
 			case HERO_ENTITY:
+				mHeroX = entity.getPosX();
+				mHeroY = entity.getPosY();
 				add_hero(entity.getPosX(),entity.getPosY());
 				break;
 			case GROUND_ENTITY:
@@ -284,6 +289,31 @@ public class MCEGameActivity extends BaseGameActivity{
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
 		
+		mScene.registerUpdateHandler(new IUpdateHandler(){
+
+			@Override
+			public void onUpdate(float pSecondsElapsed) {
+				
+				for(Coin c: coins){
+					if(c.collidesWith(mHero) && !c.isCollected()){
+						if(c.isGood()){
+							mHero.incrementGoodCount();
+						}else{
+							mHero.incrementBadCount();
+						}
+						
+						c.setCollected(true);
+						
+						mScene.detachChild(c);
+					}
+				}
+			}
+
+			@Override
+			public void reset() {}
+			
+		});
+		
 		StatisticsTracker.getTracker().setControlMode(type);
 		StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
 		
@@ -353,7 +383,12 @@ public class MCEGameActivity extends BaseGameActivity{
 	}
 	
 	private void add_coin(float posX, float posY, int width, int height, int guid, boolean isGood){
-		this.mScene.attachChild(Coin.create_coin(this, mPhysicsWorld, posX, posY,guid, isGood));
+		if(coins == null){
+			coins = new ArrayList<Coin>();
+		}
+		Coin item = Coin.create_coin(this, mPhysicsWorld, posX, posY, guid,isGood);
+		this.mScene.attachChild(item);
+		coins.add(item);
 	}
 	
 	//wrappers around width/height because I want to be able to change which 
@@ -367,4 +402,5 @@ public class MCEGameActivity extends BaseGameActivity{
 	private int getCameraHeight(){
 		return CAMERA_HEIGHT;
 	}
+	
 }
