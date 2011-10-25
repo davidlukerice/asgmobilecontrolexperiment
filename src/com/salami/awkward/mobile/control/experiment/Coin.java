@@ -35,12 +35,13 @@ public class Coin extends AnimatedSprite implements Entity{
 	private Body mBody;
 	private int guid;
 	private boolean isGood;
+	private MCEGameActivity activity;
 	
 	/**
 	 * create_Coin using default x and y positions
 	 */
-	public static Coin create_coin(BaseGameActivity activity, PhysicsWorld world, int guid) {
-		return create_coin(activity,world,START_X_POSITION,START_Y_POSITION, guid);
+	public static Coin create_coin(MCEGameActivity activity, PhysicsWorld world, int guid, boolean isGood) {
+		return create_coin(activity,world,START_X_POSITION,START_Y_POSITION, guid, isGood);
 	}
 	
 	
@@ -52,23 +53,24 @@ public class Coin extends AnimatedSprite implements Entity{
 	 * @param yPosition
 	 * @return
 	 */
-	public static Coin create_coin(BaseGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int guid) {
+	public static Coin create_coin(MCEGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int guid, boolean isGood) {
 		//Make sure everything is loaded
 		onLoadResources(activity);
-		return new Coin(world,xPosition, yPosition, guid);
+		return new Coin(activity, world,xPosition, yPosition, guid,isGood);
 	}
 	
 	/**
 	 * Creates the Coin. Called from create_coin.
 	 * @param world
 	 */
-	private Coin(PhysicsWorld world,float xPosition, float yPosition, int guid){
+	private Coin(MCEGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int guid,boolean isGood){
 		super(xPosition, yPosition, mCoinTextureRegion);
 		this.guid=guid;
+		this.activity=activity;
 		
 		//initializing this to true until someone passes it in so onCollide
 		//won't crash the stats tracker when physics gets set up.
-		this.isGood=true;  
+		this.isGood=isGood;
 		
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		objectFixtureDef.restitution=0;
@@ -112,6 +114,7 @@ public class Coin extends AnimatedSprite implements Entity{
 		//TODO collides with hero
 		System.out.println("GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
 		StatisticsTracker.getTracker().addCoin(mBody.getPosition(), isGood);
+		activity.checkFinishConditions();
 	}	
 
 	@Override

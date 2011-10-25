@@ -1,5 +1,9 @@
 package com.salami.awkward.mobile.control.experiment;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimerTask;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.camera.SmoothCamera;
@@ -24,6 +28,7 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,8 +67,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private float mWorldWidth;
 	private float mWorldHeight;
-
-	
+	private int mTotalGoodCoins;
+	private List<Goal> goals;
+	private int currentGoalIndex;
+	private Handler handler;
 	
 	private static final int CAMERA_HEIGHT = 320;
 	//private int mCameraWidth; //calc'd from display metrics
@@ -167,7 +174,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 	}
 	
-	private void createWorldObjects() {
+	private void createWorldObjects(Goal currentGoal) {
+		mTotalGoodCoins=0;
 		for(EntityData entity : mWorldData.getEntities()){
 			switch(entity.getType()){
 			case HERO_ENTITY:
@@ -178,20 +186,22 @@ public class MCEGameActivity extends BaseGameActivity{
 				add_ground(entity.getPosX(),entity.getPosY(),entity.getWidth(),entity.getHeight());
 				break;
 			case COIN_ENTITY:
-				/*TODO implement
-				relevant entity data:
-				entity.getPosX();
-				=entity.getPosY();
-				entity.isGood();
-				*/
-				add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID());
+				if(entity.isGood()){
+					add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),entity.isGood());
+					mTotalGoodCoins++;
+				}
+				else if(currentGoal == Goal.ACCURACY)
+					add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),entity.isGood());
+				else if(currentGoal==Goal.DEXTERITY){
+					add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),true);
+					mTotalGoodCoins++;
+				}
+					
 				break;
 			}
 			
 		}
 	}
-
-
 
 	@Override
 	public Engine onLoadEngine() {
@@ -236,7 +246,13 @@ public class MCEGameActivity extends BaseGameActivity{
 	@Override
 	public void onLoadComplete() {	
 
-		createWorldObjects();
+		createWorldObjects(Goal.COLLECTION);
+		goals = new ArrayList<Goal>();
+		goals.add(Goal.COLLECTION);
+		goals.add(Goal.ACCURACY);
+		goals.add(Goal.DEXTERITY);
+		currentGoalIndex=0;
+		handler = new Handler();
 		
 		mEngine.getCamera().setChaseEntity(mHero);
 		((SmoothCamera)mEngine.getCamera()).setCenterDirect(mHero.getX(), mHero.getY());
@@ -273,6 +289,56 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 	}
 	
+	public void checkFinishConditions(){
+		if(StatisticsTracker.getTracker().getNumGoodCoins()==1)
+			transitionToNextLevel();
+	}
+	
+	private void transitionToNextLevel(){
+		StatisticsTracker stats = StatisticsTracker.getTracker();
+		stats.finishTracking();
+		
+		currentGoalIndex++;
+		if(currentGoalIndex==goals.size()){
+			currentGoalIndex=0;  //return to main screen?
+		}
+		Goal currentGoal = goals.get(currentGoalIndex);
+		resetWorldObjects(currentGoal);
+	
+		
+		stats.beginTracking(currentGoal);
+		
+	}
+	
+	private void resetWorldObjects(Goal currentGoal) {
+		emptyWorld();
+		
+		final Goal goal = currentGoal;
+	    final MCEGameActivity self = this;
+	    TimerTask task = new TimerTask(){
+	    	public void run() {
+	    		System.out.println("outer run");
+	    		handler.post(new Runnable(){
+	    			public void run() {
+	    				System.out.println("inner run");
+	    				Toast.makeText(self, goal.toString(), Toast.LENGTH_SHORT).show();
+	    			}
+	    		});
+	    	}
+	    };
+	   task.run();
+	   
+		System.out.println("xxxx");
+		mHero.resetPosition();
+	}
+
+	private void emptyWorld() {
+		//mPhysicsWorld.dispose();
+		//mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
+		
+		//mPhysicsWorld.setContactListener(new MCEContactListener());
+	}
+
 	private void add_hero(float xPos, float yPos){
 		mHero = Hero.create_hero(this, mPhysicsWorld,xPos,yPos);
 		
@@ -283,17 +349,11 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private void add_ground(float posX, float posY, int width, int height)
 	{
-//		for(int i =0; i<width;i +=Ground.TILE_WIDTH){
-//			for(int j=0; j<height;j += Ground.TILE_HEIGHT){
-//				this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, posX+i, posY+j) );
-//			}
-//		}
-		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, posX,posY,width,height) );
-		
+		this.mScene.attachChild( Ground.create_ground(this, mPhysicsWorld, posX,posY,width,height) );	
 	}
 	
-	private void add_coin(float posX, float posY, int width, int height, int guid){
-		this.mScene.attachChild(Coin.create_coin(this, mPhysicsWorld, posX, posY,guid));
+	private void add_coin(float posX, float posY, int width, int height, int guid, boolean isGood){
+		this.mScene.attachChild(Coin.create_coin(this, mPhysicsWorld, posX, posY,guid, isGood));
 	}
 	
 	//wrappers around width/height because I want to be able to change which 

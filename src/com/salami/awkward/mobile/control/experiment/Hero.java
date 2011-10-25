@@ -34,6 +34,11 @@ public class Hero extends AnimatedSprite implements Entity{
 	private static final float START_X_POSITION = 1;
 	private static final float START_Y_POSITION = 1;
 	
+	private final float mStartPosX;
+	private final float mStartPosY;
+	private boolean resetPosition;
+	
+	
 	private Body mBody;
 	private boolean isJumping;
 	
@@ -66,6 +71,9 @@ public class Hero extends AnimatedSprite implements Entity{
 	 */
 	private Hero(PhysicsWorld world,float xPosition, float yPosition){
 		super(xPosition, yPosition, mHeroTextureRegion);
+		mStartPosX=xPosition;
+		mStartPosY=yPosition;
+		resetPosition=false;
 		
 		FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		objectFixtureDef.restitution=0;
@@ -137,6 +145,11 @@ public class Hero extends AnimatedSprite implements Entity{
 	@Override
 	public void onManagedUpdate(float pSecondsElapsed){
 		super.onManagedUpdate(pSecondsElapsed);
+		if(resetPosition){
+			mBody.setTransform(mStartPosX/32,mStartPosY/32,0);
+			mBody.setLinearVelocity(0,0);
+			resetPosition=false;
+		}
 		
 	}
 	
@@ -153,6 +166,7 @@ public class Hero extends AnimatedSprite implements Entity{
 			Vector2 normal=contact.getWorldManifold().getNormal();
 			if(normal.y != 0 ){
 				isJumping=false;
+				mBody.setTransform(1, 1, 0);
 			}
 		}
 	}
@@ -161,5 +175,13 @@ public class Hero extends AnimatedSprite implements Entity{
 	public void onSeparate(Fixture other, Contact contact) {
 
 	}
+		
+	/**
+	 * Reset player position on next update
+	 */
+	public void resetPosition(){
+		resetPosition=true;
+	}
+	
 	
 }

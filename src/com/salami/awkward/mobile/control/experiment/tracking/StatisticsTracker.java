@@ -54,6 +54,11 @@ public class StatisticsTracker {
 			numGoodCoins++;
 		else
 			numBadCoins++;
+	
+	}
+	
+	public Goal getCurrentGoal(){
+		return currentGoal;
 	}
 	
 	public int getNumDeaths() {
@@ -70,6 +75,10 @@ public class StatisticsTracker {
 
 	public int getNumBadCoins() {
 		return numBadCoins;
+	}
+		
+	public void setControlMode(ControlType type) {
+		mControlType = type;
 	}
 	
 	public void beginTracking(Goal goal){
@@ -99,12 +108,5 @@ public class StatisticsTracker {
 	
 	private void sendData(){
 		long duration = System.currentTimeMillis()-goalStartTime;
-	}
-
-	public void setControlMode(ControlType type) {
-		mControlType = type;
-	}
-
-	
-	
+	}	
 }
