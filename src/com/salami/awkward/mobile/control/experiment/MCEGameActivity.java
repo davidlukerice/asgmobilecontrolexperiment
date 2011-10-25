@@ -68,12 +68,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	private List<Goal> goals;
 	private int currentGoalIndex;
 	private Handler handler;
-	
+		
+	private ArrayList<Coin> coins;
 	private float mHeroX;
 	private float mHeroY;
-	
-	private ArrayList<Coin> coins;
-
 	
 	private static final int CAMERA_HEIGHT = 320;
 	//private int mCameraWidth; //calc'd from display metrics
@@ -151,30 +149,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		mWorldHeight = height;
 		((BoundCamera) mEngine.getCamera()).setBounds(0, mWorldWidth, 0, mWorldHeight);
 		((BoundCamera) mEngine.getCamera()).setBoundsEnabled(true);
-		//hard-coded walls
-		// TODO TODO TODO TODO TODO TODO
-		// remove when xml levels are ready?
-		/*
-		float width = mWorldData.getWidth();
-		float height = mWorldData.getHeight();
-		final Shape ground = new Rectangle(0, height - 2, width, 2);
-		final Shape roof = new Rectangle(0, 0, width, 2);
-		final Shape left = new Rectangle(0, 0, 2, height);
-		final Shape right = new Rectangle(width - 2, 0, 2, height);
-
-		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
-		wallFixtureDef.restitution=0.1f;
-		
-		//PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
-		
-		//this.mScene.attachChild(ground);
-		this.mScene.attachChild(roof);
-		this.mScene.attachChild(left);
-		this.mScene.attachChild(right);*/
-		
 	}
 	
 	private void createWorldObjects(Goal currentGoal) {
@@ -301,9 +275,7 @@ public class MCEGameActivity extends BaseGameActivity{
 						}else{
 							mHero.incrementBadCount();
 						}
-						
-						c.setCollected(true);
-						
+											
 						mScene.detachChild(c);
 					}
 				}
@@ -320,7 +292,8 @@ public class MCEGameActivity extends BaseGameActivity{
 	}
 	
 	public void checkFinishConditions(){
-		if(StatisticsTracker.getTracker().getNumGoodCoins()==1)
+		System.out.println(StatisticsTracker.getTracker().getNumGoodCoins());
+		if(StatisticsTracker.getTracker().getNumGoodCoins()==mTotalGoodCoins)
 			transitionToNextLevel();
 	}
 	
@@ -358,7 +331,6 @@ public class MCEGameActivity extends BaseGameActivity{
 	    };
 	   task.run();
 	   
-		System.out.println("xxxx");
 		mHero.resetPosition();
 	}
 

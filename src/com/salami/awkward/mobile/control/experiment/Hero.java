@@ -177,7 +177,6 @@ public class Hero extends AnimatedSprite implements Entity{
 			Vector2 normal=contact.getWorldManifold().getNormal();
 			if(normal.y != 0 ){
 				isJumping=false;
-				mBody.setTransform(1, 1, 0);
 			}
 		}
 	}
