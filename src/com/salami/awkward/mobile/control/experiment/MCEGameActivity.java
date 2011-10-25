@@ -62,6 +62,9 @@ public class MCEGameActivity extends BaseGameActivity{
 	private float mWorldWidth;
 	private float mWorldHeight;
 	
+	private float mHeroX;
+	private float mHeroY;
+	
 	private ArrayList<Coin> coins;
 
 	
@@ -172,6 +175,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		for(EntityData entity : mWorldData.getEntities()){
 			switch(entity.getType()){
 			case HERO_ENTITY:
+				mHeroX = entity.getPosX();
+				mHeroY = entity.getPosY();
 				add_hero(entity.getPosX(),entity.getPosY());
 				break;
 			case GROUND_ENTITY:
@@ -273,6 +278,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
+				
 				for(Coin c: coins){
 					if(c.collidesWith(mHero) && !c.isCollected()){
 						if(c.isGood()){

@@ -36,6 +36,7 @@ public class Hero extends AnimatedSprite implements Entity{
 	
 	private Body mBody;
 	private boolean isJumping;
+	private boolean isDead;
 	
 	private int goodCoinCount;
 	private int badCoinCount;
@@ -113,7 +114,11 @@ public class Hero extends AnimatedSprite implements Entity{
 	 * This should be called when the hero dies
 	 */
 	public void onDeath() {
+		isDead = true;
+		mBody.setTransform(new Vector2(1,1), 0);
+		//this.setPosition(1, 1);
 		StatisticsTracker.getTracker().incrementDeathCount();
+		respawn();
 	}
 	
 	/**
@@ -140,6 +145,10 @@ public class Hero extends AnimatedSprite implements Entity{
 	@Override
 	public void onManagedUpdate(float pSecondsElapsed){
 		super.onManagedUpdate(pSecondsElapsed);
+		
+		if(mBody.getPosition().y > 18){
+			onDeath();
+		}
 	}
 	
 	@Override
@@ -172,4 +181,11 @@ public class Hero extends AnimatedSprite implements Entity{
 		++badCoinCount;
 	}
 	
+	public boolean isDead(){
+		return isDead;
+	}
+	
+	public void respawn(){
+		isDead = false;
+	}
 }
