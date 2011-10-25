@@ -37,6 +37,9 @@ public class Hero extends AnimatedSprite implements Entity{
 	private Body mBody;
 	private boolean isJumping;
 	
+	private int goodCoinCount;
+	private int badCoinCount;
+	
 	/**
 	 * create_hero using default x and y positions
 	 */
@@ -137,7 +140,6 @@ public class Hero extends AnimatedSprite implements Entity{
 	@Override
 	public void onManagedUpdate(float pSecondsElapsed){
 		super.onManagedUpdate(pSecondsElapsed);
-		
 	}
 	
 	@Override
@@ -160,6 +162,14 @@ public class Hero extends AnimatedSprite implements Entity{
 	@Override
 	public void onSeparate(Fixture other, Contact contact) {
 
+	}
+	
+	public void incrementGoodCount(){
+		++goodCoinCount;
+	}
+	
+	public void incrementBadCount(){
+		++badCoinCount;
 	}
 	
 }
