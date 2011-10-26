@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
+import com.salami.awkward.mobile.control.experiment.Entity.EntityType;
 import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
 import com.salami.awkward.mobile.control.experiment.parse.EntityData;
 import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
@@ -68,7 +69,9 @@ public class MCEGameActivity extends BaseGameActivity{
 	private List<Goal> goals;
 	private int currentGoalIndex;
 	private Handler handler;
+	private boolean scheduleRepopulate;
 		
+	
 	private ArrayList<Coin> coins;
 	private float mHeroX;
 	private float mHeroY;
@@ -165,26 +168,29 @@ public class MCEGameActivity extends BaseGameActivity{
 				add_ground(entity.getPosX(),entity.getPosY(),entity.getWidth(),entity.getHeight());
 				break;
 			case COIN_ENTITY:
-				if(entity.isGood()){
-					add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),entity.isGood());
-					mTotalGoodCoins++;
-				}
-				else if(currentGoal == Goal.ACCURACY)
-					add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),entity.isGood());
-				else if(currentGoal==Goal.DEXTERITY){
-					add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),true);
-					mTotalGoodCoins++;
-				}
-					
+				add_coin(entity, currentGoal);
 				break;
 			}
 			
 		}
 	}
 
+	private void add_coin(EntityData entity, Goal currentGoal) {
+		if(entity.isGood()){
+			add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),entity.isGood());
+			mTotalGoodCoins++;
+		}
+		else if(currentGoal == Goal.ACCURACY)
+			add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),entity.isGood());
+		else if(currentGoal==Goal.DEXTERITY){
+			add_coin(entity.getPosX(), entity.getPosY(), entity.getWidth(), entity.getHeight(), entity.getGUID(),true);
+			mTotalGoodCoins++;
+		}
+	}
+
 	@Override
 	public Engine onLoadEngine() {
-		final SmoothCamera camera = new SmoothCamera(0, 0, getCameraWidth(), getCameraHeight(), 500,500,1);
+		final BoundCamera camera = new BoundCamera(0, 0, getCameraWidth(), getCameraHeight());
 		
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(getCameraWidth(),getCameraHeight()), camera);
 		final Engine engine = new Engine(engineOptions);
@@ -234,7 +240,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		handler = new Handler();
 		
 		mEngine.getCamera().setChaseEntity(mHero);
-		((SmoothCamera)mEngine.getCamera()).setCenterDirect(mHero.getX(), mHero.getY());
+		//((SmoothCamera)mEngine.getCamera()).setCenterDirect(mHero.getX(), mHero.getY());
 
 		//Create control scheme
 		ControlType type = (ControlType) this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme");
@@ -268,16 +274,19 @@ public class MCEGameActivity extends BaseGameActivity{
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				
-				for(Coin c: coins){
-					if(c.collidesWith(mHero) && !c.isCollected()){
-						if(c.isGood()){
-							mHero.incrementGoodCount();
-						}else{
-							mHero.incrementBadCount();
-						}
-											
-						mScene.detachChild(c);
+				for(int i=0; i<coins.size();){
+					Coin c = coins.get(i);
+					if(c.isCollected()){											
+						eraseCoin(c);
+						coins.remove(i);
 					}
+					else{
+						i++;
+					}
+				}
+				if(scheduleRepopulate){
+					resetWorldObjects(StatisticsTracker.getTracker().getCurrentGoal());
+					scheduleRepopulate=false;
 				}
 			}
 
@@ -306,15 +315,6 @@ public class MCEGameActivity extends BaseGameActivity{
 			currentGoalIndex=0;  //return to main screen?
 		}
 		Goal currentGoal = goals.get(currentGoalIndex);
-		resetWorldObjects(currentGoal);
-	
-		
-		stats.beginTracking(currentGoal);
-		
-	}
-	
-	private void resetWorldObjects(Goal currentGoal) {
-		emptyWorld();
 		
 		final Goal goal = currentGoal;
 	    final MCEGameActivity self = this;
@@ -329,12 +329,38 @@ public class MCEGameActivity extends BaseGameActivity{
 	    		});
 	    	}
 	    };
-	   task.run();
-	   
+	    task.run();
+	
+		
+		stats.beginTracking(currentGoal);
+		scheduleRepopulate=true;
+	}
+	
+	private void resetWorldObjects(Goal currentGoal) {
+		eraseCoins();
 		mHero.resetPosition();
+		
+		System.out.println(0);
+		mTotalGoodCoins=0;
+		for(EntityData entity : mWorldData.getEntities()){
+			if(entity.getType()==EntityType.COIN_ENTITY){
+				add_coin(entity, currentGoal);
+			}
+		}
+		
+
+	}
+	
+	private void eraseCoin(Coin c){
+		mScene.detachChild(c);
+		mPhysicsWorld.destroyBody(c.getBody());
 	}
 
-	private void emptyWorld() {
+	private void eraseCoins() {
+		for(Coin c: coins){
+			eraseCoin(c);
+		}
+		coins.clear();
 		//mPhysicsWorld.dispose();
 		//mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 		
@@ -371,6 +397,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		float res = ( (float) metrics.widthPixels/ metrics.heightPixels)*getCameraHeight();
 		return (int) res;
 	}
+	
 	private int getCameraHeight(){
 		return CAMERA_HEIGHT;
 	}
