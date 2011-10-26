@@ -123,7 +123,7 @@ public class Hero extends AnimatedSprite implements Entity{
 	 */
 	public void onDeath() {
 		isDead = true;
-		mBody.setTransform(new Vector2(1,1), 0);
+		resetPosition();
 		//this.setPosition(1, 1);
 		StatisticsTracker.getTracker().incrementDeathCount();
 		respawn();
@@ -154,9 +154,7 @@ public class Hero extends AnimatedSprite implements Entity{
 	public void onManagedUpdate(float pSecondsElapsed){
 		super.onManagedUpdate(pSecondsElapsed);
 		if(resetPosition){
-			mBody.setTransform(mStartPosX/32,mStartPosY/32,0);
-			mBody.setLinearVelocity(0,0);
-			resetPosition=false;
+			resetPosition();
 		}
 		
 		if(mBody.getPosition().y > 18){
@@ -179,6 +177,15 @@ public class Hero extends AnimatedSprite implements Entity{
 				isJumping=false;
 			}
 		}
+		else if(other.getBody().getUserData() instanceof Coin)
+		{
+			Coin c =(Coin) other.getBody().getUserData();
+			if(c.isGood()){
+				incrementGoodCount();
+			}else{
+				incrementBadCount();
+			}
+		}
 	}
 
 	@Override
@@ -189,13 +196,20 @@ public class Hero extends AnimatedSprite implements Entity{
 	/**
 	 * Reset player position on next update
 	 */
-	public void resetPosition(){
+	public void schedulePositionReset(){
 		resetPosition=true;
 	}
 	
+	public void resetPosition(){
+		mBody.setTransform(mStartPosX/32,mStartPosY/32,0);
+		mBody.setLinearVelocity(0,0);
+		resetPosition=false;
+		isJumping=false;
+	}
 	
 	public void incrementGoodCount(){
 		++goodCoinCount;
+		System.out.println("yyyy");
 	}
 	
 	public void incrementBadCount(){

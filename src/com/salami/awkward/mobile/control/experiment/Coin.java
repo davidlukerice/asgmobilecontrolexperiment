@@ -24,7 +24,9 @@ public class Coin extends AnimatedSprite implements Entity {
 
 	// TODO: Check if TiledTexture region does this for us (it probably does)
 	static private TiledTextureRegion mCoinTextureRegion;
+	static private TiledTextureRegion mBadCoinTextureRegion;
 	static private BitmapTextureAtlas mBitmapTextureAtlas;
+	static private BitmapTextureAtlas mBadBitmapTextureAtlas;
 
 	// Default starting positions
 	private static final float START_X_POSITION = 1;
@@ -59,6 +61,7 @@ public class Coin extends AnimatedSprite implements Entity {
 			float yPosition,int guid, boolean isGood) {
 		// Make sure everything is loaded
 		onLoadResources(activity);
+
 		return new Coin(activity, world,xPosition, yPosition, guid,isGood);
 	}
 
@@ -68,12 +71,10 @@ public class Coin extends AnimatedSprite implements Entity {
 	 * @param world
 	 */
 	private Coin(MCEGameActivity activity, PhysicsWorld world,float xPosition, float yPosition, int guid,boolean isGood){
-		super(xPosition, yPosition, mCoinTextureRegion);
+		super(xPosition, yPosition, isGood ? mCoinTextureRegion : mBadCoinTextureRegion);
 		this.guid = guid;
 		this.activity=activity;
 
-		// initializing this to true until someone passes it in so onCollide
-		// won't crash the stats tracker when physics gets set up.
 		this.isGood=isGood;
 		this.isCollected = false;
 
@@ -95,17 +96,25 @@ public class Coin extends AnimatedSprite implements Entity {
 		if (mBitmapTextureAtlas == null) {
 			mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64,
 					TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			mBadBitmapTextureAtlas = new BitmapTextureAtlas(64, 64,
+					TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+			
 		}
 
 		if (mCoinTextureRegion == null) {
 			mCoinTextureRegion = BitmapTextureAtlasTextureRegionFactory
 					.createTiledFromAsset(mBitmapTextureAtlas, activity,
 							"collectible_good_tiled.png", 0, 0, 2, 1); // 64x32
+			mBadCoinTextureRegion = BitmapTextureAtlasTextureRegionFactory
+					.createTiledFromAsset(mBadBitmapTextureAtlas, activity,
+							"collectible_bad_tiled.png", 0, 0, 2, 1); // 64x32
 		}
 
 		activity.getEngine().getTextureManager()
 				.loadTexture(mBitmapTextureAtlas);
+		activity.getEngine().getTextureManager()
+				.loadTexture(mBadBitmapTextureAtlas);
 	}
 
 	@Override
@@ -125,8 +134,8 @@ public class Coin extends AnimatedSprite implements Entity {
 		if(!isCollected){
 
 			StatisticsTracker.getTracker().addCoin(mBody.getPosition(), isGood);
-			activity.checkFinishConditions();
 			setCollected(true);
+			activity.checkFinishConditions();
 		}
 	}
 
@@ -146,6 +155,10 @@ public class Coin extends AnimatedSprite implements Entity {
 	
 	public boolean isGood(){
 		return isGood;
+	}
+	
+	public Body getBody(){
+		return mBody;
 	}
 	
 	
