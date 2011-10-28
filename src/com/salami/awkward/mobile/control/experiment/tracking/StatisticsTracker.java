@@ -1,8 +1,22 @@
 package com.salami.awkward.mobile.control.experiment.tracking;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 
 import com.badlogic.gdx.math.Vector2;
 import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
@@ -84,6 +98,7 @@ public class StatisticsTracker {
 	public void beginTracking(Goal goal){
 		currentGoal=goal;
 		resetData();
+		
 	}
 	
 	private void resetData(){
@@ -107,6 +122,27 @@ public class StatisticsTracker {
 	}
 	
 	private void sendData(){
+		//Get encryption key from ServerValidationKey (class not placed in the repository)
+		
 		long duration = System.currentTimeMillis()-goalStartTime;
+		System.out.println("Sending data");
+		HttpParams params = new BasicHttpParams();
+		params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+		HttpClient httpClient = new DefaultHttpClient(params);
+		HttpPost httppost = new HttpPost("http://www.awkwardsalamigames.com/_calls/addRun.php");
+		
+		try {
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("id", "1"));
+			
+			HttpResponse response = httpClient.execute(httppost);
+			String responseBody = EntityUtils.toString(response.getEntity());
+			System.out.println("response: " + responseBody);
+		} catch (ClientProtocolException e) {
+			System.out.println("ERROR: ClientProtocolException: " + e);
+		} catch (IOException e) {
+			System.out.println("ERROR: IOException: " + e);
+		}
+		
 	}	
 }
