@@ -1316,3 +1316,5 @@ bin/classes/org/anddev/andengine/util/sort/InsertionSorter.class
 bin/classes/org/anddev/andengine/util/sort/Sorter.class
 project.properties
 src/com/salami/awkward/mobile/control/experiment/tracking/ServerValidationKey.java
+bin/classes/com/salami/awkward/mobile/control/experiment/tracking/ServerClient.class
+bin/classes/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker$1.class
