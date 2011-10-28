@@ -75,6 +75,7 @@ public class Hero extends AnimatedSprite implements Entity{
 	 */
 	private Hero(PhysicsWorld world,float xPosition, float yPosition){
 		super(xPosition, yPosition, mHeroTextureRegion);
+		this.setSize(30, 30);
 		mStartPosX=xPosition;
 		mStartPosY=yPosition;
 		resetPosition=false;

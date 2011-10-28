@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.BoundCamera;
+import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -190,7 +191,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 	@Override
 	public Engine onLoadEngine() {
-		final BoundCamera camera = new BoundCamera(0, 0, getCameraWidth(), getCameraHeight());
+		final Camera camera = new BoundCamera(0, 0, getCameraWidth(), getCameraHeight());
 		
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(getCameraWidth(),getCameraHeight()), camera);
 		final Engine engine = new Engine(engineOptions);
