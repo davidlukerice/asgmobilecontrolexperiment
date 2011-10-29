@@ -78,6 +78,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	private float mHeroY;
 	
 	private static final int CAMERA_HEIGHT = 320;
+	private static final boolean DEBUG_GOAL_MODE = false;
 	//private int mCameraWidth; //calc'd from display metrics
 	
 	/*@Override
@@ -303,8 +304,11 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	public void checkFinishConditions(){
 		System.out.println(StatisticsTracker.getTracker().getNumGoodCoins());
-		if(StatisticsTracker.getTracker().getNumGoodCoins()==mTotalGoodCoins)
+		if((DEBUG_GOAL_MODE && StatisticsTracker.getTracker().getNumGoodCoins() ==1) 
+			|| StatisticsTracker.getTracker().getNumGoodCoins()==mTotalGoodCoins)
+		{
 			transitionToNextLevel();
+		}
 	}
 	
 	private void transitionToNextLevel(){
