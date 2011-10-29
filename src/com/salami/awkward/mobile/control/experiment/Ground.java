@@ -44,7 +44,7 @@ public class Ground extends AnimatedSprite implements Entity{
 	//Increasing restitution makes things more bouncy, but really low 
 	//restitutions can make the player get stuck
 	private static final float TOP_FRICTION = 6f;
-	private static final float TOP_RESTITUTION = 0.1f;
+	private static final float TOP_RESTITUTION = 0f;
 	
 	private static final float SIDE_FRICTION = 0f;
 	private static final float SIDE_RESTITUTION = 0f;
