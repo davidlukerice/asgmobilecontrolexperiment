@@ -52,7 +52,7 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 	
 	@Override
 	public void reset() {
-		
+		mDirection=Direction.NONE;
 	}
 
 	@Override

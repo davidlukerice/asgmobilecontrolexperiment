@@ -80,6 +80,10 @@ public class StatisticsTracker {
 	public int getNumBadCoins() {
 		return numBadCoins;
 	}
+	
+	public ControlType getControlMode() {
+		return mControlType;
+	}
 		
 	public void setControlMode(ControlType type) {
 		mControlType = type;

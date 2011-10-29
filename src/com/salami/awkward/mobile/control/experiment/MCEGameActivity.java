@@ -27,6 +27,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -71,7 +73,6 @@ public class MCEGameActivity extends BaseGameActivity{
 	private int currentGoalIndex;
 	private Handler handler;
 	private boolean scheduleRepopulate;
-		
 	
 	private ArrayList<Coin> coins;
 	private float mHeroX;
@@ -239,7 +240,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		goals.add(Goal.ACCURACY);
 		goals.add(Goal.DEXTERITY);
 		currentGoalIndex=0;
-		handler = new Handler();
+		//handler = new Handler();
 		
 		mEngine.getCamera().setChaseEntity(mHero);
 		//((SmoothCamera)mEngine.getCamera()).setCenterDirect(mHero.getX(), mHero.getY());
@@ -298,8 +299,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		});
 		
 		StatisticsTracker.getTracker().setControlMode(type);
-		StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
-		
+		displayGoalOkBox(Goal.COLLECTION);	
 	}
 	
 	public void checkFinishConditions(){
@@ -314,30 +314,16 @@ public class MCEGameActivity extends BaseGameActivity{
 	private void transitionToNextLevel(){
 		StatisticsTracker stats = StatisticsTracker.getTracker();
 		stats.finishTracking();
-		
+		mHero.resetPosition();
 		currentGoalIndex++;
 		if(currentGoalIndex==goals.size()){
 			currentGoalIndex=0;  //return to main screen?
 		}
 		Goal currentGoal = goals.get(currentGoalIndex);
 		
-		final Goal goal = currentGoal;
-	    final MCEGameActivity self = this;
-	    TimerTask task = new TimerTask(){
-	    	public void run() {
-	    		System.out.println("outer run");
-	    		handler.post(new Runnable(){
-	    			public void run() {
-	    				System.out.println("inner run");
-	    				Toast.makeText(self, goal.toString(), Toast.LENGTH_SHORT).show();
-	    			}
-	    		});
-	    	}
-	    };
-	    task.run();
-	
+	    mControls.reset();
+		displayGoalOkBox(currentGoal);
 		
-		stats.beginTracking(currentGoal);
 		scheduleRepopulate=true;
 	}
 	
@@ -352,7 +338,6 @@ public class MCEGameActivity extends BaseGameActivity{
 				add_coin(entity, currentGoal);
 			}
 		}
-		
 
 	}
 	
@@ -405,6 +390,46 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private int getCameraHeight(){
 		return CAMERA_HEIGHT;
+	}
+	
+	public void displayGoalOkBox(final Goal goal){
+		final MCEGameActivity self = this;
+		
+		String buildMessage = goal +": ";
+		switch(goal){
+		case COLLECTION:
+			buildMessage += "Get all the coins!\n";
+			if(StatisticsTracker.getTracker().getControlMode() == ControlType.SEGMENTED) {
+				buildMessage += "\n\nSegmented controls: Touch left to go left and right to go right. Touch on both sides of the screen to jump!\n";
+			}
+			break;
+		case ACCURACY:
+			buildMessage += "Get all the green coins, but avoid red coins!\n";
+			break;
+		case DEXTERITY:
+			buildMessage += "Get all the coins as fast as you can!\n";
+			break;
+		}
+
+		
+		
+		final String message = buildMessage;
+		this.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				new AlertDialog.Builder(self)
+				.setTitle(goal.toString())
+				.setMessage(message)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) { 
+						StatisticsTracker.getTracker().beginTracking(goal);
+					}
+				})
+				.setCancelable(false)
+				.show();
+				
+			}
+		});
 	}
 	
 }
