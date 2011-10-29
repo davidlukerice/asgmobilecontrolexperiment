@@ -103,9 +103,10 @@ public class StatisticsTracker {
 		numBadCoins=0;
 	}
 	
-	public void finishTracking(){
+	public void finishTracking(boolean sendToServer){
 		displayData();
-		sendData();
+		if(sendToServer)
+			sendData();
 	}
 		
 	//TODO
