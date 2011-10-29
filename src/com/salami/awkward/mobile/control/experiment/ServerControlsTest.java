@@ -44,7 +44,7 @@ public class ServerControlsTest implements IControlScheme, IOnSceneTouchListener
 				StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
 				break;
 			case TouchEvent.ACTION_UP:
-				StatisticsTracker.getTracker().finishTracking();
+				StatisticsTracker.getTracker().finishTracking(true);
 				break;
 			default:
 				return false;

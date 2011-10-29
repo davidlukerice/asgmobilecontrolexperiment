@@ -282,8 +282,8 @@ public class MCEGameActivity extends BaseGameActivity{
 	}
 	
 	private void transitionToNextLevel(){
-		StatisticsTracker stats = StatisticsTracker.getTracker();
-		stats.finishTracking();
+		
+		finishTracking();
 		mHero.resetPosition();
 		currentGoalIndex++;
 		if(currentGoalIndex==goals.size()){
@@ -297,6 +297,32 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		scheduleRepopulate=true;
 	}
+	
+	private void finishTracking() {
+		final MCEGameActivity self = this;
+		this.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				new AlertDialog.Builder(self)
+				.setTitle("Send data to server?")
+				.setMessage("Do you want to have your data recorded? It'll be anonymous and stuff.")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) { 
+						StatisticsTracker.getTracker().finishTracking(true);
+					}
+				})
+				.setPositiveButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) { 
+						StatisticsTracker.getTracker().finishTracking(false);
+					}
+				})
+				.setCancelable(false)
+				.show();
+				
+			}
+		});
+	}
+		
 	
 	private void resetWorldObjects(Goal currentGoal) {
 		eraseCoins();
