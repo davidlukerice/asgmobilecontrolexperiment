@@ -68,6 +68,10 @@ speed, and/or the level.
 		<width>5</width>
 	</ground>
 	<ground>
+		<pos_x>21</pos_x>
+		<pos_y>10</pos_y>
+	</ground>
+	<ground>
 		<pos_x>22</pos_x>
 		<pos_y>9</pos_y>
 		<width>5</width>
@@ -132,6 +136,11 @@ speed, and/or the level.
 		<pos_x>53</pos_x>
 		<pos_y>13</pos_y>
 		<width>5</width>
+	</ground>
+	<ground>
+		<pos_x>58</pos_x>
+		<pos_y>10</pos_y>
+		<width>2</width>
 	</ground>
 	<ground>
 		<pos_x>59</pos_x>
