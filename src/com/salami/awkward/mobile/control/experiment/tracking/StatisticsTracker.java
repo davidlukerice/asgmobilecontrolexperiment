@@ -136,6 +136,11 @@ public class StatisticsTracker {
 		return ctrlScheme;
 	}
 	
+	public void beginTiming(){
+		System.out.println("begin timing");
+		goalStartTime =System.currentTimeMillis();
+	}
+	
 	public void setControlMode(ControlType type) {
 		mControlType = type;
 	}
