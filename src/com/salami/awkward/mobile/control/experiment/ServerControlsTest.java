@@ -17,13 +17,13 @@ import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.G
  */
 public class ServerControlsTest implements IControlScheme, IOnSceneTouchListener{
 
-	private Text debug_text;
+	private Hero mHero;
 	
 	/**
 	 * 
 	 * */
-	public  ServerControlsTest(){
-
+	public  ServerControlsTest(Hero hero){
+		mHero=hero;
 	}
 	
 	@Override
@@ -42,9 +42,15 @@ public class ServerControlsTest implements IControlScheme, IOnSceneTouchListener
 		
 			case TouchEvent.ACTION_DOWN:
 				StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
+				mHero.move(1);
 				break;
 			case TouchEvent.ACTION_UP:
 				StatisticsTracker.getTracker().finishTracking(true);
+				mHero.move(0);
+				mHero.jump();
+				break;
+			case TouchEvent.ACTION_MOVE:
+				mHero.move(1);
 				break;
 			default:
 				return false;
