@@ -293,7 +293,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		Goal currentGoal = goals.get(currentGoalIndex);
 		
 		finishTracking(done,currentGoal);
-		
+		StatisticsTracker.getTracker().beginTracking(currentGoal);
 		mHero.resetPosition();
 	    mControls.reset();
 		
@@ -434,7 +434,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				.setMessage(message)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) { 
-						StatisticsTracker.getTracker().beginTracking(goal);
+						StatisticsTracker.getTracker().beginTiming();
 					}
 				})
 				.setCancelable(false)
