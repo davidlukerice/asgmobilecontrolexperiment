@@ -268,9 +268,9 @@ public class MCEGameActivity extends BaseGameActivity{
 		});
 		
 		StatisticsTracker.getTracker().setControlMode(type);
-		displayGoalOkBox(Goal.COLLECTION);	
 		StatisticsTracker.getTracker().init();
-		StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
+		displayGoalOkBox(Goal.COLLECTION);	
+
 	}
 	
 	public void checkFinishConditions(){
@@ -292,14 +292,10 @@ public class MCEGameActivity extends BaseGameActivity{
 		}
 		Goal currentGoal = goals.get(currentGoalIndex);
 		
-		finishTracking(done);
+		finishTracking(done,currentGoal);
 		
 		mHero.resetPosition();
-
-		
 	    mControls.reset();
-		
-		StatisticsTracker.getTracker().beginTracking(currentGoal);
 		
 		scheduleRepopulate=true;
 	}
@@ -309,7 +305,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	 * @param exitOnCompletion if true the game exits when this is done, otherwise it 
 	 * 			continues to the next goal.
 	 */
-	private void finishTracking(final boolean exitOnCompletion) {
+	private void finishTracking(final boolean exitOnCompletion, final Goal nextGoal) {
 		final MCEGameActivity self = this;
 		this.runOnUiThread(new Runnable(){
 			@Override
@@ -323,7 +319,7 @@ public class MCEGameActivity extends BaseGameActivity{
 						if(exitOnCompletion)
 							finish();
 						else
-							displayGoalOkBox(StatisticsTracker.getTracker().getCurrentGoal());
+							displayGoalOkBox(nextGoal);
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -332,7 +328,7 @@ public class MCEGameActivity extends BaseGameActivity{
 						if(exitOnCompletion)
 							finish();
 						else
-							displayGoalOkBox(StatisticsTracker.getTracker().getCurrentGoal());
+							displayGoalOkBox(nextGoal);
 					}
 				})
 				.setCancelable(false)
@@ -438,7 +434,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				.setMessage(message)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) { 
-
+						StatisticsTracker.getTracker().beginTracking(goal);
 					}
 				})
 				.setCancelable(false)

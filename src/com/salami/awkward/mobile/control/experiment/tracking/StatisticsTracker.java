@@ -142,6 +142,7 @@ public class StatisticsTracker {
 	
 	public void beginTracking(Goal goal){
 		currentGoal=goal;
+		System.out.println("begin tracking " + currentGoal);
 		resetData();
 		
 	}
