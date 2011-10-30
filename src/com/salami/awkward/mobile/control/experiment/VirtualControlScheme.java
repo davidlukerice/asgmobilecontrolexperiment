@@ -24,9 +24,7 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	private TextureRegion mBase;
 	private TextureRegion mKnob;	
-	private TextureRegion mButtonBase;
 	private TiledTextureRegion mButton;
-	private ITouchArea mTouch;
 	
 	private TiledSprite buttonTile;
 	
@@ -88,10 +86,9 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	void initOnScreenControls() {
 			
-		buttonTile = new TiledSprite(mCameraWidth-75, mCameraHeight-75, mButton);
-		mTouch = buttonTile;
+		buttonTile = new TiledSprite(mCameraWidth-100, mCameraHeight-100, mButton);
 		
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
+		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(10, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				mHero.move(pValueX);
@@ -107,12 +104,12 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
-		analogOnScreenControl.getControlBase().setScale(0.75f);
-		analogOnScreenControl.getControlKnob().setScale(0.75f);
+		//analogOnScreenControl.getControlBase().setScale(0.75f);
+		analogOnScreenControl.getControlKnob().setAlpha(0.75f);
 		analogOnScreenControl.refreshControlKnobPosition();
 		
 		buttonTile.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		//buttonTile.setAlpha(.5f);
+		buttonTile.setScale(1.25f);
 		
 
 		this.mScene.setChildScene(analogOnScreenControl);
