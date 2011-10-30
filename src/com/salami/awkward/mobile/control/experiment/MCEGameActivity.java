@@ -284,22 +284,32 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private void transitionToNextLevel(){
 		
-		finishTracking();
-		mHero.resetPosition();
+		boolean done = false;
 		currentGoalIndex++;
 		if(currentGoalIndex==goals.size()){
 			currentGoalIndex=0;  //return to main screen?
+			done = true;
 		}
 		Goal currentGoal = goals.get(currentGoalIndex);
 		
+		finishTracking(done);
+		
+		mHero.resetPosition();
+
+		
 	    mControls.reset();
-		displayGoalOkBox(currentGoal);
+		
 		StatisticsTracker.getTracker().beginTracking(currentGoal);
 		
 		scheduleRepopulate=true;
 	}
 	
-	private void finishTracking() {
+	/**
+	 * Displays a dialog box asking the user if they want to send the data to the server
+	 * @param exitOnCompletion if true the game exits when this is done, otherwise it 
+	 * 			continues to the next goal.
+	 */
+	private void finishTracking(final boolean exitOnCompletion) {
 		final MCEGameActivity self = this;
 		this.runOnUiThread(new Runnable(){
 			@Override
@@ -310,11 +320,19 @@ public class MCEGameActivity extends BaseGameActivity{
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) { 
 						StatisticsTracker.getTracker().finishTracking(true);
+						if(exitOnCompletion)
+							finish();
+						else
+							displayGoalOkBox(StatisticsTracker.getTracker().getCurrentGoal());
 					}
 				})
-				.setPositiveButton("No", new DialogInterface.OnClickListener() {
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) { 
 						StatisticsTracker.getTracker().finishTracking(false);
+						if(exitOnCompletion)
+							finish();
+						else
+							displayGoalOkBox(StatisticsTracker.getTracker().getCurrentGoal());
 					}
 				})
 				.setCancelable(false)
