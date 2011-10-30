@@ -231,7 +231,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				mControls= new TiltControlScheme(mHero);
 				break;
 			case SERVER:
-				mControls= new ServerControlsTest();
+				mControls= new ServerControlsTest(mHero);
 				break;
 			default:
 				throw new RuntimeException("Control Scheme not implemented");
@@ -269,6 +269,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		StatisticsTracker.getTracker().setControlMode(type);
 		displayGoalOkBox(Goal.COLLECTION);	
+		StatisticsTracker.getTracker().init();
 		StatisticsTracker.getTracker().beginTracking(Goal.COLLECTION);
 	}
 	

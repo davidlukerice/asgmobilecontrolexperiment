@@ -1318,3 +1318,6 @@ project.properties
 src/com/salami/awkward/mobile/control/experiment/tracking/ServerValidationKey.java
 bin/classes/com/salami/awkward/mobile/control/experiment/tracking/ServerClient.class
 bin/classes/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker$1.class
+bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$2$2.class
+bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$3$1.class
+bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$3.class
