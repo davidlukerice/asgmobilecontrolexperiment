@@ -37,7 +37,7 @@ public class StatisticsTracker {
 		DEXTERITY
 	}
 	
-	private static final boolean INTERVIEW_MODE = false;
+	public static final boolean INTERVIEW_MODE = false;
 	
 	private Goal currentGoal;
 

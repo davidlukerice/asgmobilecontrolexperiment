@@ -49,6 +49,15 @@ public class MCEGameActivity extends BaseGameActivity{
 
 	private static final int MENU_TRACE = Menu.FIRST;
 	
+	private static final String SEND_TO_SERVER_TITLE =
+			"Can we use your data?";
+	
+	private static final String SEND_TO_SERVER_MESSAGE =
+			"Would you like to have anonymous information on your gameplay statistics sent to our server?  "  
+			+"Statistical measurements based on your data and the data of other users may be put on the web at \n"
+			+"http://awkwardsalamigames.com/mce.html";
+				
+	
 	private Scene mScene;
 	private Hero mHero;
 	
@@ -308,9 +317,9 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.runOnUiThread(new Runnable(){
 			@Override
 			public void run() {
-				new AlertDialog.Builder(self)
-				.setTitle("Send data to server?")
-				.setMessage("Do you want to have your data recorded? It'll be anonymous and stuff.")
+				AlertDialog.Builder alert = new AlertDialog.Builder(self)
+				.setTitle(SEND_TO_SERVER_TITLE)
+				.setMessage(SEND_TO_SERVER_MESSAGE)
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) { 
 						StatisticsTracker.getTracker().finishTracking(true);
@@ -321,17 +330,21 @@ public class MCEGameActivity extends BaseGameActivity{
 						}
 					}
 				})
-				.setNegativeButton("No", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) { 
-						StatisticsTracker.getTracker().finishTracking(false);
-						if(exitOnCompletion)
-							finish();
-						else
-							displayGoalOkBox(nextGoal);
-					}
-				})
-				.setCancelable(false)
-				.show();
+				.setCancelable(false);
+				
+				if(!StatisticsTracker.INTERVIEW_MODE)
+				{
+					alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) { 
+							StatisticsTracker.getTracker().finishTracking(false);
+							if(exitOnCompletion)
+								finish();
+							else
+								displayGoalOkBox(nextGoal);
+						}
+					});
+				}
+				alert.show();
 				
 			}
 		});
