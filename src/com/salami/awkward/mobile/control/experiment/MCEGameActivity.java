@@ -288,14 +288,14 @@ public class MCEGameActivity extends BaseGameActivity{
 			currentGoalIndex=0;  //return to main screen?
 			done = true;
 		}
-		Goal currentGoal = goals.get(currentGoalIndex);
+		Goal nextGoal = goals.get(currentGoalIndex);
 		
-		finishTracking(done,currentGoal);
-		StatisticsTracker.getTracker().beginTracking(currentGoal);
+		finishTracking(done,nextGoal);
+		
 		mHero.resetPosition();
 	    mControls.reset();
 		
-		scheduleRepopulate=true;
+		
 	}
 	
 	/**
@@ -316,8 +316,9 @@ public class MCEGameActivity extends BaseGameActivity{
 						StatisticsTracker.getTracker().finishTracking(true);
 						if(exitOnCompletion)
 							finish();
-						else
+						else{
 							displayGoalOkBox(nextGoal);
+						}
 					}
 				})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -432,7 +433,9 @@ public class MCEGameActivity extends BaseGameActivity{
 				.setMessage(message)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) { 
-						StatisticsTracker.getTracker().beginTiming();
+						
+							StatisticsTracker.getTracker().beginTracking(goal);
+							scheduleRepopulate=true;
 					}
 				})
 				.setCancelable(false)
