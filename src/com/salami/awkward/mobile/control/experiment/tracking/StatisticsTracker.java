@@ -166,10 +166,12 @@ public class StatisticsTracker {
 			sendData();
 	}
 		
-	//TODO
-	//Display data or send it to the server or something.
+	//TODO: probably not
 	private void displayData(){
-		
+		System.out.println( System.currentTimeMillis()-goalStartTime);
+		System.out.println(currentGoal);
+		System.out.println(numGoodCoins);
+		System.out.println(numDeaths);
 		
 	}
 	
