@@ -196,7 +196,6 @@ public class StatisticsTracker {
 		params.put("testType", "usability");
 		
 		//coinData : JSON formatted coin data
-		
 		JSONArray coin_array = new JSONArray();
 		for (CoinData data : this.coinsGathered) {
 			JSONArray arr = new JSONArray();
@@ -213,7 +212,7 @@ public class StatisticsTracker {
 		}
 		
 		String coinData = coin_array.toString();
-		System.out.println("coinData: "+coinData);
+		//System.out.println("coinData: "+coinData);
 		params.put("coinData", coinData);
 		
 		ServerClient.post("addRun.php", params, new AsyncHttpResponseHandler() {
@@ -228,7 +227,6 @@ public class StatisticsTracker {
 		        		System.out.println("Error: "+e);
 		        		currentPlayID = -1;
 		        	}
-		        	
 		        }
 		    }
 		});
