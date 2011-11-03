@@ -50,7 +50,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	private static final int MENU_TRACE = Menu.FIRST;
 	
 	private static final String SEND_TO_SERVER_TITLE =
-			"Can we use your data?";
+			"All Coins Collected!";
 	
 	private static final String SEND_TO_SERVER_MESSAGE =
 			"Would you like to have anonymous information on your gameplay statistics sent to our server?  "  
@@ -89,6 +89,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private static final int CAMERA_HEIGHT = 320;
 	private static final boolean DEBUG_GOAL_MODE = false;
+
 	//private int mCameraWidth; //calc'd from display metrics
 	
 	/*@Override

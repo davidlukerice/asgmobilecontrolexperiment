@@ -15,6 +15,9 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 		RIGHT
 	}
 	
+	private static final long AIR_TURN_WAIT_DURATION = 30;
+	private static final long JUMP_DIRECTION_CHANGE_WAIT_DURATION = 50;
+	
 	private Direction mDirection;
 	private Hero mHero;
 	private float mxBoundary;
@@ -23,6 +26,13 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 	private boolean mRightSideDown=false;
 	
 	private Camera mCamera;
+	
+	private long lastRelease;
+	private boolean inWaitForReleaseMode;
+	
+	private long lastPress;
+	
+	
 
 	/**
 	 * 
@@ -36,39 +46,75 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 		mHero =hero;
 		mxBoundary=xBoundary;
 		mCamera=camera;
+		lastRelease=0;
+		lastPress=0;
+		inWaitForReleaseMode=false;
 	}
 	
 	@Override
 	public void onUpdate(float secondsElapsed) {
+		
+		if(inWaitForReleaseMode){
+			if(System.currentTimeMillis()-lastRelease<AIR_TURN_WAIT_DURATION){
+				return;
+			}
+			else{
+				inWaitForReleaseMode=false;
+			}
+		}
+		
+		//Determine movement status from actions
+		if(mLeftSideDown&&mRightSideDown){
+			mHero.jump();
+			if(System.currentTimeMillis()-lastPress<JUMP_DIRECTION_CHANGE_WAIT_DURATION){
+				mDirection=Direction.NONE;
+			}
+		}
+		else if(mLeftSideDown)
+			mDirection = Direction.LEFT;
+		else if(mRightSideDown)
+			mDirection = Direction.RIGHT;
+		else
+			mDirection = Direction.NONE;
+		
+		
 		if(mDirection == Direction.NONE)
-			return;
-	
-		if(mDirection == Direction.LEFT)
+			mHero.move(0);
+		else if(mDirection == Direction.LEFT)
 			mHero.move(-1);
 		else
 			mHero.move(1);
+		
 		
 	}
 	
 	@Override
 	public void reset() {
-		mDirection=Direction.NONE;
+		mLeftSideDown=false;
+		mRightSideDown=false;
 	}
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		boolean isPressed=false; 
+
 		
 		switch(pSceneTouchEvent.getAction()) {
 		
 			case TouchEvent.ACTION_DOWN:
+				if(!mLeftSideDown&&!mRightSideDown){
+					lastPress=System.currentTimeMillis();
+				}
 				isPressed=true;
 				break;
 			case TouchEvent.ACTION_UP:
+				if(mLeftSideDown&&mRightSideDown){			
+					lastRelease=System.currentTimeMillis();
+					inWaitForReleaseMode=true;
+				}
 				isPressed=false;
 				break;
 			case TouchEvent.ACTION_MOVE:
-				//TODO: I'll handle this later.
 				/*FALL THROUGH FOR NOW*/
 			default:
 				return false;
@@ -79,17 +125,6 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 		else
 			mRightSideDown = isPressed;
 		
-		//Determine movement status from actions
-		//TODO move this somewhere else/simplify?
-		if(mLeftSideDown&&mRightSideDown)
-			mHero.jump();
-		else if(mLeftSideDown)
-			mDirection = Direction.LEFT;
-		else if(mRightSideDown)
-			mDirection = Direction.RIGHT;
-		else
-			mDirection = Direction.NONE;
-				
 		return true;
 	}
 
