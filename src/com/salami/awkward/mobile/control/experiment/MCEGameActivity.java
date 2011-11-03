@@ -432,9 +432,14 @@ public class MCEGameActivity extends BaseGameActivity{
 		switch(goal){
 		case COLLECTION:
 			buildMessage += "Get all the batteries!\n";
-			if(StatisticsTracker.getTracker().getControlMode() == ControlType.SEGMENTED) {
+			ControlType control = StatisticsTracker.getTracker().getControlMode();
+			if(control== ControlType.SEGMENTED) {
 				buildMessage += "\n\nSegmented controls: Touch left to go left and right to go right. Touch on both sides of the screen to jump!\n";
 			}
+			else if(control == ControlType.TILT) {
+				buildMessage += "\n\nTilt controls: Tilt to move, tap to jump!\n";
+			}
+			
 			break;
 		case ACCURACY:
 			buildMessage += "Get all the green batteries, but avoid red batteriess!\n";
