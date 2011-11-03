@@ -431,16 +431,16 @@ public class MCEGameActivity extends BaseGameActivity{
 		String buildMessage = goal +": ";
 		switch(goal){
 		case COLLECTION:
-			buildMessage += "Get all the coins!\n";
+			buildMessage += "Get all the batteries!\n";
 			if(StatisticsTracker.getTracker().getControlMode() == ControlType.SEGMENTED) {
 				buildMessage += "\n\nSegmented controls: Touch left to go left and right to go right. Touch on both sides of the screen to jump!\n";
 			}
 			break;
 		case ACCURACY:
-			buildMessage += "Get all the green coins, but avoid red coins!\n";
+			buildMessage += "Get all the green batteries, but avoid red batteriess!\n";
 			break;
 		case DEXTERITY:
-			buildMessage += "Get all the coins as fast as you can!\n";
+			buildMessage += "Get all the batteries as fast as you can!\n";
 			break;
 		}
 
