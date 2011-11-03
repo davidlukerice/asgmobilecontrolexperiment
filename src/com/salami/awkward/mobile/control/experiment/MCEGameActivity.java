@@ -156,6 +156,14 @@ public class MCEGameActivity extends BaseGameActivity{
 			
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		if(!StatisticsTracker.INTERVIEW_MODE){
+			super.onBackPressed();
+		}
+		
+	}
 
 	private void add_coin(EntityData entity, Goal currentGoal) {
 		if(entity.isGood()){
