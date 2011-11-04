@@ -28,6 +28,8 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	
 	private TiledSprite buttonTile;
 	
+	private AnalogOnScreenControl analogOnScreenControl;
+	
 	private int mCameraWidth;
 	private int mCameraHeight;
 	
@@ -52,7 +54,9 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+
+		analogOnScreenControl.clearUpdateHandlers();
+		initOnScreenControls();
 		
 	}
 
@@ -88,7 +92,7 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 			
 		buttonTile = new TiledSprite(mCameraWidth-100, mCameraHeight-100, mButton);
 		
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(10, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
+		analogOnScreenControl = new AnalogOnScreenControl(10, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				mHero.move(pValueX);
