@@ -33,6 +33,8 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
         virtual.setOnClickListener(this);
         segmented.setOnClickListener(this);
         server.setOnClickListener(this);
+        
+        server.setVisibility(View.GONE);
     }
 
 	@Override
