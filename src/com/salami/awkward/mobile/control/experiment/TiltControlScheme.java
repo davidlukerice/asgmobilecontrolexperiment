@@ -40,15 +40,12 @@ public class TiltControlScheme implements IControlScheme, IAccelerometerListener
 	public void onAccelerometerChanged(AccelerometerData pAccelerometerData) {
 		float tilt = pAccelerometerData.getX() / 5.0f;
 		
-		if(tilt > -5 && tilt < 5){
-			mHero.move(tilt);
-		}
-		
-//		if(tilt < -5){
-//			mHero.move(-1);
-//		}else if(tilt > 5){
-//			mHero.move(1);
-//		}
+		if(tilt>1)
+            tilt=1;
+		if(tilt<-1)
+            tilt=-1;
+
+       mHero.move(tilt);
 	}
 		
 }

@@ -103,7 +103,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	private ChangeableText timeElapsed;
 	
 	private static final int CAMERA_HEIGHT = 320;
-	private static final boolean DEBUG_GOAL_MODE = true;
+	private static final boolean DEBUG_GOAL_MODE = false;
 
 	//private int mCameraWidth; //calc'd from display metrics
 	
@@ -286,10 +286,10 @@ public class MCEGameActivity extends BaseGameActivity{
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				
-				totalBatts.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 320);
-				badBatts.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 300);
-				goodBatts.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 320);
-				timeElapsed.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 300);
+				totalBatts.setPosition(mEngine.getCamera().getMinX()+10, mEngine.getCamera().getMaxY() - 310);
+				badBatts.setPosition(mEngine.getCamera().getMinX()+10, mEngine.getCamera().getMaxY() - 290);
+				goodBatts.setPosition(mEngine.getCamera().getMinX()+10, mEngine.getCamera().getMaxY() - 310);
+				timeElapsed.setPosition(mEngine.getCamera().getMinX()+10, mEngine.getCamera().getMaxY() - 290);
 				
 				if (StatisticsTracker.getTracker().getCurrentGoal() == Goal.COLLECTION){
 					totalBatts.setText("Batteries collected: " + StatisticsTracker.getTracker().getNumGoodCoins() + " / 21");
