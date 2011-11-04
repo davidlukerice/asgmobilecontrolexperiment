@@ -55,7 +55,7 @@ public class StatisticsTracker {
 	private ControlType mControlType;
 	
 	//Keeps track of the playthrough to help group the three runs
-	private int currentPlayID;
+	public int currentPlayID;
 	
 	private StatisticsTracker(){
 		coinsGathered = new ArrayList<CoinData>();

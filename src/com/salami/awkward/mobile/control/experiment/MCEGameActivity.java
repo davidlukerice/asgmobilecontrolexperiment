@@ -333,7 +333,7 @@ public class MCEGameActivity extends BaseGameActivity{
 					public void onClick(DialogInterface dialog, int which) { 
 						StatisticsTracker.getTracker().finishTracking(true);
 						if(exitOnCompletion)
-							finish();
+							finishGame();
 						else{
 							displayGoalOkBox(nextGoal);
 						}
@@ -347,7 +347,7 @@ public class MCEGameActivity extends BaseGameActivity{
 						public void onClick(DialogInterface dialog, int which) { 
 							StatisticsTracker.getTracker().finishTracking(false);
 							if(exitOnCompletion)
-								finish();
+								finishGame();
 							else
 								displayGoalOkBox(nextGoal);
 						}
@@ -357,6 +357,37 @@ public class MCEGameActivity extends BaseGameActivity{
 				
 			}
 		});
+	}
+	
+	public void finishGame() {
+		TestType testType =StatisticsTracker.TEST_TYPE;
+		final String msg;
+		
+		if(testType==TestType.INTERVIEW || testType==TestType.DEVELOPER) {
+			msg="id: "+StatisticsTracker.getTracker().currentPlayID;
+		}
+		else {
+			msg="Congratulations!";
+		}
+		
+		final MCEGameActivity self=this; 
+		this.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				new AlertDialog.Builder(self)
+				.setTitle("You won!")
+				.setMessage(msg)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) { 
+						finish();
+					}
+				})
+				.setCancelable(false)
+				.show();	
+			}
+		});
+		
+
 	}
 		
 	
