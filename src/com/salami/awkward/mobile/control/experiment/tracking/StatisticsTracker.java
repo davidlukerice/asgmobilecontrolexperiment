@@ -43,7 +43,7 @@ public class StatisticsTracker {
 		DEXTERITY
 	}
 	
-	public static final TestType TEST_TYPE = TestType.INTERVIEW;
+	public static final TestType TEST_TYPE = TestType.DEVELOPER;
 	public static final int TEST_VERSION = 1;
 	private Goal currentGoal;
 
