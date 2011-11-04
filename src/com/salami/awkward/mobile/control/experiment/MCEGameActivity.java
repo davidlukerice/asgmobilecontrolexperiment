@@ -14,6 +14,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
@@ -22,6 +23,7 @@ import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -95,10 +97,13 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
-	private Text goodCoins;
+	private ChangeableText goodBatts;
+	private ChangeableText badBatts;
+	private ChangeableText totalBatts;
+	private ChangeableText timeElapsed;
 	
 	private static final int CAMERA_HEIGHT = 320;
-	private static final boolean DEBUG_GOAL_MODE = false;
+	private static final boolean DEBUG_GOAL_MODE = true;
 
 	//private int mCameraWidth; //calc'd from display metrics
 	
@@ -129,13 +134,11 @@ public class MCEGameActivity extends BaseGameActivity{
 
 		createWorldBoundaries(mWorldData.getWidth(), mWorldData.getHeight());
 
-		goodCoins = new Text(0, 0, this.mFont, "Coins collected: ", HorizontalAlign.LEFT);
-
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
 		//if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
 			//initOnScreenControls();
-		
+			
 		return this.mScene;
 	}
 	
@@ -214,16 +217,18 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		
+        FontFactory.setAssetBasePath("font/");
+        this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "LCD.ttf", 18, true, Color.BLACK);
+		
 		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 		
 		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mButton = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mOnScreenButtonTexture, this, "button_tile.png", 0, 0, 2, 1);
-		
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.BLACK);
-		
+			
 		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture, this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
 		
@@ -266,6 +271,12 @@ public class MCEGameActivity extends BaseGameActivity{
 				throw new RuntimeException("Control Scheme not implemented");
 		}
 		
+		goodBatts = new ChangeableText(0, 0, this.mFont, "Good batteries collected: 0      ");
+		badBatts = new ChangeableText(0, 0, this.mFont, "Bad batteries collected: 0   ");
+		totalBatts = new ChangeableText(0, 0, this.mFont, "Batteries collected: 0       ");
+		timeElapsed = new ChangeableText(0, 0, this.mFont, "Time elapsed:     ");
+
+		
 		//Register control scheme handlers
 		mControls.registerListeners(mScene,this);
 		mEngine.registerUpdateHandler(mControls);
@@ -275,7 +286,31 @@ public class MCEGameActivity extends BaseGameActivity{
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				
-				goodCoins.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 320);
+				totalBatts.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 320);
+				badBatts.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 300);
+				goodBatts.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 320);
+				timeElapsed.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 300);
+				
+				if (StatisticsTracker.getTracker().getCurrentGoal() == Goal.COLLECTION){
+					totalBatts.setText("Batteries collected: " + StatisticsTracker.getTracker().getNumGoodCoins() + " / 21");
+					goodBatts.setText("");
+					badBatts.setText("");
+					timeElapsed.setText("");
+				}
+				
+				if (StatisticsTracker.getTracker().getCurrentGoal() == Goal.ACCURACY){
+					totalBatts.setText("");
+					goodBatts.setText("Good batteries collected: " + StatisticsTracker.getTracker().getNumGoodCoins() + " / 21");
+					badBatts.setText("Bad batteries collected: " + StatisticsTracker.getTracker().getNumBadCoins());
+				}
+				
+				if (StatisticsTracker.getTracker().getCurrentGoal() == Goal.DEXTERITY){
+					goodBatts.setText("");
+					badBatts.setText("");
+					totalBatts.setText("Batteries collected: " + StatisticsTracker.getTracker().getNumGoodCoins() + " / 34");
+					timeElapsed.setText("Time elapsed: " + ((System.currentTimeMillis() - StatisticsTracker.getTracker().getGoalStartTime())/1000f));
+				}
+
 				
 				for(int i=0; i<coins.size();){
 					Coin c = coins.get(i);
@@ -302,7 +337,10 @@ public class MCEGameActivity extends BaseGameActivity{
 		StatisticsTracker.getTracker().init();
 		displayGoalOkBox(Goal.COLLECTION);	
 		
-		this.mScene.attachChild(goodCoins);
+		mScene.attachChild(totalBatts);
+		mScene.attachChild(timeElapsed);
+		mScene.attachChild(goodBatts);
+		mScene.attachChild(badBatts);
 
 	}
 	

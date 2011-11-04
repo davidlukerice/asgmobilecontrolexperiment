@@ -120,6 +120,10 @@ public class StatisticsTracker {
 		return mControlType;
 	}
 	
+	public long getGoalStartTime() {
+		return goalStartTime;
+	}
+	
 	public String getControlModeString() {
 		String ctrlScheme;
 		
