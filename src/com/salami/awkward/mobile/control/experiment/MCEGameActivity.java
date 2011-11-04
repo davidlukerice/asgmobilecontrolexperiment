@@ -103,7 +103,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	private ChangeableText timeElapsed;
 	
 	private static final int CAMERA_HEIGHT = 320;
-	private static final boolean DEBUG_GOAL_MODE = false;
+	private static final boolean DEBUG_GOAL_MODE = true;
 
 	//private int mCameraWidth; //calc'd from display metrics
 	
@@ -528,7 +528,7 @@ public class MCEGameActivity extends BaseGameActivity{
 			
 			break;
 		case ACCURACY:
-			buildMessage += "Get all the green batteries, but avoid red batteriess!\n";
+			buildMessage += "Get all the green batteries, but avoid red batteries!\n";
 			break;
 		case DEXTERITY:
 			buildMessage += "Get all the batteries as fast as you can!\n";
