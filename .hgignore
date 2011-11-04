@@ -1321,3 +1321,6 @@ bin/classes/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTrac
 bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$2$2.class
 bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$3$1.class
 bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$3.class
+bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$4$1.class
+bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$4.class
+bin/classes/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker$TestType.class

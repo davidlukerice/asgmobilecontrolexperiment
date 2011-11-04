@@ -44,7 +44,7 @@ public class StatisticsTracker {
 	}
 	
 	public static final TestType TEST_TYPE = TestType.DEVELOPER;
-	
+	public static final int TEST_VERSION = 1;
 	private Goal currentGoal;
 
 	private long goalStartTime;
@@ -199,9 +199,11 @@ public class StatisticsTracker {
 		params.put("totalTime", ""+duration);
 		params.put("deaths", ""+this.getNumDeaths());
 		
-		// testType (usability or market) to distinguish if the data is from out test or 
-		// from the Android market place
+		// Destinguishes if the player is a developer, tester, or player from the marketplace
 		params.put("testType", this.TEST_TYPE.toString());
+		
+		// State the version number to 
+		params.put("version", ""+this.TEST_VERSION);
 		
 		//coinData : JSON formatted coin data
 		JSONArray coin_array = new JSONArray();
