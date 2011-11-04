@@ -14,21 +14,26 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+import org.anddev.andengine.util.HorizontalAlign;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -88,6 +93,10 @@ public class MCEGameActivity extends BaseGameActivity{
 	private float mHeroX;
 	private float mHeroY;
 	
+	private BitmapTextureAtlas mFontTexture;
+	private Font mFont;
+	private Text goodCoins;
+	
 	private static final int CAMERA_HEIGHT = 320;
 	private static final boolean DEBUG_GOAL_MODE = false;
 
@@ -120,7 +129,7 @@ public class MCEGameActivity extends BaseGameActivity{
 
 		createWorldBoundaries(mWorldData.getWidth(), mWorldData.getHeight());
 
-
+		goodCoins = new Text(0, 0, this.mFont, "Coins collected: ", HorizontalAlign.LEFT);
 
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 		
@@ -212,8 +221,12 @@ public class MCEGameActivity extends BaseGameActivity{
 		this.mOnScreenButtonTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mButton = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mOnScreenButtonTexture, this, "button_tile.png", 0, 0, 2, 1);
 		
-		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture);
-
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.BLACK);
+		
+		this.mEngine.getTextureManager().loadTextures(this.mOnScreenControlTexture, this.mOnScreenButtonTexture, this.mFontTexture);
+		this.mEngine.getFontManager().loadFont(this.mFont);
+		
 	}
 
 	@Override
@@ -262,6 +275,8 @@ public class MCEGameActivity extends BaseGameActivity{
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				
+				goodCoins.setPosition(mEngine.getCamera().getMinX(), mEngine.getCamera().getMaxY() - 320);
+				
 				for(int i=0; i<coins.size();){
 					Coin c = coins.get(i);
 					if(c.isCollected()){											
@@ -286,6 +301,8 @@ public class MCEGameActivity extends BaseGameActivity{
 		StatisticsTracker.getTracker().setControlMode(type);
 		StatisticsTracker.getTracker().init();
 		displayGoalOkBox(Goal.COLLECTION);	
+		
+		this.mScene.attachChild(goodCoins);
 
 	}
 	
