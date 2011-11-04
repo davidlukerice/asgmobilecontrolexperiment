@@ -30,14 +30,20 @@ public class StatisticsTracker {
 			stats = new StatisticsTracker();
 		return stats;
 	}
-		
+	
+	public enum TestType {
+		INTERVIEW,
+		MARKET,
+		DEVELOPER
+	}
+	
 	public enum Goal{
 		COLLECTION,
 		ACCURACY,
 		DEXTERITY
 	}
 	
-	public static final boolean INTERVIEW_MODE = false;
+	public static final TestType TEST_TYPE = TestType.DEVELOPER;
 	
 	private Goal currentGoal;
 
@@ -195,7 +201,7 @@ public class StatisticsTracker {
 		
 		// testType (usability or market) to distinguish if the data is from out test or 
 		// from the Android market place
-		params.put("testType", "usability");
+		params.put("testType", this.TEST_TYPE.toString());
 		
 		//coinData : JSON formatted coin data
 		JSONArray coin_array = new JSONArray();

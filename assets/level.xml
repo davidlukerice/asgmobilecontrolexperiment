@@ -241,11 +241,6 @@ speed, and/or the level.
 		<is_good>false</is_good>
 	</coin>
 	<coin>
-		<pos_x>27</pos_x>
-		<pos_y>15</pos_y>
-		<is_good>false</is_good>
-	</coin>
-	<coin>
 		<pos_x>34</pos_x>
 		<pos_y>9</pos_y>
 		<is_good>false</is_good>
@@ -286,12 +281,22 @@ speed, and/or the level.
 		<is_good>false</is_good>
 	</coin>
 	<coin>
+		<pos_x>54</pos_x>
+		<pos_y>11</pos_y>
+		<is_good>true</is_good>
+	</coin>
+	<coin>
 		<pos_x>57</pos_x>
 		<pos_y>12</pos_y>
 		<is_good>false</is_good>
 	</coin>
 	<coin>
 		<pos_x>59</pos_x>
+		<pos_y>4</pos_y>
+		<is_good>true</is_good>
+	</coin>
+	<coin>
+		<pos_x>65</pos_x>
 		<pos_y>4</pos_y>
 		<is_good>true</is_good>
 	</coin>

@@ -44,6 +44,7 @@ import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
 import com.salami.awkward.mobile.control.experiment.parse.WorldData;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.Goal;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.TestType;
 
 public class MCEGameActivity extends BaseGameActivity{
 
@@ -159,10 +160,9 @@ public class MCEGameActivity extends BaseGameActivity{
 	
 	@Override
 	public void onBackPressed() {
-		if(!StatisticsTracker.INTERVIEW_MODE){
+		//if( StatisticsTracker.TEST_TYPE != TestType.INTERVIEW ){
 			super.onBackPressed();
-		}
-		
+		//}
 	}
 
 	private void add_coin(EntityData entity, Goal currentGoal) {
@@ -341,7 +341,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				})
 				.setCancelable(false);
 				
-				if(!StatisticsTracker.INTERVIEW_MODE)
+				if(StatisticsTracker.TEST_TYPE != TestType.INTERVIEW)
 				{
 					alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) { 
