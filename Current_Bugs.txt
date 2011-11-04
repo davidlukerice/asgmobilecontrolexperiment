@@ -1,0 +1,8 @@
+Tracking:
+	- Not saving coins to server (works in ServerControlTest but not in others)
+	- Not Saving deaths correctly to server
+	- Ctrl Scheme data is always one off
+	- Total Time data is off
+
+Virtual Control Scheme
+	- If moving at the end of a run, the next run starts with that same movement

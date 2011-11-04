@@ -1,0 +1,36 @@
+<world>
+	<width>87</width>
+	<height>43</height>
+	<hero>
+		<pos_x>9</pos_x>
+		<pos_y>28</pos_y>
+	</hero>
+	
+	<!--Floor-->
+	<ground>
+		<pos_x>0</pos_x>
+		<pos_y>42</pos_y>
+		<width>143</width>
+	</ground>
+	<!--Walls-->
+	<ground>
+		<pos_x>-1</pos_x>
+		<pos_y>37</pos_y>
+		<height>8</height>
+	</ground>
+	<ground>
+		<pos_x>87</pos_x>
+		<pos_y>37</pos_y>
+		<height>8</height>
+	</ground>
+	
+	<!--Random tiles-->
+	<ground>
+		<pos_x>11</pos_x>
+		<pos_y>41</pos_y>
+	</ground>
+	<ground>
+		<pos_x>3</pos_x>
+		<pos_y>41</pos_y>
+	</ground>
+</world>
