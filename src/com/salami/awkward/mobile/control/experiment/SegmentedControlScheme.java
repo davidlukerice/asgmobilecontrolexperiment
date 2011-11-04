@@ -92,6 +92,8 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 	public void reset() {
 		mLeftSideDown=false;
 		mRightSideDown=false;
+		mDirection = Direction.NONE;
+		mHero.move(0);
 	}
 
 	@Override
