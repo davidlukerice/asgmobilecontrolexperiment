@@ -418,11 +418,11 @@ public class MCEGameActivity extends BaseGameActivity{
 		TestType testType =StatisticsTracker.TEST_TYPE;
 		final String msg;
 		
-		if(testType==TestType.INTERVIEW || testType==TestType.DEVELOPER) {
-			msg="id: "+StatisticsTracker.getTracker().currentPlayID;
+		if( StatisticsTracker.getTracker().currentPlayID != -1) {
+			msg="Your play id: "+StatisticsTracker.getTracker().currentPlayID+". Use this on awkwardsalamigames.com/mce.html to see your results.";
 		}
 		else {
-			msg="Congratulations!";
+			msg="Congratulations! Feel free to play again and send some data to help us with our experiment!";
 		}
 		
 		final MCEGameActivity self=this; 
