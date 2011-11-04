@@ -231,6 +231,7 @@ public class StatisticsTracker {
 		        if (currentPlayID == -1) {
 		        	try {
 		        		currentPlayID = Integer.parseInt(response);
+		        		System.out.println("CurrentPlayID: " + currentPlayID);
 		        	} catch(NumberFormatException e) {
 		        		System.out.println("Error: "+e);
 		        		currentPlayID = -1;
