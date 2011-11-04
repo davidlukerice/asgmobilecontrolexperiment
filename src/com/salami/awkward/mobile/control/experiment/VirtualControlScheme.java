@@ -31,7 +31,8 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	private int mCameraWidth;
 	private int mCameraHeight;
 	
-
+	private AnalogOnScreenControl analogOnScreenControl;
+	
 	public VirtualControlScheme(Hero hero, Scene scene, Engine engine, TextureRegion base, TextureRegion knob, TiledTextureRegion button, int cameraWidth, int cameraHeight) {
 		mHero = hero;
 		mScene = scene;
@@ -52,14 +53,20 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		// Clear the position of the knob so the scheme doesn't keep the same when
+		// you start a new goal
 		
+		//TODO: Fix, none of these are working
+		//this.analogOnScreenControl.getOnScreenControlListener().onControlChange(analogOnScreenControl, 0, 0);
+		//this.analogOnScreenControl.setPosition(0, 0);
+		//this.analogOnScreenControl.clearTouchAreas();
+		//this.analogOnScreenControl.reset();
+		//this.analogOnScreenControl.refreshControlKnobPosition();
 	}
 
 	@Override
 	public void registerListeners(Scene scene, BaseGameActivity activity) {
-		scene.setOnSceneTouchListener(this);
-		
+		scene.setOnSceneTouchListener(this);	
 	}
 
 	@Override
@@ -88,11 +95,10 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 			
 		buttonTile = new TiledSprite(mCameraWidth-100, mCameraHeight-100, mButton);
 		
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(10, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
+		analogOnScreenControl = new AnalogOnScreenControl(10, mCameraHeight - mBase.getHeight(), this.mEngine.getCamera(), mBase, mKnob, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				mHero.move(pValueX);
-
 			}
 
 			@Override
