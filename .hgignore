@@ -1324,3 +1324,4 @@ bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$3.class
 bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$4$1.class
 bin/classes/com/salami/awkward/mobile/control/experiment/MCEGameActivity$4.class
 bin/classes/com/salami/awkward/mobile/control/experiment/tracking/StatisticsTracker$TestType.class
+src/com/salami/awkward/mobile/control/experiment/VirtualControlScheme.java.orig

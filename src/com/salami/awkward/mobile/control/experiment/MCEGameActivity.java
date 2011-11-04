@@ -103,7 +103,7 @@ public class MCEGameActivity extends BaseGameActivity{
 	private ChangeableText timeElapsed;
 	
 	private static final int CAMERA_HEIGHT = 320;
-	private static final boolean DEBUG_GOAL_MODE = true;
+	private static final boolean DEBUG_GOAL_MODE = false;
 
 	//private int mCameraWidth; //calc'd from display metrics
 	
