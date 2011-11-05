@@ -44,7 +44,7 @@ public class StatisticsTracker {
 	}
 	
 	public static final TestType TEST_TYPE = TestType.DEVELOPER;
-	public static final int TEST_VERSION = 2;
+	public static final int TEST_VERSION = 1;
 	private Goal currentGoal;
 
 	private long goalStartTime;
