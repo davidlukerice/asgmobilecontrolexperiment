@@ -44,10 +44,11 @@ public class StatisticsTracker {
 	}
 	
 	public static final TestType TEST_TYPE = TestType.DEVELOPER;
-	public static final int TEST_VERSION = 1;
+	public static final int TEST_VERSION = 2;
 	private Goal currentGoal;
 
 	private long goalStartTime;
+	private long goalEndTime;
 	private List<CoinData> coinsGathered;//List of stats for coins acquired
 	private int numGoodCoins;
 	private int numBadCoins;
@@ -147,8 +148,13 @@ public class StatisticsTracker {
 	}
 	
 	public void beginTiming(){
-		System.out.println("begin timing");
 		goalStartTime =System.currentTimeMillis();
+		System.out.println("begin timing: " + goalStartTime);
+	}
+	
+	public void endTiming() {
+		goalEndTime =System.currentTimeMillis();
+		System.out.println("end timing: " + goalEndTime);
 	}
 	
 	public void setControlMode(ControlType type) {
@@ -178,11 +184,10 @@ public class StatisticsTracker {
 		
 	//TODO: probably not
 	private void displayData(){
-		System.out.println( System.currentTimeMillis()-goalStartTime);
+		System.out.println( goalEndTime-goalStartTime);
 		System.out.println(currentGoal);
 		System.out.println(numGoodCoins);
 		System.out.println(numDeaths);
-		
 	}
 	
 	private void sendData(){
@@ -199,11 +204,11 @@ public class StatisticsTracker {
 		params.put("ctrlScheme", this.getControlModeString());
 		params.put("goal", this.getGoalString());
 		
-		long duration = System.currentTimeMillis()-goalStartTime;
+		long duration = goalEndTime-goalStartTime;
 		params.put("totalTime", ""+duration);
 		params.put("deaths", ""+this.getNumDeaths());
 		
-		// Destinguishes if the player is a developer, tester, or player from the marketplace
+		// Distinguishes if the player is a developer, tester, or player from the marketplace
 		params.put("testType", this.TEST_TYPE.toString());
 		
 		// State the version number to 

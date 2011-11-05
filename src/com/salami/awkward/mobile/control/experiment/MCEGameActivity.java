@@ -349,6 +349,7 @@ public class MCEGameActivity extends BaseGameActivity{
 		if((DEBUG_GOAL_MODE && StatisticsTracker.getTracker().getNumGoodCoins() ==1) 
 			|| StatisticsTracker.getTracker().getNumGoodCoins()==mTotalGoodCoins)
 		{
+			StatisticsTracker.getTracker().endTiming();
 			transitionToNextLevel();
 		}
 	}
