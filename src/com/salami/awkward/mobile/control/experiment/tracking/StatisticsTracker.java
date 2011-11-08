@@ -48,7 +48,12 @@ public class StatisticsTracker {
 	private Goal currentGoal;
 
 	private long goalStartTime;
-	private long goalEndTime;
+	private long goalEndTime; 
+	
+	//Time of last time the player resumed/goalStartTime if he hasn't
+	private long unpauseStartTime;
+	private long duration;
+	
 	private List<CoinData> coinsGathered;//List of stats for coins acquired
 	private int numGoodCoins;
 	private int numBadCoins;
@@ -104,6 +109,7 @@ public class StatisticsTracker {
 	public int getNumDeaths() {
 		return numDeaths;
 	}
+	
 
 	public void incrementDeathCount() {
 		numDeaths++;
@@ -123,6 +129,10 @@ public class StatisticsTracker {
 	
 	public long getGoalStartTime() {
 		return goalStartTime;
+	}
+	
+	public long getDuration() {
+		return duration+ (System.currentTimeMillis()-unpauseStartTime);
 	}
 	
 	public String getControlModeString() {
@@ -147,13 +157,19 @@ public class StatisticsTracker {
 		return ctrlScheme;
 	}
 	
-	public void beginTiming(){
-		goalStartTime =System.currentTimeMillis();
-		System.out.println("begin timing: " + goalStartTime);
+	public void pauseTiming() {
+		duration+=System.currentTimeMillis()-unpauseStartTime;
 	}
+	
+	public void resumeTiming() {
+		unpauseStartTime=System.currentTimeMillis();
+	}
+
 	
 	public void endTiming() {
 		goalEndTime =System.currentTimeMillis();
+		pauseTiming();
+		
 		System.out.println("end timing: " + goalEndTime);
 	}
 	
@@ -170,10 +186,12 @@ public class StatisticsTracker {
 	
 	private void resetData(){
 		goalStartTime= System.currentTimeMillis();
+		unpauseStartTime=goalStartTime;
 		coinsGathered.clear();
 		numDeaths=0;
 		numGoodCoins=0;
 		numBadCoins=0;
+		duration=0;
 	}
 	
 	public void finishTracking(boolean sendToServer){
@@ -192,6 +210,7 @@ public class StatisticsTracker {
 	
 	private void sendData(){
 		System.out.println("Sending data");
+		System.out.println(duration);
 		
 		//Send data to server	
 		RequestParams params = new RequestParams();
@@ -204,7 +223,6 @@ public class StatisticsTracker {
 		params.put("ctrlScheme", this.getControlModeString());
 		params.put("goal", this.getGoalString());
 		
-		long duration = goalEndTime-goalStartTime;
 		params.put("totalTime", ""+duration);
 		params.put("deaths", ""+this.getNumDeaths());
 		

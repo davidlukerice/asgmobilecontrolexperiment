@@ -138,8 +138,20 @@ public class MCEGameActivity extends BaseGameActivity{
 		
 		//if(this.getIntent().getSerializableExtra("com.salami.awkward.mobile.control.experiment.ControlScheme").equals(ControlType.VIRTUAL))
 			//initOnScreenControls();
-			
+		
 		return this.mScene;
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		StatisticsTracker.getTracker().pauseTiming();
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		StatisticsTracker.getTracker().resumeTiming();
 	}
 	
 	private void createWorldBoundaries(float width, float height) {
@@ -308,7 +320,7 @@ public class MCEGameActivity extends BaseGameActivity{
 					goodBatts.setText("");
 					badBatts.setText("");
 					totalBatts.setText("Batteries collected: " + StatisticsTracker.getTracker().getNumGoodCoins() + " / 34");
-					timeElapsed.setText("Time elapsed: " + ((System.currentTimeMillis() - StatisticsTracker.getTracker().getGoalStartTime())/1000f));
+					timeElapsed.setText("Time elapsed: " + ((StatisticsTracker.getTracker().getDuration())/1000f));
 				}
 
 				
