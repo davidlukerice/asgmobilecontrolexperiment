@@ -15,6 +15,7 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 	Button virtual;
 	Button segmented;
 	Button server;
+	Button about;
 	
 	Intent intent;
 	
@@ -28,30 +29,38 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
         virtual = (Button)findViewById(R.id.bVirtual);
         segmented = (Button)findViewById(R.id.bSegment);
         server = (Button)findViewById(R.id.bServer);
+        about = (Button)findViewById(R.id.bAbout);
         
         tilt.setOnClickListener(this);
         virtual.setOnClickListener(this);
         segmented.setOnClickListener(this);
         server.setOnClickListener(this);
+        about.setOnClickListener(this);
         
         server.setVisibility(View.GONE);
     }
 
 	@Override
 	public void onClick(View v) {
-		intent = new Intent(this, MCEGameActivity.class);
 		switch(v.getId()){
 		case R.id.bTilt:
+			intent = new Intent(this, MCEGameActivity.class);
 			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.TILT);
 			break;
 		case R.id.bVirtual:
+			intent = new Intent(this, MCEGameActivity.class);
 			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.VIRTUAL);
 			break;
 		case R.id.bSegment:
+			intent = new Intent(this, MCEGameActivity.class);
 			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.SEGMENTED);
 			break;
 		case R.id.bServer:
+			intent = new Intent(this, MCEGameActivity.class);
 			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.SERVER);
+			break;
+		case R.id.bAbout:
+			intent = new Intent(this, AboutActivity.class);
 			break;
 		}
 		
