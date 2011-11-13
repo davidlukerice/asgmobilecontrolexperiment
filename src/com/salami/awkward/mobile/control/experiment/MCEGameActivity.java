@@ -209,7 +209,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(getCameraWidth(),getCameraHeight()), camera);
 		final Engine engine = new Engine(engineOptions);
 
-		
 		try {
 			if(MultiTouch.isSupported(this)) {
 				engine.setTouchController(new MultiTouchController());
@@ -346,7 +345,6 @@ public class MCEGameActivity extends BaseGameActivity{
 		});
 		
 		StatisticsTracker.getTracker().setControlMode(type);
-		StatisticsTracker.getTracker().init();
 		displayGoalOkBox(Goal.COLLECTION);	
 		
 		mScene.attachChild(totalBatts);
@@ -548,8 +546,6 @@ public class MCEGameActivity extends BaseGameActivity{
 			break;
 		}
 
-		
-		
 		final String message = buildMessage;
 		this.runOnUiThread(new Runnable(){
 			@Override
