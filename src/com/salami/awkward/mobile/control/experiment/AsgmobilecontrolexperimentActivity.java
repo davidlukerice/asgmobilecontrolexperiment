@@ -1,6 +1,7 @@
 package com.salami.awkward.mobile.control.experiment;
 
 import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -63,6 +64,9 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 			intent = new Intent(this, AboutActivity.class);
 			break;
 		}
+		
+		//Clear the playID
+		StatisticsTracker.getTracker().init();
 		
 		startActivity(intent);
 	}
