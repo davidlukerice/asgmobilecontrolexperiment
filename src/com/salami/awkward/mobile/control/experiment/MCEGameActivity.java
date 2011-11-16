@@ -452,10 +452,7 @@ public class MCEGameActivity extends BaseGameActivity{
 				.show();	
 			}
 		});
-		
-
 	}
-		
 	
 	private void resetWorldObjects(Goal currentGoal) {
 		eraseCoins();

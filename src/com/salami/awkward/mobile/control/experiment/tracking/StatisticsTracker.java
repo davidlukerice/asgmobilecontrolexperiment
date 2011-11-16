@@ -63,16 +63,26 @@ public class StatisticsTracker {
 	//Keeps track of the playthrough to help group the three runs
 	public int currentPlayID;
 	
+	// Booleans used to solve racecondition bug of starting a new control play run before
+	// Getting data back from the server. It'll recieve it and switch the playID back to the play
+	// before
+	private boolean hasSubmittedData;
+	private boolean hasStartedNewGame;
+	
 	private StatisticsTracker(){
 		coinsGathered = new ArrayList<CoinData>();
 		numDeaths=0;
 		numGoodCoins=0;
 		numBadCoins=0;
+		
+		hasSubmittedData = false;
+		hasStartedNewGame = false;
 	}
 	
 	public void init() {
 		//Show that the playID needs to be reloaded
 		currentPlayID = -1;
+		hasStartedNewGame = true;
 	}
 	
 	public void addCoin(Vector2 position, boolean isGood) {
@@ -252,12 +262,18 @@ public class StatisticsTracker {
 		//System.out.println("coinData: "+coinData);
 		params.put("coinData", coinData);
 		
+		this.hasSubmittedData = true;
+		this.hasStartedNewGame = false;
+		
 		ServerClient.post("addRun.php", params, new AsyncHttpResponseHandler() {
 		    @Override
 		    public void onSuccess(String response) {
 		        System.out.println("response: "+response);
 		        //If there is no error, the response is the playID, so set it if it's not already
-		        if (currentPlayID == -1) {
+		        
+		        System.out.println("*****ID Before sent: " + currentPlayID + " and recieved: " + response);
+		        
+		        if (currentPlayID == -1 && hasSubmittedData && !hasStartedNewGame) {
 		        	try {
 		        		currentPlayID = Integer.parseInt(response);
 		        		System.out.println("CurrentPlayID: " + currentPlayID);
@@ -266,6 +282,8 @@ public class StatisticsTracker {
 		        		currentPlayID = -1;
 		        	}
 		        }
+		        
+		        hasSubmittedData = false;
 		    }
 		});
 		
