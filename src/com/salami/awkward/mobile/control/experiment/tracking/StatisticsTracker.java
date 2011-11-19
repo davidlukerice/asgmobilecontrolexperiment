@@ -169,6 +169,7 @@ public class StatisticsTracker {
 	
 	public void pauseTiming() {
 		duration+=System.currentTimeMillis()-unpauseStartTime;
+		unpauseStartTime=System.currentTimeMillis();
 	}
 	
 	public void resumeTiming() {
