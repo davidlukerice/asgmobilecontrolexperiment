@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment.tracking;
 
 
@@ -19,7 +24,7 @@ import com.salami.awkward.mobile.control.experiment.*;
  * somehow. This class is a singleton (subject to change).  The idea is that it's reused for
  * each level.  It doesn't track data from old levels right now since I don't think we need
  * to as long as we send it somewhere else
- * @author tim
+ * @author tim/david
  *
  */
 public class StatisticsTracker {
@@ -43,7 +48,7 @@ public class StatisticsTracker {
 		DEXTERITY
 	}
 	
-	public static final TestType TEST_TYPE = TestType.MARKET;
+	public static final TestType TEST_TYPE = TestType.DEVELOPER;
 	public static final int TEST_VERSION = 1;
 	private Goal currentGoal;
 

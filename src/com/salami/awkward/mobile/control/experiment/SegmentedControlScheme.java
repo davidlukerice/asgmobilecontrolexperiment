@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import org.anddev.andengine.entity.scene.Scene;
@@ -6,7 +11,13 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.engine.camera.Camera;
 
-
+/**
+ * Control Scheme that is divides the screen into left/right half
+ * touching the left moves the player left and similar for right
+ * touching both causes the player to jump
+ * @author Tim
+ *
+ */
 public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchListener{
 
 	enum Direction{

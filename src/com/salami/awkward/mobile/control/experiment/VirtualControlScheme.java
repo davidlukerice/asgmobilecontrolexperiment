@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import org.anddev.andengine.entity.scene.Scene;
@@ -16,6 +21,10 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import android.view.MotionEvent;
 
+/**
+ * A control scheme that mimicks a real joystick and button
+ * @author Matt
+ */
 public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListener{
 	
 	private Hero mHero;
@@ -33,7 +42,6 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	private int mCameraWidth;
 	private int mCameraHeight;
 	
-
 	public VirtualControlScheme(Hero hero, Scene scene, Engine engine, TextureRegion base, TextureRegion knob, TiledTextureRegion button, int cameraWidth, int cameraHeight) {
 		mHero = hero;
 		mScene = scene;
@@ -49,7 +57,6 @@ public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListen
 	@Override
 	public void onUpdate(float pSecondsElapsed) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

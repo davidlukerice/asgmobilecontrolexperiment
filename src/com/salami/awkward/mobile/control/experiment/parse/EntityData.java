@@ -1,8 +1,17 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment.parse;
 
 import com.salami.awkward.mobile.control.experiment.Entity.EntityType;
 import com.salami.awkward.mobile.control.experiment.Ground;
 
+/**
+ * Encapsulates base data for an entity,
+ * which is an object in the level
+ */
 public class EntityData {
 	private float posX;
 	private float posY;

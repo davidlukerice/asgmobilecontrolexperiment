@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import org.anddev.andengine.entity.scene.Scene;
@@ -7,6 +12,12 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+/**
+ * A control scheme based on tilting the device to move
+ * and tapping the screen to jump
+ * @author Chris/David
+ *
+ */
 public class TiltControlScheme implements IControlScheme, IAccelerometerListener, IOnSceneTouchListener{
 
 	private Hero mHero;
