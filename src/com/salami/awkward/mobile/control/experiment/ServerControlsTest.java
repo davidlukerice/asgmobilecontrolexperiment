@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import org.anddev.andengine.entity.scene.Scene;
@@ -12,8 +17,7 @@ import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.G
 /**
  * Control scheme to test the tracking system
  * Starts tracking on touch down and ends on touch up
- * @author liger13
- *
+ * @author David
  */
 public class ServerControlsTest implements IControlScheme, IOnSceneTouchListener{
 

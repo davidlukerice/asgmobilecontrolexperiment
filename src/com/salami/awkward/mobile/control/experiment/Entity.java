@@ -1,13 +1,16 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 /**
- * Used to destinguish world object types.
- * TODO: Probably just have this as an object that Hero,Ground, &c extends
- * 			Was just testing this out
- * @author David Rice
+ * Basic entity within the game.
+ * @author David
  *
  */
 public interface Entity {

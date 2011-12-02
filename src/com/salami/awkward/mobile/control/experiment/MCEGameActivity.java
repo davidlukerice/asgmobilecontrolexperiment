@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import java.util.ArrayList;
@@ -53,6 +58,11 @@ import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.Goal;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.TestType;
 
+/**
+ * The main activity for the game.
+ * Loads the level and inserts the player to be controlled
+ * by the selected control scheme
+ */
 public class MCEGameActivity extends BaseGameActivity{
 
 	private static final int MENU_TRACE = Menu.FIRST;
