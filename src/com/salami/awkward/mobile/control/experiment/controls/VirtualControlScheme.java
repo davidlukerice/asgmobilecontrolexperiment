@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment.controls;
 
 import org.anddev.andengine.entity.scene.Scene;
@@ -19,6 +24,10 @@ import com.salami.awkward.mobile.control.experiment.Hero;
 
 import android.view.MotionEvent;
 
+/**
+ * A control scheme that mimics a real joystick and button
+ * @author Matt
+ */
 public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListener{
 	
 	private Hero mHero;

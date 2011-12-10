@@ -1,3 +1,9 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/10/2011
+ */
+
 package com.salami.awkward.mobile.control.experiment.controls;
 
 import org.anddev.andengine.engine.camera.Camera;
