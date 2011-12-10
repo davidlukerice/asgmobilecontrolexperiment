@@ -1,4 +1,4 @@
-package com.salami.awkward.mobile.control.experiment;
+package com.salami.awkward.mobile.control.experiment.controls;
 
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
@@ -6,6 +6,8 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+
+import com.salami.awkward.mobile.control.experiment.Hero;
 
 public class TiltControlScheme implements IControlScheme, IAccelerometerListener, IOnSceneTouchListener{
 

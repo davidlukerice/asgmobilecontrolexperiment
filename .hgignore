@@ -1329,3 +1329,10 @@ bin/classes/com/salami/awkward/mobile/control/experiment/AboutActivity.class
 bin/classes/com/salami/awkward/mobile/control/experiment/Splash$1.class
 bin/classes/com/salami/awkward/mobile/control/experiment/Splash.class
 bin/classes/com/salami/awkward/mobile/control/experiment/VirtualControlScheme.java.orig
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/IControlScheme$ControlType.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/VirtualControlScheme.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/VirtualControlScheme$1.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/TiltControlScheme.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/SegmentedControlScheme.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/SegmentedControlScheme$Direction.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/IControlScheme.class

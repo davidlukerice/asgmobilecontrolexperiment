@@ -1,4 +1,4 @@
-package com.salami.awkward.mobile.control.experiment;
+package com.salami.awkward.mobile.control.experiment.controls;
 
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
@@ -14,6 +14,9 @@ import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+
+import com.salami.awkward.mobile.control.experiment.Hero;
+
 import android.view.MotionEvent;
 
 public class VirtualControlScheme implements IControlScheme, IOnSceneTouchListener{

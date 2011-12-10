@@ -1,6 +1,6 @@
 package com.salami.awkward.mobile.control.experiment;
 
-import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+import com.salami.awkward.mobile.control.experiment.controls.IControlScheme.ControlType;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 
 import android.app.Activity;

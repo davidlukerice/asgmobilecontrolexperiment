@@ -1,4 +1,4 @@
-package com.salami.awkward.mobile.control.experiment;
+package com.salami.awkward.mobile.control.experiment.controls;
 
 import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.entity.scene.Scene;

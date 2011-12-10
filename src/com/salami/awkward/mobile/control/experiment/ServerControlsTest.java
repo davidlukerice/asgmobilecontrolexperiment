@@ -6,6 +6,7 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import com.salami.awkward.mobile.control.experiment.controls.IControlScheme;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker;
 import com.salami.awkward.mobile.control.experiment.tracking.StatisticsTracker.Goal;
 

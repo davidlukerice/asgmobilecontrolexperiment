@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.loopj.android.http.*;
 import org.json.*;
 
-import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+import com.salami.awkward.mobile.control.experiment.controls.IControlScheme.ControlType;
 import com.salami.awkward.mobile.control.experiment.*;
 
 /**

@@ -45,7 +45,11 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.salami.awkward.mobile.control.experiment.Entity.EntityType;
-import com.salami.awkward.mobile.control.experiment.IControlScheme.ControlType;
+import com.salami.awkward.mobile.control.experiment.controls.IControlScheme;
+import com.salami.awkward.mobile.control.experiment.controls.SegmentedControlScheme;
+import com.salami.awkward.mobile.control.experiment.controls.TiltControlScheme;
+import com.salami.awkward.mobile.control.experiment.controls.VirtualControlScheme;
+import com.salami.awkward.mobile.control.experiment.controls.IControlScheme.ControlType;
 import com.salami.awkward.mobile.control.experiment.parse.EntityData;
 import com.salami.awkward.mobile.control.experiment.parse.LevelParser;
 import com.salami.awkward.mobile.control.experiment.parse.WorldData;
