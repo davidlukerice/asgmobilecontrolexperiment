@@ -12,7 +12,7 @@ import com.salami.awkward.mobile.control.experiment.Hero;
 /**
  * Relative control scheme. Touch anywhere to center the analog stick and drag to move.
  * Touch again to jump
- * @author soma
+ * @author tim
  */
 public class RelativeControlScheme implements IControlScheme, IOnSceneTouchListener {
 
