@@ -15,9 +15,10 @@ public final class R {
         public static final int splash_background=0x7f020001;
     }
     public static final class id {
-        public static final int bAbout=0x7f050006;
+        public static final int bAbout=0x7f050007;
+        public static final int bRelative=0x7f050005;
         public static final int bSegment=0x7f050004;
-        public static final int bServer=0x7f050005;
+        public static final int bServer=0x7f050006;
         public static final int bTilt=0x7f050002;
         public static final int bVirtual=0x7f050003;
         public static final int bWebsite=0x7f050000;

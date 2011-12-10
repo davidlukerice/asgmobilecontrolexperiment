@@ -15,6 +15,7 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 	Button tilt;
 	Button virtual;
 	Button segmented;
+	Button relative;
 	Button server;
 	Button about;
 	
@@ -29,12 +30,14 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
         tilt = (Button)findViewById(R.id.bTilt);
         virtual = (Button)findViewById(R.id.bVirtual);
         segmented = (Button)findViewById(R.id.bSegment);
+        relative = (Button)findViewById(R.id.bRelative);
         server = (Button)findViewById(R.id.bServer);
         about = (Button)findViewById(R.id.bAbout);
         
         tilt.setOnClickListener(this);
         virtual.setOnClickListener(this);
         segmented.setOnClickListener(this);
+        relative.setOnClickListener(this);
         server.setOnClickListener(this);
         about.setOnClickListener(this);
         
@@ -55,6 +58,10 @@ public class AsgmobilecontrolexperimentActivity extends Activity implements OnCl
 		case R.id.bSegment:
 			intent = new Intent(this, MCEGameActivity.class);
 			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.SEGMENTED);
+			break;
+		case R.id.bRelative:
+			intent = new Intent(this, MCEGameActivity.class);
+			intent.putExtra("com.salami.awkward.mobile.control.experiment.ControlScheme", ControlType.RELATIVE);
 			break;
 		case R.id.bServer:
 			intent = new Intent(this, MCEGameActivity.class);
