@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment.parse;
 
 import java.io.IOException;
@@ -13,7 +18,11 @@ import android.content.Context;
 import android.sax.*;
 import android.util.Xml;
 
-
+/**
+ * Helper class to parses the xml level file 
+ * into a usable form
+ * @author Tim
+ */
 public class LevelParser {
 	
     // names of the XML tags

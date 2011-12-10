@@ -1,9 +1,19 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * A activity that comes up when the app is launched and
+ * shows a splashscreen
+ * @author Chris
+ */
 public class Splash extends Activity{
 
 	@Override

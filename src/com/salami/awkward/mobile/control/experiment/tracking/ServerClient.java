@@ -1,7 +1,17 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment.tracking;
 
 import com.loopj.android.http.*;
 
+/**
+ * Abstracts basic data submission to the server
+ * @author David
+ *
+ */
 public class ServerClient {
   private static final String BASE_URL = "http://www.awkwardsalamigames.com/_calls/";
 

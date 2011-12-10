@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import android.app.Activity;
@@ -8,6 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * Activity that gives basic details about AS.G
+ * @author Chris
+ *
+ */
 public class AboutActivity extends Activity implements OnClickListener{
 
 	Button website;

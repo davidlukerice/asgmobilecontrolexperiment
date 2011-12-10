@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
@@ -20,8 +25,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-/*
- * Wrapper around body with a display image.
+/**
+ * Wrapper around body with a display image for a piece of wall
+ * @author David/Tim
+ *
  */
 public class Ground extends AnimatedSprite implements Entity{
 
