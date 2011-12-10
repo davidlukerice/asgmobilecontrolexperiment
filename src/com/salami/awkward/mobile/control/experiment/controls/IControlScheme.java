@@ -9,7 +9,8 @@ public interface IControlScheme extends IUpdateHandler{
 		TILT, 
 		SEGMENTED,
 		VIRTUAL,
-		SERVER
+		SERVER, 
+		RELATIVE
 	}
 	
 	/** Register listeners for control events such as tilt, touch, etc.

@@ -37,6 +37,14 @@
     	android:layout_height="wrap_content"
     	android:layout_marginTop="20dp"
     ></Button>
+	
+	<Button 
+    	android:text="Launch Relative Control" 
+    	android:id="@+id/bRelative" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="20dp"
+    ></Button>
     
     <Button 
     	android:layout_height="wrap_content" 

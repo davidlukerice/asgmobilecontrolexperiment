@@ -128,7 +128,6 @@ public class SegmentedControlScheme implements IControlScheme, IOnSceneTouchList
 			mLeftSideDown = isPressed;
 		else
 			mRightSideDown = isPressed;
-		
 		return true;
 	}
 

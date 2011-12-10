@@ -33,6 +33,14 @@
             </intent-filter>
         </activity>
         
+        <activity android:name=".RelativeLevel"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.salami.awkward.mobile.control.experiment.RELATIVELEVEL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <activity android:name=".MCEGameActivity"
                   android:label="@string/app_name">
             <intent-filter>

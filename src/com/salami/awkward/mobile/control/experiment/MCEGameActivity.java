@@ -46,6 +46,7 @@ import android.widget.Toast;
 import com.badlogic.gdx.math.Vector2;
 import com.salami.awkward.mobile.control.experiment.Entity.EntityType;
 import com.salami.awkward.mobile.control.experiment.controls.IControlScheme;
+import com.salami.awkward.mobile.control.experiment.controls.RelativeControlScheme;
 import com.salami.awkward.mobile.control.experiment.controls.SegmentedControlScheme;
 import com.salami.awkward.mobile.control.experiment.controls.TiltControlScheme;
 import com.salami.awkward.mobile.control.experiment.controls.VirtualControlScheme;
@@ -278,6 +279,9 @@ public class MCEGameActivity extends BaseGameActivity{
 				break;
 			case TILT:   
 				mControls= new TiltControlScheme(mHero);
+				break;
+			case RELATIVE:
+				mControls = new RelativeControlScheme(mHero, mEngine.getCamera());
 				break;
 			case SERVER:
 				mControls= new ServerControlsTest(mHero);

@@ -1336,3 +1336,4 @@ bin/classes/com/salami/awkward/mobile/control/experiment/controls/TiltControlSch
 bin/classes/com/salami/awkward/mobile/control/experiment/controls/SegmentedControlScheme.class
 bin/classes/com/salami/awkward/mobile/control/experiment/controls/SegmentedControlScheme$Direction.class
 bin/classes/com/salami/awkward/mobile/control/experiment/controls/IControlScheme.class
+bin/classes/com/salami/awkward/mobile/control/experiment/controls/RelativeControlScheme.class
