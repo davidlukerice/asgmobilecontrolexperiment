@@ -1,3 +1,8 @@
+/**
+ * Awkward Salami Games
+ * MCE
+ * 12/01/2011
+ */
 package com.salami.awkward.mobile.control.experiment;
 
 import com.salami.awkward.mobile.control.experiment.controls.IControlScheme.ControlType;
@@ -10,6 +15,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * The main control selection screen that allows the player the start a play through with the
+ * selected control scheme
+ * @author Chris
+ *
+ */
 public class AsgmobilecontrolexperimentActivity extends Activity implements OnClickListener{
 	
 	Button tilt;
